@@ -1,8 +1,10 @@
 ﻿using Metatrader4ClientApp.Infrastructure;
 using Metatrader4ClientApp.Infrastructure.Interfaces;
 using Metatrader4ClientApp.Modules.Position.Controllers;
+
 using Prism.Events;
 using Prism.Mvvm;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,15 +24,16 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
         private IMarketFeedService marketFeedService;
         private string headerInfo;
 
-        public PositionSummaryViewModel( IEventAggregator eventAggregator, IMarketFeedService marketFeedService,IAccountPositionService accountPositionService)
-        {  
-           this.eventAggregator = eventAggregator;
-           this.marketFeedService= marketFeedService;
-           this.accountPositionService=accountPositionService;
-           this.HeaderInfo ="POSITION";
-           this.PopulateItems();   
+        public PositionSummaryViewModel(IEventAggregator eventAggregator, IMarketFeedService marketFeedService, IAccountPositionService accountPositionService)
+        {
+            this.eventAggregator = eventAggregator;
+            this.marketFeedService = marketFeedService;
+            this.accountPositionService = accountPositionService;
+            this.Glyph = GlyphNames.PositionGlyph;
+            this.Label = "POSITION";
+            this.PopulateItems();
 
-         
+
         }
         public string HeaderInfo
         {
@@ -43,12 +46,12 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
         {
             var items = await this.accountPositionService.GetAccountPositionsAsync();
             this.positionSummaryItemCollection.Clear();
-            items.ToList().ForEach(accountPosition =>    this.PositionSummaryItemCollection.Add(new PositionSummaryItem(accountPosition.TickerSymbol, accountPosition.CostBasis, accountPosition.Shares, this.marketFeedService.GetPrice(accountPosition.TickerSymbol))));
+            items.ToList().ForEach(accountPosition => this.PositionSummaryItemCollection.Add(new PositionSummaryItem(accountPosition.TickerSymbol, accountPosition.CostBasis, accountPosition.Shares, this.marketFeedService.GetPrice(accountPosition.TickerSymbol))));
 
         }
-       
 
-    
+
+
 
         public PositionSummaryItem CurrentPositionSummaryItem
         {
@@ -66,18 +69,18 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
             }
         }
 
-       
 
-     
+
+
 
         public ObservableCollection<PositionSummaryItem> PositionSummaryItemCollection
         {
-            get =>  this.positionSummaryItemCollection; 
-            set =>SetProperty(ref this.positionSummaryItemCollection, value); 
+            get => this.positionSummaryItemCollection;
+            set => SetProperty(ref this.positionSummaryItemCollection, value);
         }
 
 
-    
+
         public ICommand SellCommand { get; private set; }
     }
 }

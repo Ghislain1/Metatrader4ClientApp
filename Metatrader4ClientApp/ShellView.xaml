@@ -68,29 +68,46 @@
         </DataTemplate>
         <!---CONTENT TEMPLATE-->
         <DataTemplate  x:Key="ContentTemplateKey" DataType="{x:Type metro:HamburgerMenuItem}">
-            <DockPanel>
-                <Border
-                            MinHeight="30"
-                            Background="#FF444444"
-                            BorderBrush="SaddleBrown"
-                            BorderThickness="4"
-                            DockPanel.Dock="Top">
+            <materialDesign:Card 
+                               Margin="8,2,4,16">
+                <Grid VerticalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <materialDesign:PackIcon Width="160"
+                                       Height="160"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Kind="Podium" />
+
                     <TextBlock
+                         Grid.Row="0"
+                           Grid.Column="0"
+                          Grid.ColumnSpan="2"
                                 x:Name="Header"
                                 Margin="20,0"
                                 HorizontalAlignment="Center"
-                                FontSize="50"
-                                Foreground="Green"
+                                FontSize="50"                               
                                 Text="{Binding Label}" />
-                </Border>
+               
                 <!--  TODO: Can you explain how this works  -->
                 <metro:TransitioningContentControl
                             x:Name="ActiveItem"
+                              Grid.Row="1"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
                             Content="{Binding Tag}"
                             RestartTransitionOnContentChange="True"
                             Transition="LeftReplace"
                             TransitionCompleted="ActiveItem_TransitionCompleted" />
-            </DockPanel>
+            </Grid>
+                 </materialDesign:Card>
         </DataTemplate>
     </metro:MetroWindow.Resources>
 

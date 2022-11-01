@@ -14,13 +14,11 @@ namespace Metatrader4ClientApp.Modules.Login
     public class LoginViewModel : PluginBindableBase
     {
         private readonly IEventAggregator eventAggregator;
-
-
-
         public LoginViewModel(IEventAggregator eventAggregator)
         {
             this.eventAggregator = eventAggregator;
-            this.Glyph = "\uE80F";
+            this.Glyph = GlyphNames.LoginGlyph;
+            this.Label = "LOGIN";
 
 
         }

@@ -24,7 +24,8 @@ namespace Metatrader4ClientApp.Modules.UserManagement.Users
         {
             this.eventAggregator = eventAggregator;
             this.applicationUserService = applicationUserService;
-            this.HeaderInfo ="USEERS";
+            this.Glyph = GlyphNames.UserManagementGlyph;
+            this.Label = "USERS";
             this.PopulateUsers();
         }
         public string HeaderInfo

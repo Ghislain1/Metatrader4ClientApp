@@ -14,9 +14,7 @@
                 <!-- Theme setting-->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Green.xaml" />
                 <!-- Material Design -->
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
-
-           
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />           
             </ResourceDictionary.MergedDictionaries>
             <SolidColorBrush x:Key="TabItemDisabledBackground" Color="#F4F4F4" />
             <SolidColorBrush x:Key="TabItemDisabledBorderBrush" Color="#FFC9C7BA" />
