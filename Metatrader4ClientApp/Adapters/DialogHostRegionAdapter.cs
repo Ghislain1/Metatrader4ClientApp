@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace Metatrader4ClientApp.Dialog
+namespace Metatrader4ClientApp.Adapters
 {
     public class DialogHostRegionAdapter : RegionAdapterBase<DialogHost>
     {

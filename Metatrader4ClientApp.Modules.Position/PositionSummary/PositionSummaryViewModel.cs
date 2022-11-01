@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace Metatrader4ClientApp.Modules.Position.PositionSummary
 {
-    public class PositionSummaryViewModel : BindableBase
+    public class PositionSummaryViewModel : PluginBindableBase
     {
         private readonly IEventAggregator eventAggregator;
         private PositionSummaryItem currentPositionSummaryItem;

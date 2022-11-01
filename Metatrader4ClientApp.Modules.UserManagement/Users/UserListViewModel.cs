@@ -1,4 +1,5 @@
-﻿using Metatrader4ClientApp.Infrastructure.Interfaces;
+﻿using Metatrader4ClientApp.Infrastructure;
+using Metatrader4ClientApp.Infrastructure.Interfaces;
 using Metatrader4ClientApp.Infrastructure.Models;
 using Prism.Events;
 using Prism.Mvvm;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Metatrader4ClientApp.Modules.UserManagement.Users
 {
-    public class UserListViewModel : BindableBase
+    public class UserListViewModel : PluginBindableBase
     {
         private readonly IEventAggregator eventAggregator;
         private ApplicationUser selectedApplicationUser;

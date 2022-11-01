@@ -1,4 +1,8 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using MahApps.Metro.Controls;
+
+using MaterialDesignThemes.Wpf;
+
+using Metatrader4ClientApp.Adapters;
 using Metatrader4ClientApp.Infrastructure.Interfaces;
 using Metatrader4ClientApp.Infrastructure.Services;
 using Metatrader4ClientApp.Modules.Login;
@@ -8,6 +12,7 @@ using Metatrader4ClientApp.Services;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
+using Prism.Regions;
 using Prism.Services.Dialogs;
 using Prism.Unity;
 using System;
@@ -43,6 +48,19 @@ namespace Metatrader4ClientApp
                 return Type.GetType(viewModelName);
             });
         }
+
+        /// <summary>
+        /// The ConfigureRegionAdapterMappings.
+        /// </summary>
+        /// <param name="regionAdapterMappings">The regionAdapterMappings <see cref="RegionAdapterMappings"/>.</param>
+        protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings mappings)
+        {
+            // WOrk around: https://github.com/dotnet/wpf/issues/738
+            // Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+            base.ConfigureRegionAdapterMappings(mappings);
+            mappings.RegisterMapping(typeof(HamburgerMenuItemCollection), this.Container.Resolve<HamburgerMenuItemCollectionRegionAdapter>());
+        }
+
         protected override Window CreateShell()
         {           
             return Container.Resolve<ShellView>();
