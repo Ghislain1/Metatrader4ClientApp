@@ -11,10 +11,10 @@ namespace Metatrader4ClientApp.Modules.Position
 {
     public interface IPositionSummaryViewModel : IHeaderInfoProvider<string>
     {
-        IObservablePosition Position { get; }
+       // IObservablePosition Position { get; }
 
-        ICommand BuyCommand { get; }
+        //ICommand BuyCommand { get; }
 
-        ICommand SellCommand { get; }
+        //ICommand SellCommand { get; }
     }
 }

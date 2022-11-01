@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metatrader4ClientApp.Infras
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metatrader4ClientApp.Modules.Position", "Metatrader4ClientApp.Modules.Position\Metatrader4ClientApp.Modules.Position.csproj", "{82CA1ABF-2AA2-4890-9B58-2E01136B6101}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metatrader4ClientApp.Modules.Login", "Metatrader4ClientApp.Modules.Login\Metatrader4ClientApp.Modules.Login.csproj", "{41F314C8-4D8E-4F26-8F8E-B1D22EB5BE76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metatrader4ClientApp.Modules.UserManagement", "Metatrader4ClientApp.Modules.UserManagement\Metatrader4ClientApp.Modules.UserManagement.csproj", "{BA4FF232-B672-4214-8C2B-DF0FB03FFCCF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{82CA1ABF-2AA2-4890-9B58-2E01136B6101}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82CA1ABF-2AA2-4890-9B58-2E01136B6101}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82CA1ABF-2AA2-4890-9B58-2E01136B6101}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41F314C8-4D8E-4F26-8F8E-B1D22EB5BE76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41F314C8-4D8E-4F26-8F8E-B1D22EB5BE76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41F314C8-4D8E-4F26-8F8E-B1D22EB5BE76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41F314C8-4D8E-4F26-8F8E-B1D22EB5BE76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA4FF232-B672-4214-8C2B-DF0FB03FFCCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA4FF232-B672-4214-8C2B-DF0FB03FFCCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA4FF232-B672-4214-8C2B-DF0FB03FFCCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA4FF232-B672-4214-8C2B-DF0FB03FFCCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

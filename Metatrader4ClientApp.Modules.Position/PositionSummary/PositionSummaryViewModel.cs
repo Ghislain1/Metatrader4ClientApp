@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace Metatrader4ClientApp.Modules.Position.PositionSummary
 {
-    public class PositionSummaryViewModel : BindableBase, IPositionSummaryViewModel
+    public class PositionSummaryViewModel : BindableBase
     {
         private readonly IEventAggregator eventAggregator;
         private PositionSummaryItem currentPositionSummaryItem;
@@ -21,22 +21,15 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
         private IAccountPositionService accountPositionService;
         private IMarketFeedService marketFeedService;
 
-        public PositionSummaryViewModel(IOrdersController ordersController, IEventAggregator eventAggregator, IMarketFeedService marketFeedService,IAccountPositionService accountPositionService)
-        {
-            if (ordersController is null)
-            {
-                throw new ArgumentNullException("ordersController");
-            }
+        public PositionSummaryViewModel( IEventAggregator eventAggregator, IMarketFeedService marketFeedService,IAccountPositionService accountPositionService)
+        {   
 
 
             this.eventAggregator = eventAggregator;
             this.marketFeedService= marketFeedService;
            this.accountPositionService=accountPositionService;
 
-            this.PopulateItems();
-
-            BuyCommand = ordersController.BuyCommand;
-            SellCommand = ordersController.SellCommand;
+            this.PopulateItems();   
 
          
         }
@@ -49,8 +42,7 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
         }
        
 
-        public ICommand AddToWatchCommand { get; private set; }
-        public ICommand BuyCommand { get; private set; }
+    
 
         public PositionSummaryItem CurrentPositionSummaryItem
         {
@@ -70,7 +62,7 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
 
         public string HeaderInfo => "POSITION";
 
-        public IObservablePosition Position { get; private set; }
+     
 
         public ObservableCollection<PositionSummaryItem> PositionSummaryItemCollection
         {

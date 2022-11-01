@@ -1,12 +1,13 @@
 ﻿using Metatrader4ClientApp.Infrastructure;
+using Metatrader4ClientApp.Infrastructure.Interfaces;
 using Metatrader4ClientApp.Modules.Position.PositionSummary;
+using Metatrader4ClientApp.Modules.Position.Services;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 
 namespace Metatrader4ClientApp.Modules.Position
-{
-     
+{    
         public class PositionModule : IModule
         {
             public void OnInitialized(IContainerProvider containerProvider)
@@ -22,20 +23,21 @@ namespace Metatrader4ClientApp.Modules.Position
 
             public void RegisterTypes(IContainerRegistry containerRegistry)
             {
-        
 
-            //containerRegistry.Register<IAccountPositionService, AccountPositionService>();
+
+            containerRegistry.Register<IAccountPositionService, AccountPositionService>();
             //containerRegistry.Register<IOrdersService, XmlOrdersService>();
-            //containerRegistry.Register<IOrdersController, OrdersController>();
+            // containerRegistry.Register<IOrdersController, OrdersController>();
             //containerRegistry.Register<IObservablePosition, ObservablePosition>();
-            containerRegistry.Register<IPositionSummaryViewModel, PositionSummaryViewModel>();
+            // containerRegistry.Register<IPositionSummaryViewModel, PositionSummaryViewModel>();
             //containerRegistry.Register<IPositionPieChartViewModel, PositionPieChartViewModel>();
 
             //containerRegistry.Register<IOrderCompositeViewModel, OrderCompositeViewModel>();
             //containerRegistry.Register<IOrderDetailsViewModel, OrderDetailsViewModel>();
 
             //containerRegistry.Register<IOrdersView, OrdersView>();
+            containerRegistry.Register<PositionSummaryViewModel>();
         }
-        }
+    }
     
 }

@@ -2,6 +2,7 @@
 using Metatrader4ClientApp.Infrastructure.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace Metatrader4ClientApp.Modules.Position.Services
 
         public IList<AccountPosition> GetAccountPositions()
         {
+            _positions=   Enumerable.Range(1, 8).Select(ite => new AccountPosition() { CostBasis =  decimal.Parse("1.5", CultureInfo.InvariantCulture), Shares =ite, TickerSymbol="STOCK "+ite }).ToList();
             return _positions;
         }
 

@@ -9,9 +9,7 @@ using System.Windows.Data;
 namespace Metatrader4ClientApp.Infrastructure.Converters
 {
     public class DecimalToColorConverter : IValueConverter
-    {
-        
-
+    {        public static DecimalToColorConverter Instance { get; } = new();
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null || !(value is decimal))
