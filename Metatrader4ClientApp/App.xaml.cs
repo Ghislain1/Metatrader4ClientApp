@@ -81,8 +81,9 @@ namespace Metatrader4ClientApp
         {
 
            containerRegistry.RegisterSingleton<IMarketFeedService, MarketFeedService>();
-            containerRegistry.RegisterSingleton<ISettingsService, SettingsService>();
-            
+           containerRegistry.RegisterSingleton<ISettingsService, SettingsService>();
+            containerRegistry.RegisterSingleton<IApplicationUserService, ApplicationUserService>();
+ 
 
            // containerRegistry.RegisterSingleton<IStockTraderRICommandProxy, StockTraderRICommandProxy>();
            // containerRegistry.RegisterDialog<NotificationDialog, NotificationDialogViewModel>();

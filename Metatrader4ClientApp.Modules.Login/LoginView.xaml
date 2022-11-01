@@ -4,14 +4,61 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Metatrader4ClientApp.Modules.Login"
-             
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance local:LoginViewModel}"
             xmlns:converters="clr-namespace:Metatrader4ClientApp.Infrastructure.Converters;assembly=Metatrader4ClientApp.Infrastructure">
-    <Grid>
-        <TextBlock Text="HLOGIN" FontSize="100"/>
-    </Grid>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+  
+    <materialDesign:Card  Width="400"
+                               Height="270"  Style="{StaticResource MaterialDesignElevatedCard}">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <StackPanel Orientation="Horizontal" Grid.Row="0">             
+                 <TextBlock Text="Name: " Style="{StaticResource MaterialDesignHeadline4TextBlock}" Margin="0,0,50,0" />
+                 <TextBox x:Name="LoginNameTextBox"   Text="{Binding LoginName}" Width="150" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                <TextBlock Text="Password: " Style="{StaticResource MaterialDesignHeadline4TextBlock}"  />
+                <PasswordBox x:Name="PasswordText" Tag="Password"   Width="150"     Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
+            </StackPanel>       
+
+            <!-- Login button -->
+           <Button Content="Login"  Margin="5,20, 0,0"                     
+                                    Grid.Row="2"
+                   Width="150"
+                      materialDesign:ButtonAssist.CornerRadius="5"
+                                    Command="{Binding LoginCommand}"
+                                    Style="{StaticResource MaterialDesignRaisedLightButton}"
+                                   CommandParameter="{Binding ElementName=PasswordText}"
+                                    HorizontalAlignment="Center" />
+
+               
+
+       
+ 
+
+     
+
+        </Grid>
+    </materialDesign:Card>
 </UserControl>

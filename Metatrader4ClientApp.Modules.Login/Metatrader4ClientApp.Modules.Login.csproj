@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
@@ -13,6 +13,12 @@
 
   <ItemGroup>
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+    <Folder Include="Views\" />
   </ItemGroup>
 
 </Project>

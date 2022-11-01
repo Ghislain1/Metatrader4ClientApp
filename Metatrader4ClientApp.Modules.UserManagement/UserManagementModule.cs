@@ -1,6 +1,6 @@
 ﻿using Metatrader4ClientApp.Infrastructure;
 using Metatrader4ClientApp.Infrastructure.Interfaces;
-using Metatrader4ClientApp.Modules.UserManagement.Services;
+ 
 using Metatrader4ClientApp.Modules.UserManagement.Users;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -24,7 +24,7 @@ namespace Metatrader4ClientApp.Modules.UserManagement
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-         containerRegistry.Register<IApplicationUserService, ApplicationUserService>();
+        // containerRegistry.Register<IApplicationUserService, ApplicationUserService>();
 
 
        
