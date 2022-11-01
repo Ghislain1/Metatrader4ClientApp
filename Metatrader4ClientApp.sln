@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metatrader4ClientApp", "Metatrader4ClientApp\Metatrader4ClientApp.csproj", "{B5667502-5F71-4C6E-8959-0022514CC51A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metatrader4ClientApp.Infrastructure", "Metatrader4ClientApp.Infrastructure\Metatrader4ClientApp.Infrastructure.csproj", "{44F1132F-DEAF-4282-91EF-BAA2C6FB9C3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metatrader4ClientApp.Modules.Position", "Metatrader4ClientApp.Modules.Position\Metatrader4ClientApp.Modules.Position.csproj", "{82CA1ABF-2AA2-4890-9B58-2E01136B6101}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{B5667502-5F71-4C6E-8959-0022514CC51A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5667502-5F71-4C6E-8959-0022514CC51A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5667502-5F71-4C6E-8959-0022514CC51A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44F1132F-DEAF-4282-91EF-BAA2C6FB9C3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44F1132F-DEAF-4282-91EF-BAA2C6FB9C3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44F1132F-DEAF-4282-91EF-BAA2C6FB9C3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44F1132F-DEAF-4282-91EF-BAA2C6FB9C3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82CA1ABF-2AA2-4890-9B58-2E01136B6101}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82CA1ABF-2AA2-4890-9B58-2E01136B6101}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82CA1ABF-2AA2-4890-9B58-2E01136B6101}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82CA1ABF-2AA2-4890-9B58-2E01136B6101}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

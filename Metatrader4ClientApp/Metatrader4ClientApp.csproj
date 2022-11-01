@@ -1,10 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>     
     <Nullable>enable</Nullable>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <Version>1.0.0</Version>
+    <Nullable>enable</Nullable>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+   <!-- <WarningsAsErrors>nullable</WarningsAsErrors> -->
+    <Company>GhislainOne</Company>
+    <Copyright>Copyright (C) Ghislain Zeus</Copyright>
   </PropertyGroup>
+  
+
+  <ItemGroup>
+   
+    <PackageReference Include="Prism.Unity" Version="8.1.97" />
+  </ItemGroup>
+  
+
+  <ItemGroup>
+    <ProjectReference Include="..\Metatrader4ClientApp.Infrastructure\Metatrader4ClientApp.Infrastructure.csproj" />
+  </ItemGroup>
 
 </Project>

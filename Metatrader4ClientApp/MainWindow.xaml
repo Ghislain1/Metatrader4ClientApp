@@ -4,8 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Metatrader4ClientApp"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        xmlns:inf="clr-namespace:Metatrader4ClientApp.Infrastructure;assembly=Metatrader4ClientApp.Infrastructure"
+        xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Metatrader4ClientApp" 
+        Height="450"
+        Width="800">
     <Grid>
 
     </Grid>
