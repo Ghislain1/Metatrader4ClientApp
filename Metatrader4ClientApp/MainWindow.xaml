@@ -5,15 +5,147 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Metatrader4ClientApp"
         WindowStartupLocation="CenterScreen"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
         WindowState="Maximized"
         xmlns:inf="clr-namespace:Metatrader4ClientApp.Infrastructure;assembly=Metatrader4ClientApp.Infrastructure"
+        xmlns:converters="clr-namespace:Metatrader4ClientApp.Infrastructure.Converters;assembly=Metatrader4ClientApp.Infrastructure"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         Title="Metatrader4ClientApp" 
         Height="450"
         Width="800">
-    <Grid>
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo ProgressState="Normal" ProgressValue="100" />
+    </Window.TaskbarItemInfo>
 
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
+        <Grid Grid.Row="1" RenderTransformOrigin="0.5,0.5" Margin="20,0,20,20">          
+            <Grid.RowDefinitions>
+                <RowDefinition Height="124"/>
+                <RowDefinition Height="4*" />
+                <RowDefinition Height="{Binding Visibility, ElementName=ActionContent, Converter={x:Static  converters:VisibilityToStarHeightConverter.Instance}, ConverterParameter=5}" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="650" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- logo -->
+            <Canvas x:Name="Logo" Grid.ColumnSpan="2" RenderTransformOrigin="0.5,0.5">
+                <Canvas.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Canvas.RenderTransform>
+                <TextBlock Text="APP" TextWrapping="NoWrap" Foreground="#FFC4CFD6" FontSize="72" Opacity="0.85" Canvas.Left="0" Canvas.Top="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="80" Width="135" TextAlignment="Left" FontWeight="Bold" />
+                <TextBlock Text="METATRADER" TextWrapping="NoWrap" Foreground="#FFC4CFD6" FontSize="72" Opacity="0.85" Height="80" TextAlignment="Left" FontWeight="Normal" Width="525" Canvas.Left="150" Canvas.Top="5"/>
+            </Canvas>
+
+            <!-- main bar -->
+            <ItemsControl x:Name="MainToolbar" prism:RegionManager.RegionName="{x:Static inf:RegionNames.MainToolBarRegion}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,10,0" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
+                <ItemsControl.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ItemsControl.RenderTransform>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+
+            <!-- content -->
+            <Grid x:Name="ContentGrid" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <TabControl
+                    x:Name="PositionBuySellTab"
+                    SelectedIndex="0"  
+                    VerticalAlignment="Stretch"                    
+                    prism:RegionManager.RegionName="{x:Static inf:RegionNames.MainRegion}"
+                    AutomationProperties.AutomationId="PositionSummaryTab" />
+            </Grid>
+
+            <!-- details -->
+            <Grid x:Name="DetailsGrid" Grid.Row="2" Margin="10,10,10,10" RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <ContentControl x:Name="ActionContent" prism:RegionManager.RegionName="{x:Static inf:RegionNames.ActionRegion}">
+                    <ContentControl.Template>
+                        <ControlTemplate TargetType="ContentControl">
+                            <Grid>
+                                <TextBox Text="Controls:RoundedBox" />
+                                <ContentPresenter Margin="10,0,10,0" Content="{TemplateBinding Content}" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="HasContent" Value="false">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </ContentControl.Template>
+                </ContentControl>
+            </Grid>
+
+            <!-- sidebar -->
+            <Grid x:Name="SideGrid" Margin="10,29,10,10" Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" RenderTransformOrigin="0.5,0.5" Width="Auto">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <Label Content="ResearchRegion"/>
+                <!--<Controls:ResearchControl prism:RegionManager.RegionName="{x:Static inf:RegionNames.ResearchRegion}">
+                    <Controls:ResearchControl.Template>
+                        <ControlTemplate TargetType="Controls:ResearchControl">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Border Grid.Row="0" Height="30" CornerRadius="12,12,12,12" Margin="0,0,0,10" BorderBrush="#FFFFFFFF" BorderThickness="2,2,2,2" x:Name="rightHeader" Canvas.ZIndex="1" Opacity="0.9" Background="{StaticResource sideBarHeaderBarBG}">
+                                    <ItemsControl ItemsSource="{TemplateBinding Headers}" HorizontalAlignment="Center">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                </Border>
+                                <Controls:RoundedBox Grid.Row="1" />
+                                <ScrollViewer Grid.Row="1" Width="285" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                    <ItemsPresenter Width="285" />
+                                </ScrollViewer>
+                            </Grid>
+                        </ControlTemplate>
+                    </Controls:ResearchControl.Template>
+                </Controls:ResearchControl>-->
+            </Grid>
+
+        </Grid>
     </Grid>
 </Window>

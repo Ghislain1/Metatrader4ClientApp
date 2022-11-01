@@ -4,9 +4,83 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Metatrader4ClientApp.Modules.Position.PositionSummary"
+              xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance local:PositionSummaryViewModel}"
+            xmlns:converters="clr-namespace:Metatrader4ClientApp.Infrastructure.Converters;assembly=Metatrader4ClientApp.Infrastructure">
+    <UserControl.Resources>        
+        <DataTemplate x:Key="GainLossTemplate">
+            <TextBlock Foreground="{Binding Converter={StaticResource decimalToColorConverter}, Path=GainLossPercent}" Text="{Binding Converter={x:Static  converters:PercentConverter.Instance}, Path=GainLossPercent}" />
+        </DataTemplate>
+    </UserControl.Resources>
+    <ListView
+        Width="Auto"
+        AlternationCount="2"
+        AutomationProperties.AutomationId="PositionSummaryGrid"
+        BorderThickness="0"
+        IsSynchronizedWithCurrentItem="True"
+        ItemsSource="{Binding Path=Position.Items}"
+        SelectedItem="{Binding Path=CurrentPositionSummaryItem, Mode=TwoWay}">
+        <ListView.View>
+            <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Current positions">
+                <GridViewColumn
+                    Width="65"
+                    DisplayMemberBinding="{Binding Path=TickerSymbol}"
+                    Header="Symbol" />
+                <GridViewColumn
+                    Width="65"
+                    DisplayMemberBinding="{Binding Path=Shares}"
+                    Header="Shares" />
+                <GridViewColumn
+                    Width="65"
+                    DisplayMemberBinding="{Binding Converter={x:Static  converters:CurrencyConverter.Instance}, Path=CurrentPrice}"
+                    Header="Last" />
+                <GridViewColumn
+                    Width="85"
+                    DisplayMemberBinding="{Binding Converter={x:Static  converters:CurrencyConverter.Instance}, Path=CostBasis}"
+                    Header="Cost Basis" />
+                <GridViewColumn
+                    Width="85"
+                    DisplayMemberBinding="{Binding Converter={x:Static  converters:CurrencyConverter.Instance}, Path=MarketValue}"
+                    Header="Market Value" />
+                <GridViewColumn
+                    Width="85"
+                    CellTemplate="{StaticResource GainLossTemplate}"
+                    DisplayMemberBinding="{Binding Converter={x:Static  converters:CurrencyConverter.Instance}, Path=GainLossPercent}"
+                    Header="Gain/Loss %" />
+                <!--<GridViewColumn Header="Actions">
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="47" />
+                                    <ColumnDefinition Width="47" />
+                                    <ColumnDefinition Width="47" />
+                                </Grid.ColumnDefinitions>
+
+                                <Button
+                                    Grid.Column="0"
+                                    Width="30"
+                                    AutomationProperties.AutomationId="ActionsBuyButton"
+                                    Command="{Binding Path=DataContext.BuyCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                    CommandParameter="{Binding Path=TickerSymbol}"
+                                    Cursor="Hand"
+                                    Template="{StaticResource AddButtonTemplate}" />
+                                <Button
+                                    Grid.Column="1"
+                                    Width="30"
+                                    AutomationProperties.AutomationId="ActionsSellButton"
+                                    Command="{Binding Path=DataContext.SellCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                    CommandParameter="{Binding Path=TickerSymbol}"
+                                    Cursor="Hand"
+                                    Template="{StaticResource RemoveButtonTemplate}" />                               
+                            </Grid>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>-->
+            </GridView>
+        </ListView.View>
+    </ListView>
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using MaterialDesignThemes.Wpf;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -14,8 +15,9 @@ namespace Metatrader4ClientApp
         public class MainWindowViewModel : BindableBase
         {
             private IDialogService dialogService;
+            public SnackbarMessageQueue Notifications { get; } = new(TimeSpan.FromSeconds(5));
 
-            public MainWindowViewModel(IDialogService dialogService)
+        public MainWindowViewModel(IDialogService dialogService)
             {
                 this.dialogService = dialogService;
             }

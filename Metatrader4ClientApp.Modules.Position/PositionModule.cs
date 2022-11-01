@@ -22,18 +22,20 @@ namespace Metatrader4ClientApp.Modules.Position
 
             public void RegisterTypes(IContainerRegistry containerRegistry)
             {
-                //containerRegistry.Register<IAccountPositionService, AccountPositionService>();
-                //containerRegistry.Register<IOrdersService, XmlOrdersService>();
-                //containerRegistry.Register<IOrdersController, OrdersController>();
-                //containerRegistry.Register<IObservablePosition, ObservablePosition>();
-                //containerRegistry.Register<IPositionSummaryViewModel, PositionSummaryViewModel>();
-                //containerRegistry.Register<IPositionPieChartViewModel, PositionPieChartViewModel>();
+        
 
-                //containerRegistry.Register<IOrderCompositeViewModel, OrderCompositeViewModel>();
-                //containerRegistry.Register<IOrderDetailsViewModel, OrderDetailsViewModel>();
+            //containerRegistry.Register<IAccountPositionService, AccountPositionService>();
+            //containerRegistry.Register<IOrdersService, XmlOrdersService>();
+            //containerRegistry.Register<IOrdersController, OrdersController>();
+            //containerRegistry.Register<IObservablePosition, ObservablePosition>();
+            containerRegistry.Register<IPositionSummaryViewModel, PositionSummaryViewModel>();
+            //containerRegistry.Register<IPositionPieChartViewModel, PositionPieChartViewModel>();
 
-                //containerRegistry.Register<IOrdersView, OrdersView>();
-            }
+            //containerRegistry.Register<IOrderCompositeViewModel, OrderCompositeViewModel>();
+            //containerRegistry.Register<IOrderDetailsViewModel, OrderDetailsViewModel>();
+
+            //containerRegistry.Register<IOrdersView, OrdersView>();
+        }
         }
     
 }

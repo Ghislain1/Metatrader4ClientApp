@@ -1,4 +1,5 @@
-﻿using Prism.Ioc;
+﻿using Metatrader4ClientApp.Modules.Position;
+using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Unity;
 using System;
@@ -20,9 +21,6 @@ namespace Metatrader4ClientApp
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-
-
-
         }
 
         protected override Window CreateShell()
@@ -33,7 +31,7 @@ namespace Metatrader4ClientApp
         {
             // Load all 4 modules using code            
             //moduleCatalog.AddModule<MarketModule>();
-            //moduleCatalog.AddModule<PositionModule>();
+            moduleCatalog.AddModule<PositionModule>();
             //moduleCatalog.AddModule<WatchModule>();
             //moduleCatalog.AddModule<NewsModule>();
 
