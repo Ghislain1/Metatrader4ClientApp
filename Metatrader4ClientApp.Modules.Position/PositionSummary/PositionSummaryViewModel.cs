@@ -20,18 +20,24 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
         private ObservableCollection<PositionSummaryItem> positionSummaryItemCollection = new ObservableCollection<PositionSummaryItem>();
         private IAccountPositionService accountPositionService;
         private IMarketFeedService marketFeedService;
+        private string headerInfo;
 
         public PositionSummaryViewModel( IEventAggregator eventAggregator, IMarketFeedService marketFeedService,IAccountPositionService accountPositionService)
-        {   
-
-
-            this.eventAggregator = eventAggregator;
-            this.marketFeedService= marketFeedService;
+        {  
+           this.eventAggregator = eventAggregator;
+           this.marketFeedService= marketFeedService;
            this.accountPositionService=accountPositionService;
-
-            this.PopulateItems();   
+           this.HeaderInfo ="POSITION";
+           this.PopulateItems();   
 
          
+        }
+        public string HeaderInfo
+        {
+            get => this.headerInfo;
+
+            set => this.SetProperty(ref this.headerInfo, value);
+
         }
         private async void PopulateItems()
         {
@@ -60,7 +66,7 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
             }
         }
 
-        public string HeaderInfo => "POSITION";
+       
 
      
 

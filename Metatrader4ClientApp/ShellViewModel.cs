@@ -1,4 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
+using Metatrader4ClientApp.Infrastructure.Interfaces;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -12,14 +13,19 @@ namespace Metatrader4ClientApp
 {
     
         // See Dopamine
-        public class MainWindowViewModel : BindableBase
+        public class ShellViewModel : BindableBase
         {
             private IDialogService dialogService;
             public SnackbarMessageQueue Notifications { get; } = new(TimeSpan.FromSeconds(5));
 
-        public MainWindowViewModel(IDialogService dialogService)
+        public DashboardViewModel DashboardViewModel { get; }
+
+        public ShellViewModel(IDialogService dialogService, ISettingsService settingsService)
             {
                 this.dialogService = dialogService;
+            this.DashboardViewModel= new DashboardViewModel(dialogService, settingsService);
+
+
             }
             private string _title = "Prism Application";
             public string Title

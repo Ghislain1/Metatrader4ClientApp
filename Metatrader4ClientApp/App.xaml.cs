@@ -1,11 +1,14 @@
-﻿using Metatrader4ClientApp.Infrastructure.Interfaces;
+﻿using MaterialDesignThemes.Wpf;
+using Metatrader4ClientApp.Infrastructure.Interfaces;
 using Metatrader4ClientApp.Infrastructure.Services;
 using Metatrader4ClientApp.Modules.Login;
 using Metatrader4ClientApp.Modules.Position;
 using Metatrader4ClientApp.Modules.UserManagement;
+using Metatrader4ClientApp.Services;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
+using Prism.Services.Dialogs;
 using Prism.Unity;
 using System;
 using System.Collections.Generic;
@@ -15,6 +18,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Metatrader4ClientApp
 {
@@ -41,14 +45,15 @@ namespace Metatrader4ClientApp
         }
         protected override Window CreateShell()
         {           
-            return Container.Resolve<MainWindow>();
+            return Container.Resolve<ShellView>();
         }
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             // Load all 4 modules using code            
             //moduleCatalog.AddModule<MarketModule>();
-            moduleCatalog.AddModule<PositionModule>();
             moduleCatalog.AddModule<UserManagementModule>();
+            moduleCatalog.AddModule<PositionModule>();
+           
             moduleCatalog.AddModule<LoginModule>();
 
         }
@@ -58,11 +63,37 @@ namespace Metatrader4ClientApp
         {
 
            containerRegistry.RegisterSingleton<IMarketFeedService, MarketFeedService>();
+            containerRegistry.RegisterSingleton<ISettingsService, SettingsService>();
+            
 
            // containerRegistry.RegisterSingleton<IStockTraderRICommandProxy, StockTraderRICommandProxy>();
-            // containerRegistry.RegisterDialog<NotificationDialog, NotificationDialogViewModel>();
-            // containerRegistry.RegisterSingleton<IDialogService, DialogService>();
-            //    containerRegistry.RegisterSingleton<ITaskbarService, TaskbarService>();
+           // containerRegistry.RegisterDialog<NotificationDialog, NotificationDialogViewModel>();
+            containerRegistry.RegisterSingleton<IDialogService, DialogService>();
+           //    containerRegistry.RegisterSingleton<ITaskbarService, TaskbarService>();
+        }
+
+
+        private static Theme LightTheme { get; } = Theme.Create(  new MaterialDesignLightTheme(), Colors.WhiteSmoke, Colors.WhiteSmoke  );
+
+        private static Theme DarkTheme { get; } = Theme.Create(            new MaterialDesignDarkTheme(), Colors.DarkGray, Colors.DarkKhaki                 );
+        public static void SetLightTheme()
+        {
+            var paletteHelper = new PaletteHelper();
+            paletteHelper.SetTheme(LightTheme);
+
+            Current.Resources["SuccessBrush"] = new SolidColorBrush(Colors.DarkGreen);
+            Current.Resources["CanceledBrush"] = new SolidColorBrush(Colors.DarkOrange);
+            Current.Resources["FailedBrush"] = new SolidColorBrush(Colors.DarkRed);
+        }
+
+        public static void SetDarkTheme()
+        {
+            var paletteHelper = new PaletteHelper();
+            paletteHelper.SetTheme(DarkTheme);
+
+            Current.Resources["SuccessBrush"] = new SolidColorBrush(Colors.LightGreen);
+            Current.Resources["CanceledBrush"] = new SolidColorBrush(Colors.Orange);
+            Current.Resources["FailedBrush"] = new SolidColorBrush(Colors.OrangeRed);
         }
     }
 }

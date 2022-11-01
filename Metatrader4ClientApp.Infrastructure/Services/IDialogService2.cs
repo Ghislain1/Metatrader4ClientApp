@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Metatrader4ClientApp.Infrastructure.Services
 {
-    public interface IDialogService
+    public interface IDialogService2
     {
         void Show(string name, dynamic parameters, Action<dynamic> callback);
 

@@ -13,12 +13,12 @@ using Unity;
 
 namespace Metatrader4ClientApp.Dialog
 {
-    public class DialogService : IDialogService
+    public class DialogService2 : IDialogService2
     {
         private readonly IUnityContainer _container;
         private readonly IRegionManager _regionManager;
 
-        public DialogService(IUnityContainer container, IRegionManager regionManager)
+        public DialogService2(IUnityContainer container, IRegionManager regionManager)
         {
             _container = container;
             _regionManager = regionManager;

@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="Metatrader4ClientApp.Modules.UserManagement.Users.UserListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:Users="clr-namespace:Metatrader4ClientApp.Modules.UserManagement.Users"
+             d:DataContext="{d:DesignInstance Users:UserListViewModel}"
+             xmlns:converters="clr-namespace:Metatrader4ClientApp.Infrastructure.Converters;assembly=Metatrader4ClientApp.Infrastructure"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <TextBlock Text="UserListView" FontSize="100" Background="Red"/>
+    </Grid>
+</UserControl>

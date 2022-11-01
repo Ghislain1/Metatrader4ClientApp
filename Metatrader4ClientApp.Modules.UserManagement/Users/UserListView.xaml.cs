@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Metatrader4ClientApp
+namespace Metatrader4ClientApp.Modules.UserManagement.Users
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for UserListView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class UserListView : UserControl
     {
-        public MainWindow()
+        public UserListView()
         {
             InitializeComponent();
         }
