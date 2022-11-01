@@ -40,7 +40,7 @@ namespace Metatrader4ClientApp.Infrastructure
         /// <summary>
         /// Gets or sets a value indicating whether IsSelected.
         /// </summary>
-        public  bool IsSelected { get; set; }
+        public bool IsSelected { get; set; } = true;
 
 
         /// <summary>

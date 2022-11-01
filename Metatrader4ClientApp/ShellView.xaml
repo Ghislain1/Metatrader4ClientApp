@@ -130,6 +130,8 @@
             DisplayMode="CompactInline"
             ItemClick="HamburgerMenuControl_ItemClick"
             IsPaneOpen="{Binding IsPaneOpen}"
+            SelectedItem="{Binding ActivatedItem}"
+            SelectedIndex="0"
             ContentTemplate="{StaticResource ContentTemplateKey}"
             ItemTemplate="{StaticResource ItemTemplateKey}">
             <!--  Ghis:This is the first property of HamburgerMenu Say something  -->

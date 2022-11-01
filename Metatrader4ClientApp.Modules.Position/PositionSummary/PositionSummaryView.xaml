@@ -4,17 +4,33 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Metatrader4ClientApp.Modules.Position.PositionSummary"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance local:PositionSummaryViewModel}"
             xmlns:converters="clr-namespace:Metatrader4ClientApp.Infrastructure.Converters;assembly=Metatrader4ClientApp.Infrastructure">
-    <UserControl.Resources>        
-        <DataTemplate x:Key="GainLossTemplate">
-            <TextBlock Foreground="{Binding Converter={x:Static  converters:DecimalToColorConverter.Instance}, Path=GainLossPercent}" Text="{Binding Converter={x:Static  converters:PercentConverter.Instance}, Path=GainLossPercent}" />
-        </DataTemplate>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="GainLossTemplate">
+                <TextBlock Foreground="{Binding Converter={x:Static  converters:DecimalToColorConverter.Instance}, Path=GainLossPercent}" Text="{Binding Converter={x:Static  converters:PercentConverter.Instance}, Path=GainLossPercent}" />
+            </DataTemplate>
+        </ResourceDictionary>
     </UserControl.Resources>
+    
+ 
+    <StackPanel>
+        
+
     <ListView    
         Width="Auto"
         AlternationCount="2"
@@ -83,4 +99,16 @@
             </GridView>
         </ListView.View>
     </ListView>
+
+        <!-- Login button -->
+        <Button Content="Export..."  Margin="5,20, 0,0"                     
+                                    Grid.Row="2"
+                   Width="150"
+                      materialDesign:ButtonAssist.CornerRadius="5"
+                                    Command="{Binding LoginCommand}"
+                                    Style="{StaticResource MaterialDesignRaisedLightButton}"
+                                   
+                                    HorizontalAlignment="Center" />
+    
+    </StackPanel>
 </UserControl>

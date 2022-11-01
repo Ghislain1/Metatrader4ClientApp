@@ -19,7 +19,7 @@ namespace Metatrader4ClientApp.Modules.Login
     {
         private readonly IEventAggregator eventAggregator;
         private readonly IApplicationUserService applicationUserService;
-        private string password;
+        private bool savePassword;
         private string name;
         public LoginViewModel(IEventAggregator eventAggregator, IApplicationUserService applicationUserService)
         {
@@ -28,15 +28,26 @@ namespace Metatrader4ClientApp.Modules.Login
             this.Glyph = GlyphNames.LoginGlyph;
             this.Label = "LOGIN";
 
-           this. LoginCommand = new DelegateCommand<object>(async (argument) => await this.LoginAsync(argument), (_)=> !this.LoginIsRunning);
-        }
+           this.LoginCommand = new DelegateCommand<object>(async (argument) => await this.LoginAsync(argument), (_)=> !this.LoginIsRunning);
 
+            this.Command = new DelegateCommand(() =>
+             {
+
+             });
+        }
+   
         public string Name
         {
             get => this.name;
             set => this.SetProperty(ref this.name, value);
         }
- 
+
+        public bool SavePassword
+        {
+            get => this.savePassword;
+            set => this.SetProperty(ref this.savePassword, value);
+        }
+        
 
         /// <summary>
         /// A flag indicating if the login command is running
@@ -89,7 +100,21 @@ namespace Metatrader4ClientApp.Modules.Login
                 // Let the application view model handle what happens
                 // with the successful login
                 // await ViewModelApplication.HandleSuccessfulLoginAsync(loginResult);
-                this.applicationUserService.LogIn(this.Name, passwordBox.Password);
+
+                if (this.SavePassword)
+                {
+                    var alreadyStored = this.applicationUserService.CheckUser(this.Name, passwordBox.Password);
+                    if (alreadyStored)
+                    {
+                        this.Name = String.Empty;
+                    }
+                    else
+                    {
+                        this.applicationUserService.StoreUser(this.Name, passwordBox.Password);
+                    }
+                    
+                }
+                
 
 
             });

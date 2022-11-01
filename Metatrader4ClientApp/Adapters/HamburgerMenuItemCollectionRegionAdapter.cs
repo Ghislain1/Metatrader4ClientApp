@@ -44,14 +44,14 @@ namespace Metatrader4ClientApp.Adapters
                             {
                                 var plugin = ((UserControl)element).DataContext as IPlugin;
                                 var hamburgerMenuGlyphItem = new HamburgerMenuGlyphItem();
-                               // hamburgerMenuGlyphItem.Glyph = plugin.Glyph;
-                                
+                               // hamburgerMenuGlyphItem.Glyph = plugin.Glyph;                                
                                 hamburgerMenuGlyphItem.Label = plugin.Label;
-                                hamburgerMenuGlyphItem.CommandParameter = plugin.CommandParameter;
+                                hamburgerMenuGlyphItem.Command = plugin.Command;
                                 hamburgerMenuGlyphItem.Tag = (UserControl)element;
                                 hamburgerMenuGlyphItem.CommandParameter = element.GetType();
                                 regionTarget.Add(hamburgerMenuGlyphItem);
                                 hamburgerMenuGlyphItem.IsVisible = true;
+                                hamburgerMenuGlyphItem.IsEnabled = true;
                             }
                             break;
 

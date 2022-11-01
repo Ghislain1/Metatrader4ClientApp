@@ -68,11 +68,11 @@ namespace Metatrader4ClientApp
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             // Load all 4 modules using code            
-            //moduleCatalog.AddModule<MarketModule>();
+            moduleCatalog.AddModule<LoginModule>();
             moduleCatalog.AddModule<UserManagementModule>();
             moduleCatalog.AddModule<PositionModule>();
            
-            moduleCatalog.AddModule<LoginModule>();
+            
 
         }
 

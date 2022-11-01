@@ -11,6 +11,12 @@ namespace Metatrader4ClientApp.Infrastructure.Services
 {
     public class ApplicationUserService : IApplicationUserService
     {
+        public bool CheckUser(string loginName, string password)
+        {
+
+            return this.GetUsers().Any(user => user.Name.Equals(loginName)&& HashManager.VerifyPassword(password, user.Password));
+        }
+
         public IList<ApplicationUser> GetUsers()
         {
             //var users= new List<ApplicationUser>();
@@ -35,6 +41,13 @@ namespace Metatrader4ClientApp.Infrastructure.Services
         {
            var hashedPasword = HashManager.HashPassword(password);
             ApplicationUserRepository.Save(new ApplicationUser() {  Name = loginName, Password= hashedPasword} );
+            return true;
+        }
+
+        public bool StoreUser(string loginName, string password)
+        {
+            var hashedPasword = HashManager.HashPassword(password);
+            ApplicationUserRepository.Save(new ApplicationUser() { Name = loginName, Password = hashedPasword });
             return true;
         }
     }

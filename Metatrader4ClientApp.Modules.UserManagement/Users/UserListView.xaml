@@ -4,13 +4,57 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:models="clr-namespace:Metatrader4ClientApp.Infrastructure.Models;assembly=Metatrader4ClientApp.Infrastructure"
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:Users="clr-namespace:Metatrader4ClientApp.Modules.UserManagement.Users"
              d:DataContext="{d:DesignInstance Users:UserListViewModel}"
              xmlns:converters="clr-namespace:Metatrader4ClientApp.Infrastructure.Converters;assembly=Metatrader4ClientApp.Infrastructure"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
-        <TextBlock Text="UserListView" FontSize="100" />
+          <!-- and here's another -->
+        <ItemsControl Grid.IsSharedSizeScope="True" ItemsSource="{Binding ApplicationUserCollection}">
+          <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type models:ApplicationUser}">
+              <Border x:Name="Border"
+                      Padding="8"
+                      BorderBrush="{DynamicResource MaterialDesignDivider}"
+                      BorderThickness="0,0,0,1">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Checkerz" />
+                    <ColumnDefinition />
+                  </Grid.ColumnDefinitions>
+
+                  <ToggleButton VerticalAlignment="Center"
+                                Content="{Binding Code}"
+                                IsChecked="{Binding IsSelected}"
+                                Style="{StaticResource MaterialDesignActionLightToggleButton}" />
+                  <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                    <TextBlock FontWeight="Bold" Text="{Binding Name}" />
+                    <TextBlock Text="{Binding Description}" />
+                  </StackPanel>
+                </Grid>
+              </Border>
+
+              <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                  <Setter TargetName="Border" Property="Background" Value="{DynamicResource MaterialDesignSelection}" />
+                </DataTrigger>
+              </DataTemplate.Triggers>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>

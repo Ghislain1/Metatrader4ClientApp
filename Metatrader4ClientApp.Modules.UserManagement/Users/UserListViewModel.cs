@@ -1,6 +1,8 @@
 ﻿using Metatrader4ClientApp.Infrastructure;
 using Metatrader4ClientApp.Infrastructure.Interfaces;
 using Metatrader4ClientApp.Infrastructure.Models;
+
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
@@ -26,7 +28,11 @@ namespace Metatrader4ClientApp.Modules.UserManagement.Users
             this.applicationUserService = applicationUserService;
             this.Glyph = GlyphNames.UserManagementGlyph;
             this.Label = "USERS";
-            this.PopulateUsers();
+           // this.PopulateUsers();
+            this.Command = new DelegateCommand(() =>
+            {
+                this.PopulateUsers();
+            });
         }
         public string HeaderInfo
         {

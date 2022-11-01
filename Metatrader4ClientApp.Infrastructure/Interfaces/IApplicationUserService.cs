@@ -11,7 +11,8 @@ namespace Metatrader4ClientApp.Infrastructure.Interfaces
     {
         IList<ApplicationUser> GetUsers();
         Task<IList<ApplicationUser>> GetUsersAsync();
-
+        bool StoreUser(string loginName, string password);
         bool LogIn(string loginName, string password);
+        bool CheckUser(string loginName, string password);
     }
 }

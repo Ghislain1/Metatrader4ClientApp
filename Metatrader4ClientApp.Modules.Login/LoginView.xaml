@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Metatrader4ClientApp.Modules.Login"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:models="clr-namespace:Metatrader4ClientApp.Infrastructure.Models;assembly=Metatrader4ClientApp.Infrastructure"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
@@ -23,7 +24,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
   
-    <materialDesign:Card  Width="400"
+    <materialDesign:Card  Width="600"
                                Height="270"  Style="{StaticResource MaterialDesignElevatedCard}">
 
         <Grid>
@@ -35,11 +36,12 @@
             
             <StackPanel Orientation="Horizontal" Grid.Row="0">             
                  <TextBlock Text="Name: " Style="{StaticResource MaterialDesignHeadline4TextBlock}" Margin="0,0,50,0" />
-                 <TextBox x:Name="LoginNameTextBox"   Text="{Binding LoginName}" Width="150" />
+                 <TextBox x:Name="LoginNameTextBox"   Text="{Binding Name}" Width="150" Margin="0,15,0,0" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1">
                 <TextBlock Text="Password: " Style="{StaticResource MaterialDesignHeadline4TextBlock}"  />
                 <PasswordBox x:Name="PasswordText" Tag="Password"   Width="150"     Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
+                <CheckBox x:Name="SavePassword" IsChecked="{Binding SavePassword}" Content="Save Password"   Width="150"     Style="{StaticResource MaterialDesignAccentCheckBox}" />
             </StackPanel>       
 
             <!-- Login button -->

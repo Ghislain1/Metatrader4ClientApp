@@ -1,4 +1,6 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using MahApps.Metro.Controls;
+
+using MaterialDesignThemes.Wpf;
 
 using Metatrader4ClientApp.Infrastructure.Interfaces;
 
@@ -19,29 +21,37 @@ namespace Metatrader4ClientApp
     public class ShellViewModel : BindableBase
     {
         private IDialogService dialogService;
-        private bool isPaneOpen;
+        private object activatedItem;
+        private bool  isPaneOpen;
+        private DelegateCommand showDialogCommand;
         public SnackbarMessageQueue Notifications { get; } = new(TimeSpan.FromSeconds(5));
         public ShellViewModel(IDialogService dialogService, ISettingsService settingsService)
         {
             this.dialogService = dialogService;
-            
             this.IsPaneOpen = true;
-
         }
-        private string _title = "Prism Application";
-
-        public bool IsPaneOpen
+               public bool IsPaneOpen
         {
             get => this.isPaneOpen;
             set => SetProperty(ref this.isPaneOpen, value);
         }
-        public string Title
+        public object ActivatedItem
         {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
+            get { return activatedItem; }
+            set
+            {
+                if(this.SetProperty(ref this.activatedItem, value))
+                {
+                    if (value is not HamburgerMenuGlyphItem hamburgerMenuGlyphItem)
+                    {
+                        return;
+                    }
+                    hamburgerMenuGlyphItem.RaiseCommand();
+                }
+            }
         }
 
-        private DelegateCommand showDialogCommand;
+      
         public DelegateCommand ShowDialogCommand =>
             showDialogCommand ?? (showDialogCommand = new DelegateCommand(ShowDialog));
 
@@ -51,14 +61,14 @@ namespace Metatrader4ClientApp
             //using the dialog service as-is
             this.dialogService.ShowDialog("NotificationDialog", new DialogParameters($"message={message}"), r =>
             {
-                if (r.Result == ButtonResult.None)
-                    Title = "Result is None";
-                else if (r.Result == ButtonResult.OK)
-                    Title = "Result is OK";
-                else if (r.Result == ButtonResult.Cancel)
-                    Title = "Result is Cancel";
-                else
-                    Title = "I Don't know what you did!?";
+                //if (r.Result == ButtonResult.None)
+                //    Title = "Result is None";
+                //else if (r.Result == ButtonResult.OK)
+                //    Title = "Result is OK";
+                //else if (r.Result == ButtonResult.Cancel)
+                //    Title = "Result is Cancel";
+                //else
+                //    Title = "I Don't know what you did!?";
             });
         }
     }
