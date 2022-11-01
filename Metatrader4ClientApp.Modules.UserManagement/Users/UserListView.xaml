@@ -11,6 +11,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="UserListView" FontSize="100" Background="Red"/>
+        <TextBlock Text="UserListView" FontSize="100" />
     </Grid>
 </UserControl>

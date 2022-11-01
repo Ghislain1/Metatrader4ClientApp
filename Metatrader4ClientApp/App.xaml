@@ -40,7 +40,7 @@
             <Style x:Key="ShellTabItemStyle" TargetType="{x:Type TabItem}">
                 <Setter Property="FontFamily" Value="Trebuchet MS" />
                 <Setter Property="FontSize" Value="14" />
-                <Setter Property="Foreground" Value="#FFFFFFFF" />
+                <Setter Property="Foreground" Value="Red" />
                 <Setter Property="Header" Value="{Binding Content.DataContext.HeaderInfo, RelativeSource={RelativeSource Self}}" />
                 <Setter Property="Template">
                     <Setter.Value>
