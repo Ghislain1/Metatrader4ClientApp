@@ -56,9 +56,7 @@ namespace Metatrader4ClientApp.Infrastructure
         /// <summary>
         /// Gets or sets the Id.
         /// </summary>
-        public string  Id { get; set; }
-
-       
+        public string  Id { get; set; }       
 
         /// <summary>
         /// Gets or sets the Kind To interact with Material Design PackIcon.

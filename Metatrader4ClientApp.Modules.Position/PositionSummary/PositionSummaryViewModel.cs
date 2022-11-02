@@ -1,13 +1,15 @@
 ﻿using Metatrader4ClientApp.Infrastructure;
 using Metatrader4ClientApp.Infrastructure.Interfaces;
 using Metatrader4ClientApp.Modules.Position.Controllers;
-
+using Microsoft.Win32;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,8 +35,16 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
             this.Label = "POSITION";
             this.PopulateItems();
 
+            this.ExportCommand = new DelegateCommand(() => this.ExecuteExportAll(), () => this.PositionSummaryItemCollection.Any());
 
+            this.Command = new DelegateCommand(() => this.ExecuteSynchronize());
         }
+
+        private void ExecuteSynchronize()
+        {
+            this.ExportCommand.RaiseCanExecuteChanged();
+        }
+
         public string HeaderInfo
         {
             get => this.headerInfo;
@@ -66,7 +76,46 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
         }
 
 
+        private async void ExecuteExportAll()
 
+        {
+
+            try
+
+            {
+
+                var saveFileDialog = new SaveFileDialog
+                {
+                    Title = "Exporting...",
+
+                    FileName = $"Postion_{DateTime.Now.ToFileTime()}{AppConstants.TXT_EXT}",
+
+                    FilterIndex = 1,
+
+                    Filter = $"Log Files (*{AppConstants.TXT_EXT})|*{AppConstants.TXT_EXT}",
+
+                    InitialDirectory = KnownFolders.ExportedFolderUri.LocalPath
+
+                };
+
+                if (saveFileDialog.ShowDialog() is not true)
+                {
+                    return;
+
+                }
+                await this.accountPositionService.ExportToTextFileAsync(this.PositionSummaryItemCollection, saveFileDialog.FileName);
+
+            }
+
+            catch (Exception exception)
+
+            {
+                // TODO
+                // Logger.Instance.Log(exception);
+
+            }
+
+        }
 
 
         public ObservableCollection<PositionSummaryItem> PositionSummaryItemCollection
@@ -77,6 +126,6 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
 
 
 
-        public ICommand SellCommand { get; private set; }
+        public DelegateCommand ExportCommand { get; private set; }
     }
 }

@@ -100,7 +100,7 @@
                                     Grid.Row="2"
                    Width="150"
                       materialDesign:ButtonAssist.CornerRadius="5"
-                                    Command="{Binding LoginCommand}"
+                                    Command="{Binding ExportCommand}"
                                     Style="{StaticResource MaterialDesignRaisedLightButton}"
                                    
                                     HorizontalAlignment="Center" />

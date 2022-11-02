@@ -12,5 +12,9 @@ namespace Metatrader4ClientApp.Infrastructure.Interfaces
         event EventHandler<AccountPositionModelEventArgs> Updated;
         IList<AccountPosition> GetAccountPositions();
         Task<IList<AccountPosition>> GetAccountPositionsAsync();
+
+        void  ExportToTextFile<T>(IEnumerable<T> data, string fileName, char columnSeperator=';');
+
+        Task ExportToTextFileAsync<T>(IEnumerable<T> data, string fileName, char columnSeperator=';');
     }
 }
