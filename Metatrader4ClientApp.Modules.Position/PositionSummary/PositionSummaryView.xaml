@@ -11,26 +11,21 @@
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance local:PositionSummaryViewModel}"
             xmlns:converters="clr-namespace:Metatrader4ClientApp.Infrastructure.Converters;assembly=Metatrader4ClientApp.Infrastructure">
-
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-            <DataTemplate x:Key="GainLossTemplate">
-                <TextBlock Foreground="{Binding Converter={x:Static  converters:DecimalToColorConverter.Instance}, Path=GainLossPercent}" Text="{Binding Converter={x:Static  converters:PercentConverter.Instance}, Path=GainLossPercent}" />
-            </DataTemplate>
-        </ResourceDictionary>
-    </UserControl.Resources>
-    
- 
-    <StackPanel>
-        
-
+  <UserControl.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <DataTemplate x:Key="GainLossTemplate">
+        <TextBlock Foreground="{Binding Converter={x:Static  converters:DecimalToColorConverter.Instance}, Path=GainLossPercent}" Text="{Binding Converter={x:Static  converters:PercentConverter.Instance}, Path=GainLossPercent}" />
+      </DataTemplate>
+    </ResourceDictionary>
+  </UserControl.Resources>
+  <StackPanel>
     <ListView    
         Width="Auto"
         AlternationCount="2"
@@ -39,34 +34,34 @@
         IsSynchronizedWithCurrentItem="True"
         ItemsSource="{Binding Path=PositionSummaryItemCollection}"
         SelectedItem="{Binding Path=CurrentPositionSummaryItem, Mode=TwoWay}">
-        <ListView.View>
-            <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Current positions">
-                <GridViewColumn
+      <ListView.View>
+        <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Current positions">
+          <GridViewColumn
                     Width="111"
                     DisplayMemberBinding="{Binding Path=TickerSymbol}"
                     Header="Symbol" />
-                <GridViewColumn
+          <GridViewColumn
                     Width="65"
                     DisplayMemberBinding="{Binding Path=Shares}"
                     Header="Shares" />
-                <GridViewColumn
+          <GridViewColumn
                     Width="65"
                     DisplayMemberBinding="{Binding Converter={x:Static  converters:CurrencyConverter.Instance}, Path=CurrentPrice}"
                     Header="Last" />
-                <GridViewColumn
+          <GridViewColumn
                     Width="85"
                     DisplayMemberBinding="{Binding Converter={x:Static  converters:CurrencyConverter.Instance}, Path=CostBasis}"
                     Header="Cost Basis" />
-                <GridViewColumn
+          <GridViewColumn
                     Width="85"
                     DisplayMemberBinding="{Binding Converter={x:Static  converters:CurrencyConverter.Instance}, Path=MarketValue}"
                     Header="Market Value" />
-                <GridViewColumn
+          <GridViewColumn
                     Width="85"
                     CellTemplate="{StaticResource GainLossTemplate}"
                     DisplayMemberBinding="{Binding Converter={x:Static  converters:CurrencyConverter.Instance}, Path=GainLossPercent}"
                     Header="Gain/Loss %" />
-                <!--<GridViewColumn Header="Actions">
+          <!--<GridViewColumn Header="Actions">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>
@@ -96,12 +91,12 @@
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>-->
-            </GridView>
-        </ListView.View>
+        </GridView>
+      </ListView.View>
     </ListView>
 
-        <!-- Login button -->
-        <Button Content="Export..."  Margin="5,20, 0,0"                     
+    <!-- Login button -->
+    <Button Content="Export..."  Margin="5,20, 0,0"                     
                                     Grid.Row="2"
                    Width="150"
                       materialDesign:ButtonAssist.CornerRadius="5"
@@ -109,6 +104,6 @@
                                     Style="{StaticResource MaterialDesignRaisedLightButton}"
                                    
                                     HorizontalAlignment="Center" />
-    
-    </StackPanel>
+
+  </StackPanel>
 </UserControl>

@@ -47,11 +47,7 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
             var items = await this.accountPositionService.GetAccountPositionsAsync();
             this.positionSummaryItemCollection.Clear();
             items.ToList().ForEach(accountPosition => this.PositionSummaryItemCollection.Add(new PositionSummaryItem(accountPosition.TickerSymbol, accountPosition.CostBasis, accountPosition.Shares, this.marketFeedService.GetPrice(accountPosition.TickerSymbol))));
-
         }
-
-
-
 
         public PositionSummaryItem CurrentPositionSummaryItem
         {

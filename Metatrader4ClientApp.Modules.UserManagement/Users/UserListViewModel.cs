@@ -19,16 +19,15 @@ namespace Metatrader4ClientApp.Modules.UserManagement.Users
         private readonly IEventAggregator eventAggregator;
         private ApplicationUser selectedApplicationUser;
         private string headerInfo;
-        private ObservableCollection<ApplicationUser> applicationUserCollection = new ObservableCollection<ApplicationUser>();      
+        private ObservableCollection<ApplicationUser> applicationUserCollection = new ObservableCollection<ApplicationUser>();
         private IApplicationUserService applicationUserService;
-
-        public UserListViewModel(IEventAggregator eventAggregator, IApplicationUserService applicationUserService )
+        public UserListViewModel(IEventAggregator eventAggregator, IApplicationUserService applicationUserService)
         {
             this.eventAggregator = eventAggregator;
             this.applicationUserService = applicationUserService;
             this.Glyph = GlyphNames.UserManagementGlyph;
             this.Label = "USERS";
-           // this.PopulateUsers();
+            // this.PopulateUsers();
             this.Command = new DelegateCommand(() =>
             {
                 this.PopulateUsers();
@@ -36,10 +35,8 @@ namespace Metatrader4ClientApp.Modules.UserManagement.Users
         }
         public string HeaderInfo
         {
-            get =>this.headerInfo;            
-
-            set =>     this.           SetProperty(ref this.headerInfo, value);
-            
+            get => this.headerInfo;
+            set => this.SetProperty(ref this.headerInfo, value);
         }
 
         public ObservableCollection<ApplicationUser> ApplicationUserCollection
@@ -51,8 +48,8 @@ namespace Metatrader4ClientApp.Modules.UserManagement.Users
         private async void PopulateUsers()
         {
             var items = await this.applicationUserService.GetUsersAsync();
-            this.ApplicationUserCollection= new ObservableCollection<ApplicationUser>(items);
-            
+            this.ApplicationUserCollection = new ObservableCollection<ApplicationUser>(items);
+
         }
 
         public ApplicationUser SelectedApplicationUser

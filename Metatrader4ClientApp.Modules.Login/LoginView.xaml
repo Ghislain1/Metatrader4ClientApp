@@ -23,8 +23,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-  
-    <materialDesign:Card  Width="600"
+      <materialDesign:Card  Width="600"
                                Height="270"  Style="{StaticResource MaterialDesignElevatedCard}">
 
         <Grid>
@@ -47,7 +46,7 @@
             <!-- Login button -->
            <Button Content="Login"  Margin="5,20, 0,0"                     
                                     Grid.Row="2"
-                   Width="150"
+                      Width="150"
                       materialDesign:ButtonAssist.CornerRadius="5"
                                     Command="{Binding LoginCommand}"
                                     Style="{StaticResource MaterialDesignRaisedLightButton}"
