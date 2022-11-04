@@ -21,7 +21,7 @@ jobs:
           dotnet-version: 6.0.x
 
       - name: Publish (Release Mode)
-        run: dotnet publish Metatrader4ClientApp/ -o ${{ github.workspace }}/bin/Publish --configuration Release
+        run: dotnet publish Metatrader4ClientApp/ -o ${{ github.workspace }}/bin/Publish --configuration Release -r win-x64 --self-contained true
 
       - name: Print All Value  from Github
         run: echo "$GITHUB_CONTEXT"
