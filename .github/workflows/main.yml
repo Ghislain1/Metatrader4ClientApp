@@ -5,7 +5,7 @@ on: [push, pull_request] # Trigger when someone pushs or dens PR
 # 3 Jobs, packages, deploy, notify
 jobs:
   package:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     env:
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
       DOTNET_NOLOGO: true
@@ -25,13 +25,14 @@ jobs:
 
       - name: Generate changelog
         run: echo "#Good things are comming" > ${{github.workspace}}-CHANGELOG.txt
-
+      
       - name: Dispay some values
         run: |
           echo  "ref_type ====> ${{github.ref_type }}"
           echo  " workspace====> ${{ github.workspace }}"
           echo  "  github.ref ====> ${{  github.ref}}"
           echo  " event_name ====> ${{ github.event_name}}"
+          more  ${{github.workspace}}-CHANGELOG.txt
 
       - name: Publish your  package
         uses: actions/upload-artifact@v3
