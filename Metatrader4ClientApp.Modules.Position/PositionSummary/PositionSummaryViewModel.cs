@@ -31,7 +31,7 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
             this.eventAggregator = eventAggregator;
             this.marketFeedService = marketFeedService;
             this.accountPositionService = accountPositionService;
-            this.Glyph = GlyphNames.PositionGlyph;
+            this.Glyph = "Face";
             this.Label = "POSITION";
             this.PopulateItems();
 
@@ -77,23 +77,16 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
 
 
         private async void ExecuteExportAll()
-
         {
 
             try
-
             {
-
                 var saveFileDialog = new SaveFileDialog
                 {
                     Title = "Exporting...",
-
                     FileName = $"Postion_{DateTime.Now.ToFileTime()}{AppConstants.TXT_EXT}",
-
                     FilterIndex = 1,
-
                     Filter = $"Log Files (*{AppConstants.TXT_EXT})|*{AppConstants.TXT_EXT}",
-
                     InitialDirectory = KnownFolders.ExportedFolderUri.LocalPath
 
                 };

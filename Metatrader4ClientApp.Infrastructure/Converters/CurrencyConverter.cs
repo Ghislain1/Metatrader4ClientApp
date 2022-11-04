@@ -9,7 +9,8 @@ using System.Windows.Data;
 namespace Metatrader4ClientApp.Infrastructure.Converters
 {
     public class CurrencyConverter : IValueConverter
-    {        public static CurrencyConverter Instance { get; } = new();
+    {
+        public static CurrencyConverter Instance { get; } = new();
         public object Convert(object value, System.Type targetType, object parameter, CultureInfo culture)
         {
             var result = value as decimal?;
@@ -24,7 +25,5 @@ namespace Metatrader4ClientApp.Infrastructure.Converters
         {
             throw new System.NotImplementedException();
         }
-
-        
     }
 }

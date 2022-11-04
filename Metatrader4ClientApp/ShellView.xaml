@@ -22,22 +22,27 @@
     </Window.TaskbarItemInfo>
 
     <metro:MetroWindow.Resources>
-        <!---OPTION TEMPLATE-->
+        <!---OPTION TEMPLATE (LEFT PANE)-->
         <DataTemplate x:Key="OptionTemplateKey" DataType="{x:Type metro:HamburgerMenuGlyphItem}">
             <Grid Height="48">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <TextBlock
+                <!--<TextBlock
                             Grid.Column="0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontFamily="Segoe MDL2 Assets"
                             FontSize="16"
                             Foreground="White"
-                            Text="{Binding Glyph}" />
-                <TextBlock
+                            Text="{Binding Glyph}" />-->
+        <materialDesign:PackIcon Grid.Column="0"
+                                 Kind="Fabric"
+                                 HorizontalAlignment="Center"
+                                 
+                                VerticalAlignment="Center" />
+        <TextBlock
                             Grid.Column="1"
                             VerticalAlignment="Center"
                             FontSize="16"
