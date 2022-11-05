@@ -26,8 +26,17 @@
   <ItemGroup>
     <ProjectReference Include="..\Metatrader4ClientApp.Infrastructure\Metatrader4ClientApp.Infrastructure.csproj" />
     <ProjectReference Include="..\Metatrader4ClientApp.Modules.Login\Metatrader4ClientApp.Modules.Login.csproj" />
+    <ProjectReference Include="..\Metatrader4ClientApp.Modules.Option\Metatrader4ClientApp.Modules.Option.csproj" />
     <ProjectReference Include="..\Metatrader4ClientApp.Modules.Position\Metatrader4ClientApp.Modules.Position.csproj" />
     <ProjectReference Include="..\Metatrader4ClientApp.Modules.UserManagement\Metatrader4ClientApp.Modules.UserManagement.csproj" />
   </ItemGroup>
+  
+ <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="echo ${PlatformTarget}" />
+ </Target>
+
+  <Target Name="PostBuild" BeforeTargets="PostBuildEvent">
+    <Exec Command="echo /nXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+  </Target>
 
 </Project>

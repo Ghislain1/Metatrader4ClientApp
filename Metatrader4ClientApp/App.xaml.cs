@@ -6,6 +6,7 @@ using Metatrader4ClientApp.Adapters;
 using Metatrader4ClientApp.Infrastructure.Interfaces;
 using Metatrader4ClientApp.Infrastructure.Services;
 using Metatrader4ClientApp.Modules.Login;
+using Metatrader4ClientApp.Modules.Option;
 using Metatrader4ClientApp.Modules.Position;
 using Metatrader4ClientApp.Modules.UserManagement;
 using Metatrader4ClientApp.Services;
@@ -30,7 +31,8 @@ namespace Metatrader4ClientApp
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : PrismApplication   {
+    public partial class App : PrismApplication
+    {
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -62,7 +64,7 @@ namespace Metatrader4ClientApp
         }
 
         protected override Window CreateShell()
-        {           
+        {
             return Container.Resolve<ShellView>();
         }
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
@@ -71,30 +73,28 @@ namespace Metatrader4ClientApp
             moduleCatalog.AddModule<LoginModule>();
             moduleCatalog.AddModule<UserManagementModule>();
             moduleCatalog.AddModule<PositionModule>();
-           
-            
-
+            moduleCatalog.AddModule<OptionModule>();
         }
 
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
 
-           containerRegistry.RegisterSingleton<IMarketFeedService, MarketFeedService>();
-           containerRegistry.RegisterSingleton<ISettingsService, SettingsService>();
+            containerRegistry.RegisterSingleton<IMarketFeedService, MarketFeedService>();
+            containerRegistry.RegisterSingleton<ISettingsService, SettingsService>();
             containerRegistry.RegisterSingleton<IApplicationUserService, ApplicationUserService>();
- 
 
-           // containerRegistry.RegisterSingleton<IStockTraderRICommandProxy, StockTraderRICommandProxy>();
-           // containerRegistry.RegisterDialog<NotificationDialog, NotificationDialogViewModel>();
+
+            // containerRegistry.RegisterSingleton<IStockTraderRICommandProxy, StockTraderRICommandProxy>();
+            // containerRegistry.RegisterDialog<NotificationDialog, NotificationDialogViewModel>();
             containerRegistry.RegisterSingleton<IDialogService, DialogService>();
-           //    containerRegistry.RegisterSingleton<ITaskbarService, TaskbarService>();
+            //    containerRegistry.RegisterSingleton<ITaskbarService, TaskbarService>();
         }
 
 
-        private static Theme LightTheme { get; } = Theme.Create(  new MaterialDesignLightTheme(), Colors.WhiteSmoke, Colors.WhiteSmoke  );
+        private static Theme LightTheme { get; } = Theme.Create(new MaterialDesignLightTheme(), Colors.WhiteSmoke, Colors.WhiteSmoke);
 
-        private static Theme DarkTheme { get; } = Theme.Create(            new MaterialDesignDarkTheme(), Colors.DarkGray, Colors.DarkKhaki                 );
+        private static Theme DarkTheme { get; } = Theme.Create(new MaterialDesignDarkTheme(), Colors.DarkGray, Colors.DarkKhaki);
         public static void SetLightTheme()
         {
             var paletteHelper = new PaletteHelper();

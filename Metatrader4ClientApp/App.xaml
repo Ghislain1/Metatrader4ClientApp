@@ -23,7 +23,7 @@
                 <!-- Material Design -->
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
 
-                <!-- Important for follwg controls -->
+                <!-- Important for following controls -->
          
             </ResourceDictionary.MergedDictionaries>
             

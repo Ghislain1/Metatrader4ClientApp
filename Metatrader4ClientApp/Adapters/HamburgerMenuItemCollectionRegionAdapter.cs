@@ -8,7 +8,6 @@ using System.Windows.Controls;
 using MahApps.Metro.Controls;
 
 using Metatrader4ClientApp.Infrastructure.Interfaces;
-
 using Prism.Regions;
 
 namespace Metatrader4ClientApp.Adapters
@@ -43,15 +42,18 @@ namespace Metatrader4ClientApp.Adapters
                             foreach (var element in e.NewItems)
                             {
                                 var plugin = ((UserControl)element).DataContext as IPlugin;
-                                var hamburgerMenuGlyphItem = new HamburgerMenuGlyphItem();
-                               // hamburgerMenuGlyphItem.Glyph = plugin.Glyph;                                
-                                hamburgerMenuGlyphItem.Label = plugin.Label;
-                                hamburgerMenuGlyphItem.Command = plugin.Command;
-                                hamburgerMenuGlyphItem.Tag = (UserControl)element;
-                                hamburgerMenuGlyphItem.CommandParameter = element.GetType();
-                                regionTarget.Add(hamburgerMenuGlyphItem);
-                                hamburgerMenuGlyphItem.IsVisible = true;
-                                hamburgerMenuGlyphItem.IsEnabled = true;
+                              
+                                    var hamburgerMenuGlyphItem = new HamburgerMenuGlyphItem();
+                                    hamburgerMenuGlyphItem.Label = plugin.Label;
+                                    hamburgerMenuGlyphItem.Command = plugin.Command;
+                                    hamburgerMenuGlyphItem.Tag = (UserControl)element;
+                                    hamburgerMenuGlyphItem.CommandParameter = element.GetType();
+                                    regionTarget.Add(hamburgerMenuGlyphItem);
+                                    hamburgerMenuGlyphItem.IsVisible = true;
+                                    hamburgerMenuGlyphItem.IsEnabled = true;
+                                    hamburgerMenuGlyphItem.Glyph = plugin.PackIcon;
+                                
+                               
                             }
                             break;
 
