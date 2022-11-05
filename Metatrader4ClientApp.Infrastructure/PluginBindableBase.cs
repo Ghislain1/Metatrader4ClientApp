@@ -24,7 +24,7 @@ namespace Metatrader4ClientApp.Infrastructure
         /// <summary>
         /// Gets or sets the CommandParameter.
         /// </summary>
-        public Type CommandParameter { get; set; }
+        public Type CommandParameter { get; set; }  
 
         /// <summary>
         /// Gets or sets the Code.
@@ -34,7 +34,7 @@ namespace Metatrader4ClientApp.Infrastructure
         /// <summary>
         /// Gets the Header.
         /// </summary>
-        public string  Header { get; }
+        public string Header { get; } = "Header";
 
 
         /// <summary>
@@ -46,27 +46,24 @@ namespace Metatrader4ClientApp.Infrastructure
         /// <summary>
         /// Gets or sets the Description.
         /// </summary>
-        public string  Description { get; set; }
+        public string Description { get; set; } = "Add description";
 
-        /// <summary>
-        /// Gets or sets the Glyph.
-        /// </summary>
-        public string  Glyph { get; set; } = "\uE80F";
+        
 
         /// <summary>
         /// Gets or sets the Id.
         /// </summary>
-        public string  Id { get; set; }       
+        public string  Id { get; set; } =Guid.NewGuid().ToString();     
 
         /// <summary>
         /// Gets or sets the Kind To interact with Material Design PackIcon.
         /// </summary>
-        public string  Kind { get; set; }
+        public string PackIcon { get; set; } = "Magnify";
 
         /// <summary>
         /// Gets or sets the Label.
         /// </summary>
-        public string  Label { get; set; }
+        public string Label { get; set; } = "Add label";
 
         /// <summary>
         /// Gets or sets the NavigatePath.
@@ -76,11 +73,15 @@ namespace Metatrader4ClientApp.Infrastructure
         /// <summary>
         /// Gets or sets the Tag.
         /// </summary>
-        public string  Tag { get; set; }
+        public string Tag { get; set; } = "Add tag";
 
         /// <summary>
         /// Gets or sets the Title.
         /// </summary>
-        public string  Title { get; set; }
+        public string Title { get; set; } = "Add Title";
+
+
+        
+        
     }
 }

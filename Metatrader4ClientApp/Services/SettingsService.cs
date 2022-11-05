@@ -1,13 +1,13 @@
-﻿using Metatrader4ClientApp.Infrastructure.Interfaces;
-using Metatrader4ClientApp.Infrastructure.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Metatrader4ClientApp.Services
+﻿namespace Metatrader4ClientApp.Services
 {
+    using Metatrader4ClientApp.Infrastructure.Interfaces;
+    using Metatrader4ClientApp.Infrastructure.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
     public class SettingsService : ISettingsService
     {
         public SettingsService()
@@ -19,10 +19,10 @@ namespace Metatrader4ClientApp.Services
 
         public ApplicationSettingInfo Get()
         {
-           return new ApplicationSettingInfo();
+            return new ApplicationSettingInfo();
         }
 
-        public  async Task<ApplicationSettingInfo> GetAsync()
+        public async Task<ApplicationSettingInfo> GetAsync()
         {
             return await Task.Run(this.Get);
         }

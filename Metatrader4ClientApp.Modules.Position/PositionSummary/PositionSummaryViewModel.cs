@@ -10,48 +10,53 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+
 
 namespace Metatrader4ClientApp.Modules.Position.PositionSummary
 {
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows.Input;
     public class PositionSummaryViewModel : PluginBindableBase
     {
         private readonly IEventAggregator eventAggregator;
-        private PositionSummaryItem currentPositionSummaryItem;
+        private PositionSummaryItem? currentPositionSummaryItem;
         private ObservableCollection<PositionSummaryItem> positionSummaryItemCollection = new ObservableCollection<PositionSummaryItem>();
         private IAccountPositionService accountPositionService;
         private IMarketFeedService marketFeedService;
-        private string headerInfo;
-
         public PositionSummaryViewModel(IEventAggregator eventAggregator, IMarketFeedService marketFeedService, IAccountPositionService accountPositionService)
         {
             this.eventAggregator = eventAggregator;
             this.marketFeedService = marketFeedService;
             this.accountPositionService = accountPositionService;
-            this.Glyph = "Face";
+            this.PackIcon = PackIconNames.Position;
             this.Label = "POSITION";
             this.PopulateItems();
-
             this.ExportCommand = new DelegateCommand(() => this.ExecuteExportAll(), () => this.PositionSummaryItemCollection.Any());
+            this.Command = new DelegateCommand(() => this.ExportCommand.RaiseCanExecuteChanged());
 
-            this.Command = new DelegateCommand(() => this.ExecuteSynchronize());
+            //Listen STOCK from Internet
+            eventAggregator.GetEvent<MarketPricesUpdatedEvent>().Subscribe(this.MarketPricesUpdated, ThreadOption.UIThread);
         }
 
-        private void ExecuteSynchronize()
+        private  void MarketPricesUpdated(IDictionary<string, decimal> tickerSymbolsPrice)
         {
-            this.ExportCommand.RaiseCanExecuteChanged();
+            int  count = 10;
+            if (tickerSymbolsPrice == null)
+            {
+                throw new ArgumentNullException("tickerSymbolsPrice");
+            }
+
+            foreach (PositionSummaryItem position in this.PositionSummaryItemCollection)
+            {
+                if (tickerSymbolsPrice.ContainsKey(position.TickerSymbol))
+                {
+                    position.CurrentPrice = tickerSymbolsPrice[position.TickerSymbol];
+                }
+            }
         }
 
-        public string HeaderInfo
-        {
-            get => this.headerInfo;
-
-            set => this.SetProperty(ref this.headerInfo, value);
-
-        }
         private async void PopulateItems()
         {
             var items = await this.accountPositionService.GetAccountPositionsAsync();
@@ -59,7 +64,7 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
             items.ToList().ForEach(accountPosition => this.PositionSummaryItemCollection.Add(new PositionSummaryItem(accountPosition.TickerSymbol, accountPosition.CostBasis, accountPosition.Shares, this.marketFeedService.GetPrice(accountPosition.TickerSymbol))));
         }
 
-        public PositionSummaryItem CurrentPositionSummaryItem
+        public PositionSummaryItem? CurrentPositionSummaryItem
         {
             get { return currentPositionSummaryItem; }
             set
@@ -68,8 +73,7 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
                 {
                     if (currentPositionSummaryItem != null)
                     {
-                        eventAggregator.GetEvent<TickerSymbolSelectedEvent>().Publish(
-                            CurrentPositionSummaryItem.TickerSymbol);
+                        eventAggregator.GetEvent<TickerSymbolSelectedEvent>().Publish(this.CurrentPositionSummaryItem?.TickerSymbol!);
                     }
                 }
             }
@@ -117,8 +121,6 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
             set => SetProperty(ref this.positionSummaryItemCollection, value);
         }
 
-
-
-        public DelegateCommand ExportCommand { get; private set; }
+        public DelegateCommand ExportCommand { get; }
     }
 }

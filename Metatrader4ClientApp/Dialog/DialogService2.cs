@@ -1,18 +1,18 @@
-﻿using MaterialDesignThemes.Wpf;
-using Metatrader4ClientApp.Infrastructure.Services;
-using Prism.Common;
-using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
-using Unity;
-
-namespace Metatrader4ClientApp.Dialog
+﻿namespace Metatrader4ClientApp.Dialog
 {
+    using MaterialDesignThemes.Wpf;
+    using Metatrader4ClientApp.Infrastructure.Services;
+    using Prism.Common;
+    using Prism.Regions;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using System.Windows.Media;
+    using Unity;
+
     public class DialogService2 : IDialogService2
     {
         private readonly IUnityContainer _container;

@@ -1,33 +1,33 @@
-﻿using MahApps.Metro.Controls;
-
-using MaterialDesignThemes.Wpf;
-
-using Metatrader4ClientApp.Adapters;
-using Metatrader4ClientApp.Infrastructure.Interfaces;
-using Metatrader4ClientApp.Infrastructure.Services;
-using Metatrader4ClientApp.Modules.Login;
-using Metatrader4ClientApp.Modules.Option;
-using Metatrader4ClientApp.Modules.Position;
-using Metatrader4ClientApp.Modules.UserManagement;
-using Metatrader4ClientApp.Services;
-using Prism.Ioc;
-using Prism.Modularity;
-using Prism.Mvvm;
-using Prism.Regions;
-using Prism.Services.Dialogs;
-using Prism.Unity;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
-
-namespace Metatrader4ClientApp
+﻿namespace Metatrader4ClientApp
 {
+    using MahApps.Metro.Controls;
+
+    using MaterialDesignThemes.Wpf;
+
+    using Metatrader4ClientApp.Adapters;
+    using Metatrader4ClientApp.Infrastructure.Interfaces;
+    using Metatrader4ClientApp.Infrastructure.Services;
+    using Metatrader4ClientApp.Modules.Login;
+    using Metatrader4ClientApp.Modules.Option;
+    using Metatrader4ClientApp.Modules.Position;
+    using Metatrader4ClientApp.Modules.UserManagement;
+    using Metatrader4ClientApp.Services;
+    using Prism.Ioc;
+    using Prism.Modularity;
+    using Prism.Mvvm;
+    using Prism.Regions;
+    using Prism.Services.Dialogs;
+    using Prism.Unity;
+    using System;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Data;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using System.Windows.Media;
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>

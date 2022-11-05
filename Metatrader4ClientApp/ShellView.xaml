@@ -38,18 +38,15 @@
        
         <Grid Height="48">
           <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="48" />
-            
-            <ColumnDefinition />
-            <ColumnDefinition />
-          </Grid.ColumnDefinitions>   
-
-          <!--<materialDesign:PackIcon Grid.Column="1"
-                                   Kind="Magnify" Opacity=".56"
-                                  Width="24" Height="24"
+            <ColumnDefinition Width="48" />            
+            <ColumnDefinition />          
+          </Grid.ColumnDefinitions>
+        <materialDesign:PackIcon Grid.Column="0"
+                                   Kind="{Binding Glyph, Converter={x:Static converters:GlyphToPackIconKindConverter.Instance}}" Opacity=".56"
+                                                                 
                                  HorizontalAlignment="Center"                                 
-                                VerticalAlignment="Center" />-->
-          <TextBlock
+                                VerticalAlignment="Center" />
+        <TextBlock
                             Grid.Column="1"
                             VerticalAlignment="Center"
                             FontSize="16"

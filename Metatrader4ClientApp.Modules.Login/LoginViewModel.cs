@@ -25,7 +25,7 @@ namespace Metatrader4ClientApp.Modules.Login
         {
             this.eventAggregator = eventAggregator;
             this.applicationUserService = applicationUserService;
-            this.Glyph = GlyphNames.LoginGlyph;
+            this.PackIcon = PackIconNames.Login;
             this.Label = "LOGIN";
 
            this.LoginCommand = new DelegateCommand<object>(async (argument) => await this.LoginAsync(argument), (_)=> !this.LoginIsRunning);

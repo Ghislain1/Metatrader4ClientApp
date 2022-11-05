@@ -1,44 +1,40 @@
-﻿using Metatrader4ClientApp.Infrastructure.Interfaces;
-using Prism.Events;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿
 
 namespace Metatrader4ClientApp.Infrastructure.Services
 {
+    using Metatrader4ClientApp.Infrastructure.Interfaces;
+    using Prism.Events;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
     public class MarketFeedService : IMarketFeedService, IDisposable
     {
-        private IEventAggregator EventAggregator { get; set; }
+        private readonly IEventAggregator eventAggregator;
         private readonly Dictionary<string, decimal> _priceList = new Dictionary<string, decimal>();
         private readonly Dictionary<string, long> _volumeList = new Dictionary<string, long>();
         static readonly Random randomGenerator = new Random(unchecked((int)DateTime.Now.Ticks));
-        private Timer _timer;
+        private readonly Timer timer;
         private int _refreshInterval = 10000;
-        private readonly object _lockObject = new object();
-        //private static string ResourceMarket = @"Data\Market.xml";
-
-      
-
-        public MarketFeedService( IEventAggregator eventAggregator)
+        private readonly object lockObject = new object();   
+        public MarketFeedService(IEventAggregator eventAggregator)
         {
-           
 
-            EventAggregator = eventAggregator;
-            _timer = new Timer(TimerTick);       
-           
-             this.RefreshInterval = CalculateRefreshIntervalMillisecondsFromSeconds(_refreshInterval);
+            this.eventAggregator = eventAggregator;
+            this.timer = new Timer(this.TimerTick);
 
+            this.RefreshInterval = CalculateRefreshIntervalMillisecondsFromSeconds(_refreshInterval);
 
-            var itemElements = Enumerable.Range(1, 40).Select(item => ("STOCK " + item, Convert.ToInt64(item*randomGenerator.NextDouble()*100, CultureInfo.InvariantCulture) , Convert.ToInt64(item, CultureInfo.InvariantCulture)));
-            foreach ((string tickerSymbol, long lastPrice, long volume)  in itemElements)
+            // TODO: FAKE STOCK
+            var itemElements = Enumerable.Range(1, 40).Select(item => ("STOCK " + item, Convert.ToInt64(item * randomGenerator.NextDouble() * 100, CultureInfo.InvariantCulture), Convert.ToInt64(item, CultureInfo.InvariantCulture)));
+            foreach ((string tickerSymbol, long lastPrice, long volume) in itemElements)
             {
-               // string tickerSymbol = item.Attribute("TickerSymbol").Value;
-               // decimal lastPrice = decimal.Parse(item.Attribute("LastPrice").Value, NumberStyles.Float, CultureInfo.InvariantCulture);
-               // long volume = Convert.ToInt64(item.Attribute("Volume").Value, CultureInfo.InvariantCulture);
+                // string tickerSymbol = item.Attribute("TickerSymbol").Value;
+                // decimal lastPrice = decimal.Parse(item.Attribute("LastPrice").Value, NumberStyles.Float, CultureInfo.InvariantCulture);
+                // long volume = Convert.ToInt64(item.Attribute("Volume").Value, CultureInfo.InvariantCulture);
                 _priceList.Add(tickerSymbol, lastPrice);
                 _volumeList.Add(tickerSymbol, volume);
             }
@@ -50,7 +46,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
             set
             {
                 _refreshInterval = value;
-                _timer.Change(_refreshInterval, _refreshInterval);
+                this.timer.Change(_refreshInterval, _refreshInterval);
             }
         }
 
@@ -58,7 +54,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
         /// Callback for Timer
         /// </summary>
         /// <param name="state"></param>
-        private void TimerTick(object state)
+        private void TimerTick(object? state)
         {
             UpdatePrices();
         }
@@ -66,7 +62,9 @@ namespace Metatrader4ClientApp.Infrastructure.Services
         public decimal GetPrice(string tickerSymbol)
         {
             if (!SymbolExists(tickerSymbol))
-                throw new ArgumentException("Resources.MarketFeedTickerSymbolNotFoundException", "tickerSymbol");
+            {
+                throw new ArgumentException(nameof(tickerSymbol));
+            }
 
             return _priceList[tickerSymbol];
         }
@@ -83,7 +81,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
 
         protected void UpdatePrice(string tickerSymbol, decimal newPrice, long newVolume)
         {
-            lock (_lockObject)
+            lock (this.lockObject)
             {
                 _priceList[tickerSymbol] = newPrice;
                 _volumeList[tickerSymbol] = newVolume;
@@ -93,7 +91,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
 
         protected void UpdatePrices()
         {
-            lock (_lockObject)
+            lock (this.lockObject)
             {
                 foreach (string symbol in _priceList.Keys.ToArray())
                 {
@@ -107,20 +105,18 @@ namespace Metatrader4ClientApp.Infrastructure.Services
 
         private void OnMarketPricesUpdated()
         {
-            Dictionary<string, decimal> clonedPriceList = null;
-            lock (_lockObject)
+            Dictionary<string, decimal> clonedPriceList;
+            lock (this.lockObject)
             {
                 clonedPriceList = new Dictionary<string, decimal>(_priceList);
             }
-            EventAggregator.GetEvent<MarketPricesUpdatedEvent>().Publish(clonedPriceList);
+            this.eventAggregator.GetEvent<MarketPricesUpdatedEvent>().Publish(clonedPriceList);
         }
 
         private static int CalculateRefreshIntervalMillisecondsFromSeconds(int seconds)
         {
             return seconds * 1000;
         }
-
-        #region IDisposable
 
         public void Dispose()
         {
@@ -130,10 +126,16 @@ namespace Metatrader4ClientApp.Infrastructure.Services
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposing) return;
-            if (_timer != null)
-                _timer.Dispose();
-            _timer = null;
+            if (!disposing)
+            {
+                return;
+            }
+            if (this.timer != null)
+            {
+                this.timer.Dispose();
+            }
+
+            // this.timer = null;
         }
 
         // Use C# destructor syntax for finalization code.
@@ -142,6 +144,6 @@ namespace Metatrader4ClientApp.Infrastructure.Services
             Dispose(false);
         }
 
-        #endregion
+
     }
 }

@@ -25,7 +25,7 @@ namespace Metatrader4ClientApp.Modules.UserManagement.Users
         {
             this.eventAggregator = eventAggregator;
             this.applicationUserService = applicationUserService;
-            this.Glyph = GlyphNames.UserManagementGlyph;
+            this.PackIcon = PackIconNames.UserManagement;
             this.Label = "USERS";
             // this.PopulateUsers();
             this.Command = new DelegateCommand(() =>

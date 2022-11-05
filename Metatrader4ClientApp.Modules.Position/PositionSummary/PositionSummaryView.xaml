@@ -13,20 +13,51 @@
             xmlns:converters="clr-namespace:Metatrader4ClientApp.Infrastructure.Converters;assembly=Metatrader4ClientApp.Infrastructure">
   <UserControl.Resources>
     <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
-      </ResourceDictionary.MergedDictionaries>
+
       <DataTemplate x:Key="GainLossTemplate">
         <TextBlock Foreground="{Binding Converter={x:Static  converters:DecimalToColorConverter.Instance}, Path=GainLossPercent}" Text="{Binding Converter={x:Static  converters:PercentConverter.Instance}, Path=GainLossPercent}" />
       </DataTemplate>
     </ResourceDictionary>
   </UserControl.Resources>
   <StackPanel>
-    <ListView    
+
+    <DataGrid materialDesign:DataGridAssist.CellPadding="4 2 2 2"
+                materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
+                CanUserAddRows="False"
+              IsReadOnly="True"
+                CanUserSortColumns="False"
+                ItemsSource="{Binding PositionSummaryItemCollection}" >
+      <DataGrid.Columns> 
+        <materialDesign:DataGridTextColumn  
+                                             Binding="{Binding CostBasis}"
+                                             EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"
+                                             Header="CostBasis">
+        <DataGridTextColumn.HeaderStyle>
+          <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+            <Setter Property="ContentTemplate">
+              <Setter.Value>
+                <DataTemplate>
+                  <TextBlock Text="{Binding}"
+                                 TextAlignment="Right"
+                                 TextWrapping="Wrap" />
+                </DataTemplate>
+              </Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Right" />
+          </Style>
+        </DataGridTextColumn.HeaderStyle>
+
+        <DataGridTextColumn.ElementStyle>
+          <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MaterialDesignDataGridTextColumnStyle}">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+          </Style>
+        </DataGridTextColumn.ElementStyle>
+      </materialDesign:DataGridTextColumn>
+      </DataGrid.Columns>
+      
+    </DataGrid>
+    
+    <!--  <ListView    
         Width="Auto"
         AlternationCount="2"
         AutomationProperties.AutomationId="PositionSummaryGrid"
@@ -61,7 +92,7 @@
                     CellTemplate="{StaticResource GainLossTemplate}"
                     DisplayMemberBinding="{Binding Converter={x:Static  converters:CurrencyConverter.Instance}, Path=GainLossPercent}"
                     Header="Gain/Loss %" />
-          <!--<GridViewColumn Header="Actions">
+        <GridViewColumn Header="Actions">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>
@@ -90,10 +121,10 @@
                             </Grid>
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
-                </GridViewColumn>-->
+                </GridViewColumn> 
         </GridView>
       </ListView.View>
-    </ListView>
+    </ListView> -->
 
     <!-- Login button -->
     <Button Content="Export..."  Margin="5,20, 0,0"                     

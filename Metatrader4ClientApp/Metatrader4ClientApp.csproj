@@ -12,7 +12,14 @@
    <!-- <WarningsAsErrors>nullable</WarningsAsErrors> -->
     <Company>GhislainOne</Company>
     <Copyright>Copyright (C) Ghislain Zeus</Copyright>
+    <StartupObject>Metatrader4ClientApp.App</StartupObject>
+    <ApplicationIcon>Akku.ico</ApplicationIcon>
+    <SignAssembly>False</SignAssembly>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Akku.ico" />
+  </ItemGroup>
   
 
   <ItemGroup>

@@ -1,15 +1,15 @@
-﻿using MaterialDesignThemes.Wpf;
-using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
-
-namespace Metatrader4ClientApp.Adapters
+﻿namespace Metatrader4ClientApp.Adapters
 {
+    using MaterialDesignThemes.Wpf;
+    using Prism.Regions;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows.Data;
+
     public class DialogHostRegionAdapter : RegionAdapterBase<DialogHost>
     {
         public DialogHostRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory) : base(regionBehaviorFactory)

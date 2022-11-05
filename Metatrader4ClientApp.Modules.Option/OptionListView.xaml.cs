@@ -1,4 +1,12 @@
-﻿namespace Metatrader4ClientApp
+﻿// <copyright company="ROSEN Swiss AG">
+//  Copyright (c) ROSEN Swiss AG
+//  This computer program includes confidential, proprietary
+//  information and is a trade secret of ROSEN. All use,
+//  disclosure, or reproduction is prohibited unless authorized in
+//  writing by an officer of ROSEN. All Rights Reserved.
+// </copyright>
+
+namespace Metatrader4ClientApp.Modules.Option
 {
     using System;
     using System.Collections.Generic;
@@ -15,24 +23,14 @@
     using System.Windows.Navigation;
     using System.Windows.Shapes;
 
-    using MahApps.Metro.Controls;
-
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for OptionListView.xaml
     /// </summary>
-    public partial class ShellView : MetroWindow
+    public partial class OptionListView : UserControl
     {
-        public ShellView()
+        public OptionListView()
         {
             InitializeComponent();
-        }
-
-
-
-        private void HamburgerMenuControl_ItemClick(object sender, ItemClickEventArgs args)
-        {
-            // TODO; Don t remove this until otherwise hambuger menu show nothing
-            this.HamburgerMenuControl.Content = args.ClickedItem;
         }
     }
 }
