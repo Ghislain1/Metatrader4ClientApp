@@ -30,6 +30,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
             this.RefreshInterval = this.settingsService.Get().RefreshIntervalInMilliSeconde;
 
             // TODO: FAKE STOCK
+            //ClrWrapper metatrader = new ClrWrapper();
             var itemElements = Enumerable.Range(1, 40).Select(item => ("STOCK " + item, Convert.ToInt64(item * randomGenerator.NextDouble() * 100, CultureInfo.InvariantCulture), Convert.ToInt64(item, CultureInfo.InvariantCulture)));
             foreach ((string tickerSymbol, long lastPrice, long volume) in itemElements)
             {
