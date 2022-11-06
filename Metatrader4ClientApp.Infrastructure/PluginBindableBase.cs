@@ -1,25 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-
-using Metatrader4ClientApp.Infrastructure.Interfaces;
-
-using Prism.Mvvm;
+﻿
 
 namespace Metatrader4ClientApp.Infrastructure
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows.Input;
+
+    using Metatrader4ClientApp.Infrastructure.Interfaces;
+
+    using Prism.Mvvm;
     public abstract class PluginBindableBase : BindableBase, IPlugin
     {
-
- 
 
         /// <summary>
         /// Gets or sets the Command.
         /// </summary>
-        public ICommand Command { get; set; }
+        public ICommand ? Command { get; set; }
 
         /// <summary>
         /// Gets or sets the CommandParameter.
@@ -35,7 +34,6 @@ namespace Metatrader4ClientApp.Infrastructure
         /// Gets the Header.
         /// </summary>
         public string Header { get; } = "Header";
-
 
         /// <summary>
         /// Gets or sets a value indicating whether IsSelected.

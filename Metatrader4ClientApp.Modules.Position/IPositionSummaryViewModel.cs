@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace Metatrader4ClientApp.Modules.Position
 {
-    public interface IPositionSummaryViewModel : IHeaderInfoProvider<string>
+    public interface IPositionSummaryViewModel 
     {
        // IObservablePosition Position { get; }
 

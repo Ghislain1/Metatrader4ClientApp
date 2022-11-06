@@ -14,6 +14,8 @@ using System.IO;
 
 namespace Metatrader4ClientApp.Modules.Position.PositionSummary
 {
+    using Metatrader4ClientApp.Infrastructure.Models;
+    using System.Collections.Immutable;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
@@ -24,17 +26,28 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
         private PositionSummaryItem? currentPositionSummaryItem;
         private ObservableCollection<PositionSummaryItem> positionSummaryItemCollection = new ObservableCollection<PositionSummaryItem>();
         private IAccountPositionService accountPositionService;
-        private IMarketFeedService marketFeedService;
-        public PositionSummaryViewModel(IEventAggregator eventAggregator, IMarketFeedService marketFeedService, IAccountPositionService accountPositionService)
+        private readonly IExportService exportService;
+        private readonly IMarketFeedService marketFeedService;
+        
+        public PositionSummaryViewModel(IEventAggregator eventAggregator, IMarketFeedService marketFeedService, IAccountPositionService accountPositionService, IExportService exportService)
         {
             this.eventAggregator = eventAggregator;
             this.marketFeedService = marketFeedService;
             this.accountPositionService = accountPositionService;
+            this. exportService= exportService;
             this.PackIcon = PackIconNames.Position;
             this.Label = "POSITION";
             this.PopulateItems();
             this.ExportCommand = new DelegateCommand(() => this.ExecuteExportAll(), () => this.PositionSummaryItemCollection.Any());
-            this.Command = new DelegateCommand(() => this.ExportCommand.RaiseCanExecuteChanged());
+            this.Command = new DelegateCommand(() =>
+            {
+                if (this.IsSelected)
+                {
+
+                }
+                this.ExportCommand.RaiseCanExecuteChanged();
+             }
+            );
 
             //Listen STOCK from Internet
             eventAggregator.GetEvent<MarketPricesUpdatedEvent>().Subscribe(this.MarketPricesUpdated, ThreadOption.UIThread);
@@ -42,7 +55,7 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
 
         private  void MarketPricesUpdated(IDictionary<string, decimal> tickerSymbolsPrice)
         {
-            int  count = 10;
+          
             if (tickerSymbolsPrice == null)
             {
                 throw new ArgumentNullException("tickerSymbolsPrice");
@@ -101,7 +114,7 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
 
                 }
                 await this.accountPositionService.ExportToTextFileAsync(this.PositionSummaryItemCollection, saveFileDialog.FileName);
-
+                this.exportService.Export(this.PositionSummaryItemCollection.Select(i => i.AccountPosition), saveFileDialog.FileName, ExportFileType.CSV); ;
             }
 
             catch (Exception exception)

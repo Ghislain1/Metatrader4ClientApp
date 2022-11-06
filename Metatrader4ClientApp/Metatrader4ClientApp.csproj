@@ -38,6 +38,11 @@
     <ProjectReference Include="..\Metatrader4ClientApp.Modules.UserManagement\Metatrader4ClientApp.Modules.UserManagement.csproj" />
   </ItemGroup>
   
+
+  <ItemGroup>
+    <Folder Include="Dialog\" />
+  </ItemGroup>
+  
  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="echo ${PlatformTarget}" />
  </Target>

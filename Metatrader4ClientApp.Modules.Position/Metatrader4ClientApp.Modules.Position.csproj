@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="PositionSummary\PositionSummaryViewModel.cs~RF34f0d46.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     
     <ProjectReference Include="..\Metatrader4ClientApp.Infrastructure\Metatrader4ClientApp.Infrastructure.csproj" />
   </ItemGroup>

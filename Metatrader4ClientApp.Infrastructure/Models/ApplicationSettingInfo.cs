@@ -15,5 +15,7 @@ namespace Metatrader4ClientApp.Infrastructure.Models
         public bool ShouldInjectTags { get; set; } = true; 
 
         public int ParallelLimit { get; set; } = 2;
+
+        public int RefreshIntervalInMilliSeconde  { get; set; } = 1000;
     }
 }

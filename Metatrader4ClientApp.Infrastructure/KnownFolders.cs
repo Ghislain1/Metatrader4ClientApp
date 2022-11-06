@@ -18,6 +18,11 @@ namespace Metatrader4ClientApp.Infrastructure
         public const string ProductVersion = "1.0.0";
         public static string ApplicationNameForPython { get; set; } = null;
 
+        // C:\ProgramData\
+        public static string CommonApplicationData = System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData);
+        public static string LoginPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData), "Metatrader4ClientApp");
+      
+
 
 
         public static Uri ExportedFolderUri =>

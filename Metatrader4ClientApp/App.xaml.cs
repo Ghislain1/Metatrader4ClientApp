@@ -83,11 +83,12 @@
             containerRegistry.RegisterSingleton<IMarketFeedService, MarketFeedService>();
             containerRegistry.RegisterSingleton<ISettingsService, SettingsService>();
             containerRegistry.RegisterSingleton<IApplicationUserService, ApplicationUserService>();
+            containerRegistry.RegisterSingleton<IExportService, ExportService>();
 
 
             // containerRegistry.RegisterSingleton<IStockTraderRICommandProxy, StockTraderRICommandProxy>();
             // containerRegistry.RegisterDialog<NotificationDialog, NotificationDialogViewModel>();
-            containerRegistry.RegisterSingleton<IDialogService, DialogService>();
+            //containerRegistry.RegisterSingleton<IDialogService, DialogService>();
             //    containerRegistry.RegisterSingleton<ITaskbarService, TaskbarService>();
         }
 

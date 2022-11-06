@@ -14,19 +14,20 @@ namespace Metatrader4ClientApp.Infrastructure.Services
     public class MarketFeedService : IMarketFeedService, IDisposable
     {
         private readonly IEventAggregator eventAggregator;
+        private readonly ISettingsService settingsService;
         private readonly Dictionary<string, decimal> _priceList = new Dictionary<string, decimal>();
         private readonly Dictionary<string, long> _volumeList = new Dictionary<string, long>();
         static readonly Random randomGenerator = new Random(unchecked((int)DateTime.Now.Ticks));
         private readonly Timer timer;
-        private int _refreshInterval = 10000;
-        private readonly object lockObject = new object();   
-        public MarketFeedService(IEventAggregator eventAggregator)
+        private int _refreshInterval = 1000;
+        private readonly object lockObject = new object();
+        public MarketFeedService(IEventAggregator eventAggregator, ISettingsService settingsService)
         {
-
             this.eventAggregator = eventAggregator;
+           this. settingsService = settingsService;
             this.timer = new Timer(this.TimerTick);
 
-            this.RefreshInterval = CalculateRefreshIntervalMillisecondsFromSeconds(_refreshInterval);
+            this.RefreshInterval = this.settingsService.Get().RefreshIntervalInMilliSeconde;
 
             // TODO: FAKE STOCK
             var itemElements = Enumerable.Range(1, 40).Select(item => ("STOCK " + item, Convert.ToInt64(item * randomGenerator.NextDouble() * 100, CultureInfo.InvariantCulture), Convert.ToInt64(item, CultureInfo.InvariantCulture)));
@@ -113,10 +114,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
             this.eventAggregator.GetEvent<MarketPricesUpdatedEvent>().Publish(clonedPriceList);
         }
 
-        private static int CalculateRefreshIntervalMillisecondsFromSeconds(int seconds)
-        {
-            return seconds * 1000;
-        }
+      
 
         public void Dispose()
         {

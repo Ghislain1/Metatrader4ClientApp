@@ -64,7 +64,7 @@ insert_final_newline = false
 
 # File preferences
 
-file_header_template = <copyright company="ROSEN Swiss AG">\n Copyright (c) ROSEN Swiss AG\n This computer program includes confidential, proprietary\n information and is a trade secret of ROSEN. All use,\n disclosure, or reproduction is prohibited unless authorized in\n writing by an officer of ROSEN. All Rights Reserved.\n</copyright>
+file_header_template = <copyright company="ROSEN Swiss AG">\n Copyright (c) GhislainOne\n This computer program includes confidential, proprietary\n information and is a trade secret of GhislainOne. All use,\n disclosure, or reproduction is prohibited unless authorized in\n writing by an officer of Ghis. All Rights Reserved.\n</copyright>
 
 # 'using' directive preferences
 

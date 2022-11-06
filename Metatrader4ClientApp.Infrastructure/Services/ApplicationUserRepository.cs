@@ -13,17 +13,13 @@ namespace Metatrader4ClientApp.Infrastructure.Services
 {
     internal static class ApplicationUserRepository
     {
-        // C:\ProgramData\
-        public static string CommonApplicationData = System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData);
-        public static string LoginPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData), "Metatrader4ClientApp");
-        private static readonly string ApplicationUserFilePath = Path.Combine(LoginPath, "ApplicationUser.json");
+        private static readonly string ApplicationUserFilePath = Path.Combine(KnownFolders.LoginPath, "ApplicationUser.json");
         static ApplicationUserRepository()
         {
-            if (!Directory.Exists(LoginPath))
-            {
-                Directory.CreateDirectory(LoginPath);
-
-            }
+            //if (!Directory.Exists(LoginPath))
+            //{
+            //    Directory.CreateDirectory(LoginPath);
+            //}
             
             if (!File.Exists(ApplicationUserFilePath))
             {

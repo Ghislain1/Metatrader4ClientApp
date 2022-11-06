@@ -46,6 +46,7 @@
                         return;
                     }
                     hamburgerMenuGlyphItem.RaiseCommand();
+                   
                 }
             }
         }

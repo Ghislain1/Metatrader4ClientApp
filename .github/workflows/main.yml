@@ -20,12 +20,15 @@ jobs:
         with:
           dotnet-version: 6.0.x
 
+      - name: Run dotnet format
+        run: dotnet format --verify-no-changes
+
       - name: Publish (Release Mode)
         run: dotnet publish Metatrader4ClientApp/ -o ${{ github.workspace }}/bin/Publish --configuration Release -r win-x64 --self-contained true
 
       - name: Generate changelog
         run: echo "#Good things are comming" > ${{github.workspace}}-CHANGELOG.txt
-      
+
       - name: Dispay some values
         run: |
           echo  "ref_type ====> ${{github.ref_type }}"
