@@ -36,7 +36,11 @@
     <ProjectReference Include="..\Metatrader4ClientApp.Modules.Option\Metatrader4ClientApp.Modules.Option.csproj" />
     <ProjectReference Include="..\Metatrader4ClientApp.Modules.Position\Metatrader4ClientApp.Modules.Position.csproj" />
     <ProjectReference Include="..\Metatrader4ClientApp.Modules.UserManagement\Metatrader4ClientApp.Modules.UserManagement.csproj" />
+    <Reference Include="MT4ServerAPI">
+			<HintPath>$(TargetDir)\MT4ServerAPI.dll</HintPath>
+		</Reference>
   </ItemGroup>
+
   
 
   <ItemGroup>
@@ -44,11 +48,11 @@
   </ItemGroup>
   
  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="echo ${PlatformTarget}" />
+    	<Exec Command="PowerShell.exe -ExecutionPolicy Bypass -NoProfile -File $(SolutionDir)SolutionItems\PreBuildEventCommandLine.ps1 -DllDir $(SolutionDir)SolutionItems  -OutPath $(TargetDir)" />
  </Target>
 
   <Target Name="PostBuild" BeforeTargets="PostBuildEvent">
-    <Exec Command="echo /nXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+    <Exec Command="echo /n GhislainOne" />
   </Target>
 
 </Project>
