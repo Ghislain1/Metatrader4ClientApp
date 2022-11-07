@@ -19,6 +19,11 @@ if(-not($OutPath.StartsWith('"')))
     $OutPath = $OutPath.TrimEnd('"')
 }
 
+if(-not($DllDir.StartsWith('"')))
+{
+    $DllDir = $DllDir.TrimEnd('"')
+}
+
 # Test if files are already there... (for fun twice)
 if((Test-Path -Path "$OutPath\MT4ServerAPI.dll") -and (Test-Path -Path "$OutPath\MT4ServerAPI.xml"))
 {
