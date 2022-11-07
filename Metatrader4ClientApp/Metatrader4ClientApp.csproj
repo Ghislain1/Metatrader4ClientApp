@@ -52,7 +52,7 @@
  </Target>
 
   <Target Name="PostBuild" BeforeTargets="PostBuildEvent">
-    <Exec Command="echo /n GhislainOne" />
+    <Exec Command="echo /n GhislainOne $(TargetDir)" />
   </Target>
 
 </Project>

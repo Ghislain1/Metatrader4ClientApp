@@ -1,25 +1,25 @@
-﻿using Metatrader4ClientApp.Infrastructure;
-using Metatrader4ClientApp.Infrastructure.Interfaces;
-using Metatrader4ClientApp.Modules.Position.Controllers;
-using Microsoft.Win32;
-using Prism.Commands;
-using Prism.Events;
-using Prism.Mvvm;
-
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
+﻿
 
 
 namespace Metatrader4ClientApp.Modules.Position.PositionSummary
 {
+    using Metatrader4ClientApp.Infrastructure;
+    using Metatrader4ClientApp.Infrastructure.Interfaces;
+    using Microsoft.Win32;
+    using Prism.Commands;
+    using Prism.Events;
+    using Prism.Mvvm;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.IO;
     using Metatrader4ClientApp.Infrastructure.Models;
     using System.Collections.Immutable;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
     using System.Windows.Input;
+    using TradingAPI.MT4Server;
     public class PositionSummaryViewModel : PluginBindableBase
     {
         private readonly IEventAggregator eventAggregator;
@@ -69,7 +69,16 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
                 }
             }
         }
-
+        private void TradeCopy()
+        {
+            var qc1 = new QuoteClient(8681572, "zy3ojco", "mt4-demopro-dc1.roboforex.com", 443);
+            //qc1.Connect();
+            //DestQC = new QuoteClient(61013955, "h0200Da6A", "185.10.45.25", 443);
+            //DestQC.Connect();
+            //DestOC = new OrderClient(DestQC);
+            //qc1.OnOrderUpdate += Qc1_OnOrderUpdate;
+          
+        }
         private async void PopulateItems()
         {
             var items = await this.accountPositionService.GetAccountPositionsAsync();

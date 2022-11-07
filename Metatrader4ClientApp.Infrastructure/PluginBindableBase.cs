@@ -56,7 +56,7 @@ namespace Metatrader4ClientApp.Infrastructure
         /// <summary>
         /// Gets or sets the Kind To interact with Material Design PackIcon.
         /// </summary>
-        public string PackIcon { get; set; } = "Magnify";
+        public string ? PackIcon { get; set; } = "Magnify";
 
         /// <summary>
         /// Gets or sets the Label.

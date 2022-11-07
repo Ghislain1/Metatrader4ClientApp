@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Input;
-
-using Metatrader4ClientApp.Infrastructure;
-using Metatrader4ClientApp.Infrastructure.Interfaces;
-
-using Prism.Commands;
-using Prism.Events;
+﻿
 
 namespace Metatrader4ClientApp.Modules.Login
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using Metatrader4ClientApp.Infrastructure;
+    using Metatrader4ClientApp.Infrastructure.Interfaces;
+    using Prism.Commands;
+    using Prism.Events;
 
     public class LoginViewModel : PluginBindableBase
     {
@@ -28,14 +27,14 @@ namespace Metatrader4ClientApp.Modules.Login
             this.PackIcon = PackIconNames.Login;
             this.Label = "LOGIN";
 
-           this.LoginCommand = new DelegateCommand<object>(async (argument) => await this.LoginAsync(argument), (_)=> !this.LoginIsRunning);
+            this.LoginCommand = new DelegateCommand<object>(async (argument) => await this.LoginAsync(argument), (_) => !this.LoginIsRunning);
 
             this.Command = new DelegateCommand(() =>
              {
 
              });
         }
-   
+
         public string Name
         {
             get => this.name;
@@ -47,7 +46,7 @@ namespace Metatrader4ClientApp.Modules.Login
             get => this.savePassword;
             set => this.SetProperty(ref this.savePassword, value);
         }
-        
+
 
         /// <summary>
         /// A flag indicating if the login command is running
@@ -66,40 +65,19 @@ namespace Metatrader4ClientApp.Modules.Login
         /// <returns></returns>
         public async Task LoginAsync(object argument)
         {
-            if(argument is not PasswordBox passwordBox)
+            if (argument is not PasswordBox passwordBox)
             {
                 return;
             }
-            if (string.IsNullOrWhiteSpace(passwordBox.Password)|| string.IsNullOrWhiteSpace(this.Name))
+            if (string.IsNullOrWhiteSpace(passwordBox.Password) || string.IsNullOrWhiteSpace(this.Name))
             {
                 return;
             }
 
             this.LoginIsRunning = true;
-            await Task.Run(   () =>
+            await Task.Run(() =>
             {
-                // Call the server and attempt to login with credentials
-                //  var result = await WebRequests.PostAsync<ApiResponse<UserProfileDetailsApiModel>>(
-                // Set URL
-                //RouteHelpers.GetAbsoluteRoute(ApiRoutes.Login),
-                //// Create api model
-                //new LoginCredentialsApiModel
-                //{
-                //    UsernameOrEmail = Email,
-                //    Password = (parameter as IHavePassword).SecurePassword.Unsecure()
-                //});
-
-                // If the response has an error...
-                //  if (await result.HandleErrorIfFailedAsync("Login Failed"))
-                // We are done
-                //    return;
-
-                // OK successfully logged in... now get users data
-                //  var loginResult = result.ServerResponse.Response;
-
-                // Let the application view model handle what happens
-                // with the successful login
-                // await ViewModelApplication.HandleSuccessfulLoginAsync(loginResult);
+              
 
                 if (this.SavePassword)
                 {
@@ -112,9 +90,9 @@ namespace Metatrader4ClientApp.Modules.Login
                     {
                         this.applicationUserService.StoreUser(this.Name, passwordBox.Password);
                     }
-                    
+
                 }
-                
+
 
 
             });

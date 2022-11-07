@@ -6,6 +6,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+ 
+
   <ItemGroup>
 
     <ProjectReference Include="..\Metatrader4ClientApp.Infrastructure\Metatrader4ClientApp.Infrastructure.csproj" />
@@ -21,5 +23,13 @@
     <Folder Include="ViewModels\" />
     <Folder Include="Views\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MT4ServerApi">
+      <HintPath>..\Metatrader4ClientApp\bin\Debug\net6.0-windows\MT4ServerAPI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+
 
 </Project>

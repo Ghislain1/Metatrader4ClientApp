@@ -1,10 +1,13 @@
-﻿using Metatrader4ClientApp.Infrastructure;
-using Prism.Ioc;
-using Prism.Modularity;
-using Prism.Regions;
+﻿
 
 namespace Metatrader4ClientApp.Modules.Login
 {
+    using Metatrader4ClientApp.Infrastructure;
+    using Prism.Ioc;
+    using Prism.Modularity;
+    using Prism.Regions;
+    using TradingAPI.MT4Server;
+
     public class LoginModule : IModule
     {
         public void OnInitialized(IContainerProvider containerProvider)
@@ -13,7 +16,7 @@ namespace Metatrader4ClientApp.Modules.Login
 
             regionManager.RegisterViewWithRegion(RegionNames.MainRegion,
                                                         () => containerProvider.Resolve<LoginView>());
-            //  var _ordersController = containerProvider.Resolve<OrdersController>();
+            
 
 
         }
