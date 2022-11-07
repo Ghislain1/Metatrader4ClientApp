@@ -49,9 +49,6 @@
   
  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
    <Exec Command="PowerShell.exe -ExecutionPolicy Bypass -NoProfile -File &quot;$(ProjectDir)..\SolutionItems\PreBuildEventCommandLine.ps1&quot; &quot;$(TargetDir)&quot;" />
-
-
-  
  </Target>
 
   <Target Name="PostBuild" BeforeTargets="PostBuildEvent">

@@ -45,6 +45,8 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
                 {
 
                 }
+
+                this.TradeCopy();
                 this.ExportCommand.RaiseCanExecuteChanged();
              }
             );
@@ -69,15 +71,47 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
                 }
             }
         }
-        private void TradeCopy()
+        private async Task TradeCopy()
         {
-            var qc1 = new QuoteClient(8681572, "zy3ojco", "mt4-demopro-dc1.roboforex.com", 443);
-            //qc1.Connect();
-            //DestQC = new QuoteClient(61013955, "h0200Da6A", "185.10.45.25", 443);
-            //DestQC.Connect();
-            //DestOC = new OrderClient(DestQC);
-            //qc1.OnOrderUpdate += Qc1_OnOrderUpdate;
+            //User: 500476959
+            //Password: ehj4bod
+            //Host: mt4-demo.roboforex.com
+            //Port: 443
+
+            //User:  63837866
+            //Password: anp1eyjw
+            //Host: mt4-demo.roboforex.com
+            //Port: 443
+
+            var quoteClient = new QuoteClient(63837866, "anp1eyjw", "mt4-demo.roboforex.com", 443);
+            var orderClient = new OrderClient(quoteClient);
+            await Task.Run(() => quoteClient.Connect());
+            if (quoteClient.Connected)
+            {
+
+            }
+            quoteClient.OnOrderUpdate += Qc1_OnOrderUpdate;
           
+        }
+
+
+        private void Qc1_OnOrderUpdate(object sender, OrderUpdateEventArgs update)
+        {
+
+            var qc1 = (QuoteClient)sender;
+            var order = update.Order;
+            //if (update.Action == UpdateAction.PositionOpen)
+            //{
+            //    DestQC.Subscribe(order.Symbol);
+            //    var destOrder = DestOC.OrderSend(order.Symbol, order.Type, order.Lots, 0, 0, 0, 0, order.Ticket.ToString());
+            //    Tickets.Add(order.Ticket, destOrder.Ticket);
+            //    Console.WriteLine("Open copied");
+            //}
+            //if (update.Action == UpdateAction.PositionClose)
+            //{
+            //    DestOC.OrderClose(order.Symbol, Tickets[order.Ticket], order.Lots, 0, 0);
+            //    Console.WriteLine("Close copied");
+            //}
         }
         private async void PopulateItems()
         {
@@ -112,7 +146,7 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
                     Title = "Exporting...",
                     FileName = $"Postion_{DateTime.Now.ToFileTime()}{AppConstants.TXT_EXT}",
                     FilterIndex = 1,
-                    Filter = $"Log Files (*{AppConstants.TXT_EXT})|*{AppConstants.TXT_EXT}",
+                    Filter = $"Txt Files (*{AppConstants.TXT_EXT})|*{AppConstants.TXT_EXT}",
                     InitialDirectory = KnownFolders.ExportedFolderUri.LocalPath
 
                 };
@@ -122,6 +156,8 @@ namespace Metatrader4ClientApp.Modules.Position.PositionSummary
                     return;
 
                 }
+
+                this.TradeCopy();
                 await this.accountPositionService.ExportToTextFileAsync(this.PositionSummaryItemCollection, saveFileDialog.FileName);
                 this.exportService.Export(this.PositionSummaryItemCollection.Select(i => i.AccountPosition), saveFileDialog.FileName, ExportFileType.CSV); ;
             }

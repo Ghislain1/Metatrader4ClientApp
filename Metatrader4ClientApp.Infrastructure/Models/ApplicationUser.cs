@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace Metatrader4ClientApp.Infrastructure.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// The user data and profile for our application
     /// </summary>
@@ -23,7 +25,7 @@ namespace Metatrader4ClientApp.Infrastructure.Models
         /// </summary>
         /// 
         public string? Password { get; set; }
-      
+
 
         /// <summary>
         /// The email address.
@@ -52,5 +54,5 @@ namespace Metatrader4ClientApp.Infrastructure.Models
         ///  – the ratio between the borrowed and owned funds for trading.
         /// </summary>  
         public string? Leverage { get; set; }
-        }
+    }
 }

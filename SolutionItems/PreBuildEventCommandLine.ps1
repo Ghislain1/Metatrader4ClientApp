@@ -24,8 +24,7 @@ if((Test-Path -Path "$OutPath\MT4ServerAPI.dll") -and (Test-Path -Path "$OutPath
 }
 else
 {
-    $Loc = Get-Location
-  Write-Host "====333333333333333333333333333333333333############################> $Loc"
+  Copy-Item "..\SolutionItems\MT4ServerAPI.xml" -Destination "$OutPath"
   Copy-Item "..\SolutionItems\MT4ServerAPI.dll" -Destination "$OutPath"
   Write-Host "MT4ServerAPI.dll    has been copied!..." 
   Write-Host "To $OutPath" 

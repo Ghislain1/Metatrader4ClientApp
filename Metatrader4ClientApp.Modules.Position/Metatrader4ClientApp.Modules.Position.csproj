@@ -7,10 +7,9 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  
   <ItemGroup>
-    <Reference Include="MT4ServerApi">
-      <HintPath>$(TargetDir)\MT4ServerAPI.dll</HintPath>
-    </Reference>
+    <Reference Include="$(TargetDir)\MT4ServerAPI.dll" />   
   </ItemGroup>
 
   <ItemGroup>    
@@ -25,5 +24,9 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
   </ItemGroup>
+  
+ <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+   <Exec Command="PowerShell.exe -ExecutionPolicy Bypass -NoProfile -File &quot;$(ProjectDir)..\SolutionItems\PreBuildEventCommandLine.ps1&quot; &quot;$(TargetDir)&quot;" />
+ </Target>
 
 </Project>
