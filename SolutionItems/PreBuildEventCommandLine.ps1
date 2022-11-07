@@ -1,9 +1,5 @@
 param(
-      [Parameter(
-        Position=0,
-        Mandatory=$true)]
-    [String]$DllDir,
-  
+    
     [Parameter(
         Position=0,
         Mandatory=$true)]
@@ -19,10 +15,7 @@ if(-not($OutPath.StartsWith('"')))
     $OutPath = $OutPath.TrimEnd('"')
 }
 
-if(-not($DllDir.StartsWith('"')))
-{
-    $DllDir = $DllDir.TrimEnd('"')
-}
+
 
 # Test if files are already there... (for fun twice)
 if((Test-Path -Path "$OutPath\MT4ServerAPI.dll") -and (Test-Path -Path "$OutPath\MT4ServerAPI.xml"))
@@ -32,8 +25,8 @@ if((Test-Path -Path "$OutPath\MT4ServerAPI.dll") -and (Test-Path -Path "$OutPath
 else
 {
     $Loc = Get-Location
-  Write-Host "$Loc"
-  Copy-Item "$DllDir\MT4ServerAPI.dll" -Destination "$OutPath"
+  Write-Host "====333333333333333333333333333333333333############################> $Loc"
+  Copy-Item "..\SolutionItems\MT4ServerAPI.dll" -Destination "$OutPath"
   Write-Host "MT4ServerAPI.dll    has been copied!..." 
   Write-Host "To $OutPath" 
 }
