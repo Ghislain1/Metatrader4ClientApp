@@ -13,7 +13,6 @@ namespace Metatrader4ClientApp.Modules.Option
         public void OnInitialized(IContainerProvider containerProvider)
         {
             var regionManager = containerProvider.Resolve<IRegionManager>();
-
             regionManager.RegisterViewWithRegion(RegionNames.OptionsRegion,
                                                         () => containerProvider.Resolve<OptionListView>());
           
@@ -23,12 +22,6 @@ namespace Metatrader4ClientApp.Modules.Option
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
-
-            //containerRegistry.Register<IOrderCompositeViewModel, OrderCompositeViewModel>();
-            //containerRegistry.Register<IOrderDetailsViewModel, OrderDetailsViewModel>();
-
-
         }
     }
 

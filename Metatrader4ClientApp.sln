@@ -7,15 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metatrader4ClientApp", "Met
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metatrader4ClientApp.Infrastructure", "Metatrader4ClientApp.Infrastructure\Metatrader4ClientApp.Infrastructure.csproj", "{44F1132F-DEAF-4282-91EF-BAA2C6FB9C3F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metatrader4ClientApp.Modules.Position", "Metatrader4ClientApp.Modules.Position\Metatrader4ClientApp.Modules.Position.csproj", "{82CA1ABF-2AA2-4890-9B58-2E01136B6101}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metatrader4ClientApp.Modules.Login", "Metatrader4ClientApp.Modules.Login\Metatrader4ClientApp.Modules.Login.csproj", "{41F314C8-4D8E-4F26-8F8E-B1D22EB5BE76}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metatrader4ClientApp.Modules.UserManagement", "Metatrader4ClientApp.Modules.UserManagement\Metatrader4ClientApp.Modules.UserManagement.csproj", "{BA4FF232-B672-4214-8C2B-DF0FB03FFCCF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metatrader4ClientApp.Modules.Option", "Metatrader4ClientApp.Modules.Option\Metatrader4ClientApp.Modules.Option.csproj", "{487B7761-C80D-4C1F-BAC1-1633272B46E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metatrader4ClientApp.Modules.Trade", "Metatrader4ClientApp.Modules.Trade\Metatrader4ClientApp.Modules.Trade.csproj", "{EFA2461A-2672-454A-8C6C-8A8248AA84A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metatrader4ClientApp.Modules.Trade", "Metatrader4ClientApp.Modules.Trade\Metatrader4ClientApp.Modules.Trade.csproj", "{EFA2461A-2672-454A-8C6C-8A8248AA84A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +29,6 @@ Global
 		{44F1132F-DEAF-4282-91EF-BAA2C6FB9C3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44F1132F-DEAF-4282-91EF-BAA2C6FB9C3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44F1132F-DEAF-4282-91EF-BAA2C6FB9C3F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{82CA1ABF-2AA2-4890-9B58-2E01136B6101}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82CA1ABF-2AA2-4890-9B58-2E01136B6101}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82CA1ABF-2AA2-4890-9B58-2E01136B6101}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82CA1ABF-2AA2-4890-9B58-2E01136B6101}.Release|Any CPU.Build.0 = Release|Any CPU
 		{41F314C8-4D8E-4F26-8F8E-B1D22EB5BE76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{41F314C8-4D8E-4F26-8F8E-B1D22EB5BE76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41F314C8-4D8E-4F26-8F8E-B1D22EB5BE76}.Release|Any CPU.ActiveCfg = Release|Any CPU

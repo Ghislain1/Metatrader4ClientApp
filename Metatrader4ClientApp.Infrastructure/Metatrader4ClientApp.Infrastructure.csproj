@@ -6,6 +6,10 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="PluginBindableBase.cs~RFb6fc0f1.TMP" />
+  </ItemGroup>
+
 
   <ItemGroup>
     
