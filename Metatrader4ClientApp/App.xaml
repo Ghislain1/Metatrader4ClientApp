@@ -24,8 +24,9 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
 
                 <!-- Important for following controls -->
-         
-            </ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+
+      </ResourceDictionary.MergedDictionaries>
             
         </ResourceDictionary>
     </Application.Resources>

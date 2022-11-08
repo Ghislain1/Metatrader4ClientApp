@@ -30,6 +30,7 @@ namespace Metatrader4ClientApp.Infrastructure.Models
 
         public string? Host { get; set; } = "mt4-demo.roboforex.com";
 
-      
+       
+
     }
 }

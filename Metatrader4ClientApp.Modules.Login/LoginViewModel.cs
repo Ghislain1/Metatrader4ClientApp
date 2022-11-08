@@ -10,43 +10,60 @@ namespace Metatrader4ClientApp.Modules.Login
     using System.Windows.Controls;
     using System.Windows.Input;
     using Metatrader4ClientApp.Infrastructure;
+    using Metatrader4ClientApp.Infrastructure.Events;
     using Metatrader4ClientApp.Infrastructure.Interfaces;
+    using Metatrader4ClientApp.Infrastructure.Models;
     using Prism.Commands;
     using Prism.Events;
 
     public class LoginViewModel : PluginBindableBase
     {
         private readonly IEventAggregator eventAggregator;
-        private readonly IApplicationUserService applicationUserService;
-        private bool savePassword;
-        private string name;
-        public LoginViewModel(IEventAggregator eventAggregator, IApplicationUserService applicationUserService)
+        private readonly IConnectionParameterService connectionParameterService;
+        private string? loginMessage;
+        private string? accountNumberString;
+        private string? host;
+        private int port  ;
+        public LoginViewModel(IEventAggregator eventAggregator, IConnectionParameterService connectionParameterService)
         {
             this.eventAggregator = eventAggregator;
-            this.applicationUserService = applicationUserService;
+            this.connectionParameterService = connectionParameterService;
             this.PackIcon = PackIconNames.Login;
             this.Label = "LOGIN";
-
             this.LoginCommand = new DelegateCommand<object>(async (argument) => await this.LoginAsync(argument), (_) => !this.LoginIsRunning);
-
             this.Command = new DelegateCommand(() =>
              {
 
              });
+            this.Port = 443;
+            this.AccountNumberString = "500478235";
+           // this.Password = "ywh3ejc";
+            this.Host = "mt4-demo.roboforex.com";
+ 
         }
-
-        public string Name
+        public int AccountNumber { get; set; }
+        public string? AccountNumberString
         {
-            get => this.name;
-            set => this.SetProperty(ref this.name, value);
+            get => this.accountNumberString;
+            set => this.SetProperty(ref this.accountNumberString, value);
         }
-
-        public bool SavePassword
+        public string? Host
         {
-            get => this.savePassword;
-            set => this.SetProperty(ref this.savePassword, value);
+            get => this.host;
+            set => this.SetProperty(ref this.host, value);
+        }
+        public int Port
+        {
+            get => this.port;
+            set => this.SetProperty(ref this.port, value);
         }
 
+        public string? LoginMessage
+        {
+            get => this.loginMessage;
+            set => this.SetProperty(ref this.loginMessage, value);
+        }
+        
 
         /// <summary>
         /// A flag indicating if the login command is running
@@ -69,34 +86,25 @@ namespace Metatrader4ClientApp.Modules.Login
             {
                 return;
             }
-            if (string.IsNullOrWhiteSpace(passwordBox.Password) || string.IsNullOrWhiteSpace(this.Name))
+
+            if (string.IsNullOrWhiteSpace(passwordBox.Password) )
             {
                 return;
             }
-
-            this.LoginIsRunning = true;
-            await Task.Run(() =>
+            if (!int.TryParse(this.AccountNumberString, out int accontNumber))
             {
-              
+                return;
+            }
+            this.AccountNumber = accontNumber;
 
-                if (this.SavePassword)
-                {
-                    //var alreadyStored = this.applicationUserService.CheckUser(this.Name, passwordBox.Password);
-                    //if (alreadyStored)
-                    //{
-                    //    this.Name = String.Empty;
-                    //}
-                    //else
-                    //{
-                    //    this.applicationUserService.StoreUser(this.Name, passwordBox.Password);
-                    //}
-
-                }
-
-
-
-            });
-            this.LoginIsRunning = false;
+            this.eventAggregator.GetEvent<ApplicationBusyEvent>().Publish(true);
+            var cp = new ConnectionParameter() { Host = this.Host, AccountNumber= this.AccountNumber, Password=passwordBox.Password, Port = this.Port };   
+            var isOkay = await this.connectionParameterService.CheckConnectionParameterAsync(cp);
+            if (!isOkay)
+            {
+                this.LoginMessage = this.connectionParameterService.ErrorMessage;
+            }
+            this.eventAggregator.GetEvent<ApplicationBusyEvent>().Publish(false);
         }
     }
 }

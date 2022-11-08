@@ -73,8 +73,8 @@
             // Load all 4 modules using code
             moduleCatalog.AddModule<LoginModule>();
             moduleCatalog.AddModule<TradeModule>();           
-            moduleCatalog.AddModule<UserManagementModule>();
-            moduleCatalog.AddModule<PositionModule>();
+           // moduleCatalog.AddModule<UserManagementModule>();
+           // moduleCatalog.AddModule<PositionModule>();
             moduleCatalog.AddModule<OptionModule>();
         }
 
@@ -84,7 +84,7 @@
 
             containerRegistry.RegisterSingleton<IMarketFeedService, MarketFeedService>();
             containerRegistry.RegisterSingleton<ISettingsService, SettingsService>();
-            containerRegistry.RegisterSingleton<IApplicationUserService, ApplicationUserService>();
+            containerRegistry.RegisterSingleton<IConnectionParameterService, ConnectionParameterService>();
             containerRegistry.RegisterSingleton<IExportService, ExportService>();
 
 

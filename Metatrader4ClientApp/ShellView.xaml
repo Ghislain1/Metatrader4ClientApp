@@ -120,9 +120,8 @@
     </DataTemplate>
   </metro:MetroWindow.Resources>
 
- 
-
-  <metro:MetroContentControl>
+  <Grid>
+    <metro:MetroContentControl>
     <metro:HamburgerMenu
             x:Name="HamburgerMenuControl"
             DisplayMode="CompactInline"
@@ -146,4 +145,16 @@
 
     </metro:HamburgerMenu>
   </metro:MetroContentControl>
+
+    <Grid Visibility="{Binding IsBusy ,Converter={x:Static converters:BoolToVisibilityConverter.Instance}}">
+      <Rectangle  Fill="Green" Opacity="0.1"/>
+      <TextBlock Text="Busy..."   />
+      <ProgressBar IsIndeterminate="True" Height="100"
+                   Width="100"
+                   Margin="250,11,0,0"
+                   Style="{StaticResource MaterialDesignCircularProgressBar}"             
+                       />
+    </Grid>
+    
+  </Grid>
 </metro:MetroWindow>

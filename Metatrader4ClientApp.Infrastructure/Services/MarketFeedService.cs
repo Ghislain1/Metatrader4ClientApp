@@ -95,23 +95,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
             }
             OnMarketPricesUpdated();
         }
-        private async Task<IEnumerable<AccountPosition>> GetQuote()
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                var result = await client.GetAsync("https://type.fit/api/quotes");  // Perform a GET call against your endpoint asynchronously
-                if (result.IsSuccessStatusCode)     // Check that the request returned successfully before we proceed
-                {
-                    var quoteListString = await result.Content.ReadAsStringAsync();     // Your endpoint returns text/plain, not JSON, so we'll grab the string...
-                    var quoteList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<AccountPosition>>(quoteListString);     // ... and can use Newtonsoft (or System.Text.Json) to deserialize it into a list we can manipulate.
-                    return quoteList;  // Now we have an enumeration of quotes, so we can return a random element somewhere between index 0 and the count of entries minus 1
-                }
-                else
-                {
-                    return null;  // But if the call didn't find anything, return a 404 instead
-                }
-            }
-        }
+    
         protected void UpdatePrices()
         {
             lock (this.lockObject)
@@ -122,8 +106,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
                     newValue += Convert.ToDecimal(randomGenerator.NextDouble() * 10f) - 5m;
                     _priceList[symbol] = newValue > 0 ? newValue : 0.1m;
                 }
-                // Samples
-                this.GetQuote();
+               
             }
             OnMarketPricesUpdated();
         }

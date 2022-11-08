@@ -9,14 +9,14 @@ namespace Metatrader4ClientApp.Infrastructure.Interfaces
     using System.Text;
     using System.Threading.Tasks;
 
-    public interface IApplicationUserService
-    {
-       // IList<ApplicationUser> GetUsers();
-        // Task<IList<ApplicationUser>> GetUsersAsync();
+    public interface IConnectionParameterService
+    {     
        
         Task<IList<ConnectionParameter>> GetConnectionParametersAsync();
         bool StoreConnectionParameter(string loginName, string password);
         bool LogIn(string loginName, string password);
-        bool CheckConnectionParameter(string loginName, string password);
+        string ErrorMessage { get; set; }
+        bool CheckConnectionParameter(ConnectionParameter connectionParameter);
+        Task<bool> CheckConnectionParameterAsync(ConnectionParameter connectionParameter);
     }
 }

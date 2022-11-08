@@ -3,10 +3,11 @@
     using MahApps.Metro.Controls;
 
     using MaterialDesignThemes.Wpf;
-
+    using Metatrader4ClientApp.Infrastructure.Events;
     using Metatrader4ClientApp.Infrastructure.Interfaces;
 
     using Prism.Commands;
+    using Prism.Events;
     using Prism.Mvvm;
     using Prism.Services.Dialogs;
 
@@ -20,20 +21,32 @@
     public class ShellViewModel : BindableBase
     {
         private IDialogService dialogService;
+        private readonly IEventAggregator eventAggregator;
         private object activatedItem;
         private bool isPaneOpen;
+        private bool isBusy;
         private DelegateCommand showDialogCommand;
         public SnackbarMessageQueue Notifications { get; } = new(TimeSpan.FromSeconds(5));
-        public ShellViewModel(IDialogService dialogService, ISettingsService settingsService)
+        public ShellViewModel(IEventAggregator eventAggregator,IDialogService dialogService, ISettingsService settingsService)
         {
+            this.eventAggregator = eventAggregator;
             this.dialogService = dialogService;
             this.IsPaneOpen = true;
+            this.eventAggregator.GetEvent<ApplicationBusyEvent>().Subscribe(value => this.IsBusy = value);
         }
         public bool IsPaneOpen
         {
             get => this.isPaneOpen;
             set => SetProperty(ref this.isPaneOpen, value);
         }
+
+        public bool IsBusy
+        {
+            get => this.isBusy;
+            set => SetProperty(ref this.isBusy, value);
+        }
+
+        
         public object ActivatedItem
         {
             get { return activatedItem; }

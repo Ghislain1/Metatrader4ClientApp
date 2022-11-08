@@ -6,20 +6,27 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+ 
 
   <ItemGroup>
-    
+
+    <ProjectReference Include="..\Metatrader4ClientApp.Infrastructure\Metatrader4ClientApp.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="MaterialDesignThemes" Version="4.6.1" />
-    <PackageReference Include="MaterialDesignColors" Version="2.0.9" />
   </ItemGroup>
-
 
   <ItemGroup>
-    <Reference Include="MT4ServerApi">
-      <HintPath>..\Metatrader4ClientApp\bin\Debug\net6.0-windows\MT4ServerAPI.dll</HintPath>
-    </Reference>
+    <Folder Include="NewFolder\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <Reference Include="$(TargetDir)\MT4ServerAPI.dll" />   
+  </ItemGroup>
+
+
+
 </Project>

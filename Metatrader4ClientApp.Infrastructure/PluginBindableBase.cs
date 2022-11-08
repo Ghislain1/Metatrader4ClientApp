@@ -18,17 +18,17 @@ namespace Metatrader4ClientApp.Infrastructure
         /// <summary>
         /// Gets or sets the Command.
         /// </summary>
-        public ICommand ? Command { get; set; }
+        public ICommand? Command { get; set; }
 
         /// <summary>
         /// Gets or sets the CommandParameter.
         /// </summary>
-        public Type CommandParameter { get; set; }  
+        public Type CommandParameter { get; set; }
 
         /// <summary>
         /// Gets or sets the Code.
         /// </summary>
-        public string  Code { get; set; }
+        public string Code { get; set; }
 
         /// <summary>
         /// Gets the Header.
@@ -46,17 +46,15 @@ namespace Metatrader4ClientApp.Infrastructure
         /// </summary>
         public string Description { get; set; } = "Add description";
 
-        
-
         /// <summary>
         /// Gets or sets the Id.
         /// </summary>
-        public string  Id { get; set; } =Guid.NewGuid().ToString();     
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         /// <summary>
         /// Gets or sets the Kind To interact with Material Design PackIcon.
         /// </summary>
-        public string ? PackIcon { get; set; } = "Magnify";
+        public string PackIcon { get; set; } = "Magnify";
 
         /// <summary>
         /// Gets or sets the Label.
@@ -66,7 +64,7 @@ namespace Metatrader4ClientApp.Infrastructure
         /// <summary>
         /// Gets or sets the NavigatePath.
         /// </summary>
-        public string  NavigatePath { get; set; }
+        public string NavigatePath { get; set; }
 
         /// <summary>
         /// Gets or sets the Tag.
@@ -79,7 +77,7 @@ namespace Metatrader4ClientApp.Infrastructure
         public string Title { get; set; } = "Add Title";
 
 
-        
-        
+
+
     }
 }

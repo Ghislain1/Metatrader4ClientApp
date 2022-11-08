@@ -29,10 +29,10 @@ namespace Metatrader4ClientApp.Modules.Trade
         private ObservableCollection<OrderViewModel> orderItems = new ObservableCollection<OrderViewModel>();
         private IAccountPositionService accountPositionService;
         private readonly IExportService exportService;
-        private readonly IApplicationUserService applicationUserService;
+        private readonly IConnectionParameterService applicationUserService;
         private readonly Dictionary<string, Order> orderDic = new Dictionary<string, Order>();
 
-        public TradeViewModel(IEventAggregator eventAggregator, IApplicationUserService applicationUserService, IExportService exportService)
+        public TradeViewModel(IEventAggregator eventAggregator, IConnectionParameterService applicationUserService, IExportService exportService)
         {
             this.eventAggregator = eventAggregator;
             this.applicationUserService = applicationUserService;
@@ -53,6 +53,7 @@ namespace Metatrader4ClientApp.Modules.Trade
                 this.ExportCommand.RaiseCanExecuteChanged();
             });
         }
+
         /// <summary>
         /// http://mtapi.online/2017/12/21/list-of-opened-orders/
         /// </summary>
@@ -78,7 +79,7 @@ namespace Metatrader4ClientApp.Modules.Trade
                             //    this.OrderItems.Add(order!);
                             //}));
                         }
-                        
+
                         qc.Disconnect();
 
                     }
@@ -93,80 +94,79 @@ namespace Metatrader4ClientApp.Modules.Trade
 
             this.OrderItems = new ObservableCollection<OrderViewModel>(this.orderDic.Values.Select(i => new OrderViewModel(i)));
         }
-    
 
-    private void Qc_OnOrderUpdate(object sender, OrderUpdateEventArgs update)
-    {
-        var qc1 = (QuoteClient)sender;
-        var order = update.Order;
-        if (update.Action == UpdateAction.PositionOpen)
+
+        private void Qc_OnOrderUpdate(object sender, OrderUpdateEventArgs update)
         {
-            // DestQC.Subscribe(order.Symbol);
-            // var destOrder = DestOC.OrderSend(order.Symbol, order.Type, order.Lots, 0, 0, 0, 0, order.Ticket.ToString());
-            // Tickets.Add(order.Ticket, destOrder.Ticket);
-            Console.WriteLine("Open copied");
-        }
-        if (update.Action == UpdateAction.PositionClose)
-        {
-            //DestOC.OrderClose(order.Symbol, Tickets[order.Ticket], order.Lots, 0, 0);
-            // Console.WriteLine("Close copied");
-        }
-
-    }
-
-    private void Qc_OnQuote(object sender, QuoteEventArgs args)
-    {
-
-    }
-
-    //Listen STOCK from Internet
-    // eventAggregator.GetEvent<MarketPricesUpdatedEvent>().Subscribe(this.MarketPricesUpdated, ThreadOption.UIThread);
-
-
-    public DelegateCommand ExportCommand { get; }
-    private async void ExecuteExportAll()
-    {
-
-        try
-        {
-            var saveFileDialog = new SaveFileDialog
+            var qc1 = (QuoteClient)sender;
+            var order = update.Order;
+            if (update.Action == UpdateAction.PositionOpen)
             {
-                Title = "Exporting...",
-                FileName = $"Postion_{DateTime.Now.ToFileTime()}{AppConstants.TXT_EXT}",
-                FilterIndex = 1,
-                Filter = $"Txt Files (*{AppConstants.TXT_EXT})|*{AppConstants.TXT_EXT}",
-                InitialDirectory = KnownFolders.ExportedFolderUri.LocalPath
-
-            };
-
-            if (saveFileDialog.ShowDialog() is not true)
+                // DestQC.Subscribe(order.Symbol);
+                // var destOrder = DestOC.OrderSend(order.Symbol, order.Type, order.Lots, 0, 0, 0, 0, order.Ticket.ToString());
+                // Tickets.Add(order.Ticket, destOrder.Ticket);
+                Console.WriteLine("Open copied");
+            }
+            if (update.Action == UpdateAction.PositionClose)
             {
-                return;
+                //DestOC.OrderClose(order.Symbol, Tickets[order.Ticket], order.Lots, 0, 0);
+                // Console.WriteLine("Close copied");
+            }
+
+        }
+
+        private void Qc_OnQuote(object sender, QuoteEventArgs args)
+        {
+
+        }
+
+        //Listen STOCK from Internet
+        // eventAggregator.GetEvent<MarketPricesUpdatedEvent>().Subscribe(this.MarketPricesUpdated, ThreadOption.UIThread);
+
+
+        public DelegateCommand ExportCommand { get; }
+        private async void ExecuteExportAll()
+        {
+
+            try
+            {
+                var saveFileDialog = new SaveFileDialog
+                {
+                    Title = "Exporting...",
+                    FileName = $"Postion_{DateTime.Now.ToFileTime()}{AppConstants.TXT_EXT}",
+                    FilterIndex = 1,
+                    Filter = $"Txt Files (*{AppConstants.TXT_EXT})|*{AppConstants.TXT_EXT}",
+                    InitialDirectory = KnownFolders.ExportedFolderUri.LocalPath
+
+                };
+
+                if (saveFileDialog.ShowDialog() is not true)
+                {
+                    return;
+
+                }
+
+                // this.TradeCopy();
+                await this.accountPositionService.ExportToTextFileAsync(this.OrderItems, saveFileDialog.FileName);
+                //  this.exportService.Export(this.PositionSummaryItemCollection.Select(i => i.AccountPosition), saveFileDialog.FileName, ExportFileType.CSV); ;
+            }
+
+            catch (Exception exception)
+
+            {
+                // TODO
+                // Logger.Instance.Log(exception);
 
             }
 
-            // this.TradeCopy();
-            await this.accountPositionService.ExportToTextFileAsync(this.OrderItems, saveFileDialog.FileName);
-            //  this.exportService.Export(this.PositionSummaryItemCollection.Select(i => i.AccountPosition), saveFileDialog.FileName, ExportFileType.CSV); ;
         }
-
-        catch (Exception exception)
-
-        {
-            // TODO
-            // Logger.Instance.Log(exception);
-
-        }
-
-    }
 
         public ObservableCollection<OrderViewModel> OrderItems
         {
             get => this.orderItems;
             set => this.SetProperty(ref this.orderItems, value);
         }
-       
-}
 
+    }
 
 }

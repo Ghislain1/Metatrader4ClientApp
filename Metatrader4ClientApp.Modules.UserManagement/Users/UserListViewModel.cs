@@ -20,8 +20,8 @@ namespace Metatrader4ClientApp.Modules.UserManagement.Users
         private ApplicationUser selectedApplicationUser;
         private string headerInfo;
         private ObservableCollection<ConnectionParameter> connectionParameterCollection = new ObservableCollection<ConnectionParameter>();
-        private IApplicationUserService applicationUserService;
-        public UserListViewModel(IEventAggregator eventAggregator, IApplicationUserService applicationUserService)
+        private IConnectionParameterService applicationUserService;
+        public UserListViewModel(IEventAggregator eventAggregator, IConnectionParameterService applicationUserService)
         {
             this.eventAggregator = eventAggregator;
             this.applicationUserService = applicationUserService;

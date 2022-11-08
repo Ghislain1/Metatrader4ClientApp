@@ -8,58 +8,55 @@
              xmlns:models="clr-namespace:Metatrader4ClientApp.Infrastructure.Models;assembly=Metatrader4ClientApp.Infrastructure"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
+            
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance local:LoginViewModel}"
             xmlns:converters="clr-namespace:Metatrader4ClientApp.Infrastructure.Converters;assembly=Metatrader4ClientApp.Infrastructure">
-    <UserControl.Resources>
+    <!--<UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </UserControl.Resources>
-      <materialDesign:Card  Width="600"
-                               Height="270"  Style="{StaticResource MaterialDesignElevatedCard}">
-
+    </UserControl.Resources>-->
+      <materialDesign:Card  Width="700"
+                             Background="WhiteSmoke"
+                              
+                            Style="{StaticResource MaterialDesignElevatedCard}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="auto" />
                 <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            
-            <StackPanel Orientation="Horizontal" Grid.Row="0">             
-                 <TextBlock Text="Name: " Style="{StaticResource MaterialDesignHeadline4TextBlock}" Margin="0,0,50,0" />
-                 <TextBox x:Name="LoginNameTextBox"   Text="{Binding Name}" Width="150" Margin="0,15,0,0" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Grid.Row="1">
-                <TextBlock Text="Password: " Style="{StaticResource MaterialDesignHeadline4TextBlock}"  />
-                <PasswordBox x:Name="PasswordText" Tag="Password"   Width="150"     Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
-                <CheckBox x:Name="SavePassword" IsChecked="{Binding SavePassword}" Content="Save Password"   Width="150"     Style="{StaticResource MaterialDesignAccentCheckBox}" />
-            </StackPanel>       
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <StackPanel Grid.Row="0" VerticalAlignment="Center" Margin="15,0,15,0" >
+        <TextBox materialDesign:HintAssist.Hint="User" Text="{Binding AccountNumberString}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Height="37" />
+        <PasswordBox x:Name="PasswordText" materialDesign:HintAssist.Hint="Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
+        <TextBox materialDesign:HintAssist.Hint="Host" Text="{Binding Host}" Style="{StaticResource MaterialDesignFloatingHintTextBox}"    />
+        <TextBox materialDesign:HintAssist.Hint="Port" Style="{StaticResource MaterialDesignFloatingHintTextBox}"  Text="{Binding Port}" />
+      </StackPanel>
+      <Button Grid.Row="1"  
+              Margin="15,20,15,20" 
+              CommandParameter="{Binding ElementName=PasswordText}" 
+              Command="{Binding LoginCommand}"
+              Content="Login"  
+              Effect="{DynamicResource MaterialDesignShadowDepth2}" />
+      <StackPanel Grid.Row="2" VerticalAlignment="Center" Margin="15,0,15,0">
+        <TextBlock Grid.Row="2"            
+                    Text="{Binding LoginMessage}"
+              Foreground="Red" 
+              Effect="{DynamicResource MaterialDesignShadowDepth5}" />
+      </StackPanel>
+          
+    </Grid>
+  
 
-            <!-- Login button -->
-           <Button Content="Login"  Margin="5,20, 0,0"                     
-                                    Grid.Row="2"
-                      Width="150"
-                      materialDesign:ButtonAssist.CornerRadius="5"
-                                    Command="{Binding LoginCommand}"
-                                    Style="{StaticResource MaterialDesignRaisedLightButton}"
-                                   CommandParameter="{Binding ElementName=PasswordText}"
-                                    HorizontalAlignment="Center" />
-
-               
-
-       
- 
-
-     
-
-        </Grid>
-    </materialDesign:Card>
+  </materialDesign:Card>
 </UserControl>
