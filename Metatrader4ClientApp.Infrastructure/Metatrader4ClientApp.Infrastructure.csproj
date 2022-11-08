@@ -21,9 +21,11 @@
 
 
   <ItemGroup>
-    <Reference Include="MT4ServerApi">
-      <HintPath>..\Metatrader4ClientApp\bin\Debug\net6.0-windows\MT4ServerAPI.dll</HintPath>
-    </Reference>
+    <Reference Include="$(TargetDir)\MT4ServerAPI.dll" />   
   </ItemGroup>
+  
+ <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="PowerShell.exe -ExecutionPolicy Bypass -NoProfile -File &quot;$(ProjectDir)..\SolutionItems\PreBuildEventCommandLine.ps1&quot; &quot;$(TargetDir)&quot;" />
+  </Target>
   
 </Project>

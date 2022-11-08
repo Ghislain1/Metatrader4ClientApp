@@ -11,13 +11,7 @@ namespace Metatrader4ClientApp.Infrastructure
     using System.Threading.Tasks;
     using TradingAPI.MT4Server;
 
-    public class MarketPricesUpdatedEvent : PubSubEvent<IDictionary<string, decimal>>
-    {
-    }
-
-    public class TradItemUpdatedEvent : PubSubEvent<IDictionary<string, ConnectionParameter>>
-    {
-    }
+   
     public class ConnectionParameterCreatedEvent : PubSubEvent<ConnectionParameter>
     {
     }
