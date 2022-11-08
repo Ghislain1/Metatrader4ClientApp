@@ -14,6 +14,7 @@ namespace Metatrader4ClientApp.Modules.Trade
     using Metatrader4ClientApp.Infrastructure.Services;
     using Microsoft.Win32;
     using Prism.Commands;
+    using Prism.Events;
     using Prism.Mvvm;
     using System;
     using System.Collections.Generic;
@@ -21,20 +22,42 @@ namespace Metatrader4ClientApp.Modules.Trade
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using TradingAPI.MT4Server;
 
     public class TradeItemViewModel : BindableBase
     {
+        private readonly IEventAggregator eventAggregator;
         private readonly IMarketFeedService marketFeedService;
         private readonly IExportService exportService;
         private ObservableCollection<OrderViewModel> orderItems = new();
        
-        public TradeItemViewModel(ConnectionParameter model, IMarketFeedService marketFeedService, IExportService exportService)
+        public TradeItemViewModel(ConnectionParameter model, IEventAggregator eventAggregator, IMarketFeedService marketFeedService, IExportService exportService)
         {
             this.ConnectionParameter = model;
+            this.eventAggregator = eventAggregator;
             this.marketFeedService = marketFeedService;
             this.exportService = exportService;
             this.ExportCommand = new DelegateCommand(() => this.ExecuteExportAll(), () => this.OrderItems.Any());
             this.FetchDataCommand = new DelegateCommand(() => this.ExecuteFetchData(), () => true);
+            this.eventAggregator.GetEvent<TradeListUpdatedEvent>().Subscribe(this.OnTradeListUpdated, ThreadOption.UIThread);
+
+        }
+
+        private void OnTradeListUpdated(IDictionary<ConnectionParameter, Order[]> connectionParameterOrderDic)
+        {
+           
+            if (connectionParameterOrderDic is null || !connectionParameterOrderDic.Keys.Any())
+            {
+                return;
+            }
+            var currentKey =  connectionParameterOrderDic.Keys.FirstOrDefault(i => this.ConnectionParameter.Equals(i));
+            var collectionOrders = connectionParameterOrderDic[currentKey];
+            var vms= new List<OrderViewModel>();    
+            foreach (var item in collectionOrders)
+            {
+                vms.Add( new OrderViewModel(item));
+            }
+            this.OrderItems = new ObservableCollection<OrderViewModel>(vms);
         }
 
         public DelegateCommand ExportCommand { get; }

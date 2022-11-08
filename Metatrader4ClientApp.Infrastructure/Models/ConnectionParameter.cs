@@ -13,11 +13,13 @@ namespace Metatrader4ClientApp.Infrastructure.Models
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Windows.Controls;
+    using System.Xml.Linq;
 
     /// <summary>
     /// See http://mtapi.online/ford/form.html
     /// </summary>
-    public class ConnectionParameter
+    public class ConnectionParameter  
     {
         /// <summary>
         /// the user
@@ -30,7 +32,23 @@ namespace Metatrader4ClientApp.Infrastructure.Models
 
         public string? Host { get; set; } = "mt4-demo.roboforex.com";
 
-       
+        public override bool Equals(object other)
+        {
+            ConnectionParameter otherItem = other as ConnectionParameter;
+            if (otherItem == null)
+                return false;
+
+            return this.AccountNumber == otherItem.AccountNumber && Host == otherItem.Host;
+        }
+        public override int GetHashCode()
+        {
+            int hash = 13;
+            hash = (hash * 7) + this.AccountNumber.GetHashCode();
+            hash = (hash * 7) + this.Host.GetHashCode();
+            return hash;
+        }
+
+
 
     }
 }

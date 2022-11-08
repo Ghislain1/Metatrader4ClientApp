@@ -9,6 +9,7 @@ namespace Metatrader4ClientApp.Infrastructure
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using TradingAPI.MT4Server;
 
     public class MarketPricesUpdatedEvent : PubSubEvent<IDictionary<string, decimal>>
     {
@@ -20,5 +21,11 @@ namespace Metatrader4ClientApp.Infrastructure
     public class ConnectionParameterCreatedEvent : PubSubEvent<ConnectionParameter>
     {
     }
+
+    public class TradeListUpdatedEvent : PubSubEvent<IDictionary<ConnectionParameter, Order[]>>
+    {
+    }
+
     
+
 }

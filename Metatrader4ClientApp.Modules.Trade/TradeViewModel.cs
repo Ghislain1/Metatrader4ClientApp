@@ -50,7 +50,7 @@ namespace Metatrader4ClientApp.Modules.Trade
             });
 
            // this. eventAggregator.GetEvent<MarketPricesUpdatedEvent>().Subscribe(this.MarketPricesUpdated, ThreadOption.UIThread);
-            this.eventAggregator.GetEvent<TradItemUpdatedEvent>().Subscribe(this.TradItemUpdated, ThreadOption.UIThread);
+           // this.eventAggregator.GetEvent<TradItemUpdatedEvent>().Subscribe(this.TradItemUpdated, ThreadOption.UIThread);
             this.eventAggregator.GetEvent<ConnectionParameterCreatedEvent>().Subscribe(this.OnConnectionParameterCreated, ThreadOption.UIThread);
         }
 
@@ -60,21 +60,24 @@ namespace Metatrader4ClientApp.Modules.Trade
             {
                 return;
             }
-            this.TradeItems .Add(new TradeItemViewModel(newConnectionParameter, this.marketFeedService, this.exportService));
+            this.TradeItems .Add(new TradeItemViewModel(newConnectionParameter,this.eventAggregator, this.marketFeedService, this.exportService));
         }
 
         private void TradItemUpdated(IDictionary<string, ConnectionParameter> dict)
         {
              
         }
-
+         private TradeItemViewModel CreateTradeItemViewModel(ConnectionParameter connectionParameter)
+        {
+            return new TradeItemViewModel(connectionParameter, this.eventAggregator, this.marketFeedService, this.exportService);
+        }
         private async void PopulateTradeItems()
         {
            var cpList= await this.connectionParameterService.GetConnectionParametersAsync();
             var myTradeItems= new List<TradeItemViewModel>();
             foreach (var item in cpList)
             {
-                myTradeItems.Add(new TradeItemViewModel(item, this.marketFeedService, this.exportService));
+                myTradeItems.Add(this.CreateTradeItemViewModel(item));
             }
             this.TradeItems = new ObservableCollection<TradeItemViewModel>(myTradeItems);
         }

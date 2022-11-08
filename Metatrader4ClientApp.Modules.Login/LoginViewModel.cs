@@ -84,6 +84,7 @@ namespace Metatrader4ClientApp.Modules.Login
         /// <returns></returns>
         public async Task LoginAsync(object argument)
         {
+            this.LoginMessage = string.Empty;
             if (argument is not PasswordBox passwordBox)
             {
                 return;

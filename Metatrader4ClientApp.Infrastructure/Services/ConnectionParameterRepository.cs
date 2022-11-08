@@ -21,7 +21,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
             {
                
                 using (File.Create(ConnectionParameterFilePath));
-                CreateDefaultConnectionParameter();
+                // CreateDefaultConnectionParameter();
             }
 
 

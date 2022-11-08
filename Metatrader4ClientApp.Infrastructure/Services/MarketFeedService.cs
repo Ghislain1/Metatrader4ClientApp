@@ -23,7 +23,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
         private readonly ISettingsService settingsService;
         private readonly Dictionary<string, decimal> _priceList = new Dictionary<string, decimal>();
         private readonly Dictionary<string, long> _volumeList = new Dictionary<string, long>();
-        private readonly Dictionary<string, ConnectionParameter> QuoteClientDic = new Dictionary<string, ConnectionParameter>();
+        private readonly Dictionary<QuoteClient, ConnectionParameter> QuoteClientDic = new Dictionary<QuoteClient, ConnectionParameter>();
         static readonly Random randomGenerator = new Random(unchecked((int)DateTime.Now.Ticks));
         private readonly Timer timer;
         private int _refreshInterval = 1000;
@@ -33,19 +33,22 @@ namespace Metatrader4ClientApp.Infrastructure.Services
             this.connectionParameterService = connectionParameterService;
             this.eventAggregator = eventAggregator;
             this.settingsService = settingsService;
-
             this.timer = new Timer(this.TimerTick);
             this.RefreshInterval = this.settingsService.Get().RefreshIntervalInMilliSeconde;
-            var itemElements = Enumerable.Range(1, 40).Select(item => ("STOCK " + item, Convert.ToInt64(item * randomGenerator.NextDouble() * 100, CultureInfo.InvariantCulture), Convert.ToInt64(item, CultureInfo.InvariantCulture)));
-            foreach ((string tickerSymbol, long lastPrice, long volume) in itemElements)
+            this.LoadconnectionParameterAsync();
+
+
+        }
+
+        private async void LoadconnectionParameterAsync()
+        {
+            var cpList = await this.connectionParameterService.GetConnectionParametersAsync();
+            foreach (var connectionParameter in cpList)
             {
-                // string tickerSymbol = item.Attribute("TickerSymbol").Value;
-                // decimal lastPrice = decimal.Parse(item.Attribute("LastPrice").Value, NumberStyles.Float, CultureInfo.InvariantCulture);
-                // long volume = Convert.ToInt64(item.Attribute("Volume").Value, CultureInfo.InvariantCulture);
-                _priceList.Add(tickerSymbol, lastPrice);
-                _volumeList.Add(tickerSymbol, volume);
+                await this.CheckConnectionParameterAsync(connectionParameter);
             }
         }
+
         public async Task<bool> CheckConnectionParameterAsync(ConnectionParameter connectionParameter)
         {
             return await Task.Run(() => this.CheckConnectionParameter(connectionParameter));
@@ -62,7 +65,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
                 qc.Connect();
                 isConnectionSuccess = true;
                 // qc.Disconnect();
-                this.QuoteClientDic.Add(Guid.NewGuid().ToString(), connectionParameter);
+                this.QuoteClientDic.Add(qc,connectionParameter );
                 this.eventAggregator.GetEvent<ConnectionParameterCreatedEvent>().Publish(connectionParameter);
 
             }
@@ -77,7 +80,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
             {
                 if (isConnectionSuccess)
                 {
-                    
+                    this.ErrorMessage = "Login success, go to Trade tab to see the desired Order!..";
                 }
             }
 
@@ -100,7 +103,8 @@ namespace Metatrader4ClientApp.Infrastructure.Services
         /// <param name="state"></param>
         private void TimerTick(object? state)
         {
-            UpdatePrices();
+            // UpdatePrices();
+            this.UpdateTradeList();
         }
 
         public decimal GetPrice(string tickerSymbol)
@@ -123,49 +127,23 @@ namespace Metatrader4ClientApp.Infrastructure.Services
             return _priceList.ContainsKey(tickerSymbol);
         }
 
-        protected void UpdatePrice(string tickerSymbol, decimal newPrice, long newVolume)
-        {
-            lock (this.lockObject)
-            {
-                _priceList[tickerSymbol] = newPrice;
-                _volumeList[tickerSymbol] = newVolume;
-            }
-            OnMarketPricesUpdated();
-        }
+        private void UpdateTradeList() => this.OnTradeListUpdated();
 
-        protected void UpdatePrices()
+        private void OnTradeListUpdated()
         {
+            Dictionary<QuoteClient,ConnectionParameter> clonedQuoteClientDic;
+            Dictionary<ConnectionParameter, Order[]> payLoad; 
             lock (this.lockObject)
             {
-                foreach (string symbol in _priceList.Keys.ToArray())
+                clonedQuoteClientDic = new Dictionary<QuoteClient ,ConnectionParameter>(this.QuoteClientDic);
+                payLoad= new Dictionary<ConnectionParameter, Order[]>();    
+                foreach (var itemQc in clonedQuoteClientDic.Keys)
                 {
-                    decimal newValue = _priceList[symbol];
-                    newValue += Convert.ToDecimal(randomGenerator.NextDouble() * 10f) - 5m;
-                    _priceList[symbol] = newValue > 0 ? newValue : 0.1m;
+                    var orders =  itemQc.GetOpenedOrders();
+                    payLoad.Add(clonedQuoteClientDic[itemQc], orders);
                 }
-
             }
-            OnMarketPricesUpdated();
-        }
-
-        private void OnMarketPricesUpdated()
-        {
-            Dictionary<string, decimal> clonedPriceList;
-            lock (this.lockObject)
-            {
-                clonedPriceList = new Dictionary<string, decimal>(_priceList);
-            }
-            this.eventAggregator.GetEvent<MarketPricesUpdatedEvent>().Publish(clonedPriceList);
-        }
-
-        private void OnQuoteClientUpdated()
-        {
-            Dictionary<string, ConnectionParameter> clonedQuoteClientDic;
-            lock (this.lockObject)
-            {
-                clonedQuoteClientDic = new Dictionary<string, ConnectionParameter>(this.QuoteClientDic);
-            }
-            this.eventAggregator.GetEvent<TradItemUpdatedEvent>().Publish(clonedQuoteClientDic);
+            this.eventAggregator.GetEvent<TradeListUpdatedEvent>().Publish(payLoad);
         }
 
 
