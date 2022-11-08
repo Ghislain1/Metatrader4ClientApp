@@ -10,6 +10,7 @@
     using Metatrader4ClientApp.Modules.Login;
     using Metatrader4ClientApp.Modules.Option;
     using Metatrader4ClientApp.Modules.Position;
+    using Metatrader4ClientApp.Modules.Trade;
     using Metatrader4ClientApp.Modules.UserManagement;
     using Metatrader4ClientApp.Services;
     using Prism.Ioc;
@@ -69,8 +70,9 @@
         }
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            // Load all 4 modules using code            
+            // Load all 4 modules using code
             moduleCatalog.AddModule<LoginModule>();
+            moduleCatalog.AddModule<TradeModule>();           
             moduleCatalog.AddModule<UserManagementModule>();
             moduleCatalog.AddModule<PositionModule>();
             moduleCatalog.AddModule<OptionModule>();

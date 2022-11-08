@@ -11,6 +11,7 @@ namespace Metatrader4ClientApp.Infrastructure
     public static  class PackIconNames
     { 
         public const string Position  = "Album";
+        public const string Trade = "Magnify";
         public const string UserManagement  = "UsersGroup";
         public const string Login = "Account";
         public const string Option = "ApplicationSettings";

@@ -11,43 +11,43 @@ namespace Metatrader4ClientApp.Infrastructure.Services
 {
     public class ApplicationUserService : IApplicationUserService
     {
-        public bool CheckUser(string loginName, string password)
+        public bool CheckConnectionParameter(string loginName, string password)
         {
 
-            return this.GetUsers().Any(user => user.Name.Equals(loginName)&& HashManager.VerifyPassword(password, user.Password));
+            return this.GetConnectionParameters().Any(user => user.AccountNumber.Equals(loginName)&& HashManager.VerifyPassword(password, user.Password));
         }
 
-        public IList<ApplicationUser> GetUsers()
-        {
-            //var users= new List<ApplicationUser>();
-            //for (int i = 1; i < 10; i++)
-            //{
-            //    users.Add(new ApplicationUser()
-            //    {
-            //        Name ="User "+1,
-            //        Email="Email@" + i,
-            //        Password = HashManager.HashPassword($"{i}")
-            //    });
-            //}
-            return ApplicationUserRepository.LoadAll();
-        }
+        private IList<ConnectionParameter> GetConnectionParameters() => ConnectionParameterRepository.LoadAll();
 
-        public async Task<IList<ApplicationUser>> GetUsersAsync()
+
+
+
+
+
+        public bool StoreConnectionParameter(string loginName, string password)
         {
-           return await Task.Run(() =>GetUsers());    
+            throw new NotImplementedException();
         }
 
         public bool LogIn(string loginName, string password)
         {
-           var hashedPasword = HashManager.HashPassword(password);
-            ApplicationUserRepository.Save(new ApplicationUser() {  Name = loginName, Password= hashedPasword} );
-            return true;
+            throw new NotImplementedException();
         }
 
-        public bool StoreUser(string loginName, string password)
+      
+
+
+        public async Task<IList<ConnectionParameter>> GetConnectionParametersAsync()
+        {
+           return await Task.Run(() => GetConnectionParameters());    
+        }
+
+      
+
+        public bool StoreConnectionParameter(int accountNumber, short port,string host, string password)
         {
             var hashedPasword = HashManager.HashPassword(password);
-            ApplicationUserRepository.Save(new ApplicationUser() { Name = loginName, Password = hashedPasword });
+            ConnectionParameterRepository.Save(new ConnectionParameter() { AccountNumber = accountNumber, Password = hashedPasword, Host=host, Port= port });
             return true;
         }
     }

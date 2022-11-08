@@ -19,7 +19,7 @@ namespace Metatrader4ClientApp.Modules.UserManagement.Users
         private readonly IEventAggregator eventAggregator;
         private ApplicationUser selectedApplicationUser;
         private string headerInfo;
-        private ObservableCollection<ApplicationUser> applicationUserCollection = new ObservableCollection<ApplicationUser>();
+        private ObservableCollection<ConnectionParameter> connectionParameterCollection = new ObservableCollection<ConnectionParameter>();
         private IApplicationUserService applicationUserService;
         public UserListViewModel(IEventAggregator eventAggregator, IApplicationUserService applicationUserService)
         {
@@ -39,16 +39,16 @@ namespace Metatrader4ClientApp.Modules.UserManagement.Users
             set => this.SetProperty(ref this.headerInfo, value);
         }
 
-        public ObservableCollection<ApplicationUser> ApplicationUserCollection
+        public ObservableCollection<ConnectionParameter> ConnectionParameterCollection
         {
-            get => this.applicationUserCollection;
-            set => SetProperty(ref this.applicationUserCollection, value);
+            get => this.connectionParameterCollection;
+            set => SetProperty(ref this.connectionParameterCollection, value);
         }
 
         private async void PopulateUsers()
         {
-            var items = await this.applicationUserService.GetUsersAsync();
-            this.ApplicationUserCollection = new ObservableCollection<ApplicationUser>(items);
+            var items = await this.applicationUserService.GetConnectionParametersAsync();
+            this.ConnectionParameterCollection = new ObservableCollection<ConnectionParameter>(items);
 
         }
 

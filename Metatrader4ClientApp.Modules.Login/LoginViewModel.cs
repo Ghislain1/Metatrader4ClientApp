@@ -81,15 +81,15 @@ namespace Metatrader4ClientApp.Modules.Login
 
                 if (this.SavePassword)
                 {
-                    var alreadyStored = this.applicationUserService.CheckUser(this.Name, passwordBox.Password);
-                    if (alreadyStored)
-                    {
-                        this.Name = String.Empty;
-                    }
-                    else
-                    {
-                        this.applicationUserService.StoreUser(this.Name, passwordBox.Password);
-                    }
+                    //var alreadyStored = this.applicationUserService.CheckUser(this.Name, passwordBox.Password);
+                    //if (alreadyStored)
+                    //{
+                    //    this.Name = String.Empty;
+                    //}
+                    //else
+                    //{
+                    //    this.applicationUserService.StoreUser(this.Name, passwordBox.Password);
+                    //}
 
                 }
 

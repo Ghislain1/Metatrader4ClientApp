@@ -20,7 +20,7 @@ namespace Metatrader4ClientApp.Infrastructure
 
         // C:\ProgramData\
         public static string CommonApplicationData = System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData);
-        public static string LoginPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData), "Metatrader4ClientApp");
+        public static string ConnectionParameterPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData), "Metatrader4ClientApp");
       
 
 

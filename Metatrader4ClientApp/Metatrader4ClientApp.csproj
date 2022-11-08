@@ -35,6 +35,7 @@
     <ProjectReference Include="..\Metatrader4ClientApp.Modules.Login\Metatrader4ClientApp.Modules.Login.csproj" />
     <ProjectReference Include="..\Metatrader4ClientApp.Modules.Option\Metatrader4ClientApp.Modules.Option.csproj" />
     <ProjectReference Include="..\Metatrader4ClientApp.Modules.Position\Metatrader4ClientApp.Modules.Position.csproj" />
+    <ProjectReference Include="..\Metatrader4ClientApp.Modules.Trade\Metatrader4ClientApp.Modules.Trade.csproj" />
     <ProjectReference Include="..\Metatrader4ClientApp.Modules.UserManagement\Metatrader4ClientApp.Modules.UserManagement.csproj" />
     <Reference Include="MT4ServerAPI">
 			<HintPath>$(TargetDir)\MT4ServerAPI.dll</HintPath>

@@ -17,5 +17,7 @@ namespace Metatrader4ClientApp.Infrastructure
     public static class AppConstants
     {
         public static string TXT_EXT = ".txt";
+
+        public static int MaxNumberOfConnection = 10;
     }
 }
