@@ -18,7 +18,7 @@ namespace Metatrader4ClientApp.Infrastructure
         /// <summary>
         /// Gets or sets the Command.
         /// </summary>
-        public ICommand? Command { get; set; }
+        public ICommand Command { get; set; }
 
         /// <summary>
         /// Gets or sets the CommandParameter.

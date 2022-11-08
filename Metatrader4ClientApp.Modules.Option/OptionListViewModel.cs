@@ -25,7 +25,7 @@ namespace Metatrader4ClientApp.Modules.Option
         private readonly ISettingsService settingsService;
         private bool isInitialized = false;
 
-        public OptionListViewModel(IEventAggregator eventAggregator, ISettingsService settingsService, IAccountPositionService accountPositionService)
+        public OptionListViewModel(IEventAggregator eventAggregator, ISettingsService settingsService)
         {
             this.eventAggregator = eventAggregator;
             this.settingsService = settingsService;

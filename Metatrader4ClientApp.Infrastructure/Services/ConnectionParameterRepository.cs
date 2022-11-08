@@ -32,7 +32,8 @@ namespace Metatrader4ClientApp.Infrastructure.Services
         {
             var connectionParameter1 = new ConnectionParameter() { Host = "mt4-demo.roboforex.com", AccountNumber = 500478235, Password = "ywh3ejc", Port = 443 };
             var connectionParameter2 = new ConnectionParameter() { Host = "mt4-demo.roboforex.com", AccountNumber = 500476959, Password = "ehj4bod", Port = 443 };
-
+            connectionParameter1.Password = HashManager.HashPassword(connectionParameter1.Password);
+            connectionParameter2.Password = HashManager.HashPassword(connectionParameter2.Password);
             Save(connectionParameter1);
             Save(connectionParameter2);
         }

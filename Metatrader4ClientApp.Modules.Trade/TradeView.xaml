@@ -13,7 +13,28 @@
             xmlns:converters="clr-namespace:Metatrader4ClientApp.Infrastructure.Converters;assembly=Metatrader4ClientApp.Infrastructure">
 
   <DockPanel>
-
+    <ItemsControl ItemsSource="{Binding TradeItems}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate DataType="{x:Type local:TradeItemViewModel}">
+          <Expander Style="{StaticResource MaterialDesignExpander}" Header="{Binding Header}" >
+            <DataGrid ItemsSource="{Binding OrderItems}"/>
+            <Expander.HeaderTemplate>
+              <DataTemplate>
+                <UniformGrid Rows="1">
+                  <TextBlock  Text="{Binding}" Style="{StaticResource MaterialDesignHeadline5TextBlock}"  />
+                  <Button Content="Fetch" Command="{Binding Path=DataContext.FetchDataCommand, RelativeSource={RelativeSource AncestorType={x:Type Expander}}}" Style="{StaticResource MaterialDesignFlatButton}"   ToolTip="Fetch data"/>
+                </UniformGrid>
+              </DataTemplate>
+            </Expander.HeaderTemplate>
+          </Expander>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <UniformGrid Columns="1"/>
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+    </ItemsControl>
 
     
     
@@ -47,7 +68,7 @@
       <Button  Background="White" Foreground="#FF391678" Content="Signup" Margin="76,437,76,15" Effect="{DynamicResource MaterialDesignShadowDepth2}" BorderBrush="#FF391678" />
     </Grid>-->
 
-    <DataGrid ItemsSource="{Binding OrderItems}"/>
+    
 
   </DockPanel>
 </UserControl>

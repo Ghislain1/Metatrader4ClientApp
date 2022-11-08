@@ -13,10 +13,10 @@ namespace Metatrader4ClientApp.Infrastructure.Interfaces
     {     
        
         Task<IList<ConnectionParameter>> GetConnectionParametersAsync();
-        bool StoreConnectionParameter(string loginName, string password);
-        bool LogIn(string loginName, string password);
-        string ErrorMessage { get; set; }
-        bool CheckConnectionParameter(ConnectionParameter connectionParameter);
-        Task<bool> CheckConnectionParameterAsync(ConnectionParameter connectionParameter);
+        bool StoreConnectionParameter(int accountNumber, string password, string host, int port);
+
+        bool StoreConnectionParameter(ConnectionParameter connectionParameter);
+        
+
     }
 }

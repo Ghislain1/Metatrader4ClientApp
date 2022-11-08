@@ -6,15 +6,14 @@
              xmlns:local="clr-namespace:Metatrader4ClientApp.Modules.Option"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True"
-             utils:SketchDrawer.IsOnDraftState="True"
+             prism:ViewModelLocator.AutoWireViewModel="True"             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance local:OptionListViewModel}"
              xmlns:utils="clr-namespace:Metatrader4ClientApp.Infrastructure.Utils;assembly=Metatrader4ClientApp.Infrastructure"
             xmlns:converters="clr-namespace:Metatrader4ClientApp.Infrastructure.Converters;assembly=Metatrader4ClientApp.Infrastructure">
   <Grid x:Name="GIRDGER">
-    <TextBlock Text="GOLD"  FontSize="50"/>
+    <TextBlock Text="Comming..." HorizontalAlignment="Center"  VerticalAlignment="Center" Style="{StaticResource MaterialDesignHeadline1TextBlock}" FontSize="50"/>
     
   </Grid>
 </UserControl>

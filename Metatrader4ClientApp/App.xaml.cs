@@ -8,8 +8,7 @@
     using Metatrader4ClientApp.Infrastructure.Interfaces;
     using Metatrader4ClientApp.Infrastructure.Services;
     using Metatrader4ClientApp.Modules.Login;
-    using Metatrader4ClientApp.Modules.Option;
-    using Metatrader4ClientApp.Modules.Position;
+    using Metatrader4ClientApp.Modules.Option;  
     using Metatrader4ClientApp.Modules.Trade;
     using Metatrader4ClientApp.Modules.UserManagement;
     using Metatrader4ClientApp.Services;

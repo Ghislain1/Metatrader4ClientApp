@@ -26,32 +26,57 @@ namespace Metatrader4ClientApp.Modules.Trade
     public class TradeViewModel : PluginBindableBase
     {
         private readonly IEventAggregator eventAggregator;
-        private ObservableCollection<OrderViewModel> orderItems = new ObservableCollection<OrderViewModel>();
-        private IAccountPositionService accountPositionService;
         private readonly IExportService exportService;
-        private readonly IConnectionParameterService applicationUserService;
+        private readonly IConnectionParameterService connectionParameterService;
+        private readonly IMarketFeedService marketFeedService;
+        private ObservableCollection<TradeItemViewModel> tradeItems = new ObservableCollection<TradeItemViewModel>();       
         private readonly Dictionary<string, Order> orderDic = new Dictionary<string, Order>();
-
-        public TradeViewModel(IEventAggregator eventAggregator, IConnectionParameterService applicationUserService, IExportService exportService)
+        public TradeViewModel(IEventAggregator eventAggregator, IMarketFeedService marketFeedService, IConnectionParameterService connectionParameterService, IExportService exportService)
         {
             this.eventAggregator = eventAggregator;
-            this.applicationUserService = applicationUserService;
-            this.accountPositionService = accountPositionService;
+            this.connectionParameterService = connectionParameterService;
+            this.marketFeedService = marketFeedService;
             this.exportService = exportService;
+
             this.PackIcon = PackIconNames.Trade;
-            this.Label = "TRADE";
-            // this.PopulateItems();
-            this.ExportCommand = new DelegateCommand(() => this.ExecuteExportAll(), () => this.OrderItems.Any());
+            this.Label = "TRADE";          
+          
             this.Command = new DelegateCommand(() =>
             {
-                if (this.IsSelected)
-                {
-
-                }
+                this.PopulateTradeItems();
 
                 this.TradeCopy();
-                this.ExportCommand.RaiseCanExecuteChanged();
+                //this.ExportCommand.RaiseCanExecuteChanged();
             });
+
+           // this. eventAggregator.GetEvent<MarketPricesUpdatedEvent>().Subscribe(this.MarketPricesUpdated, ThreadOption.UIThread);
+            this.eventAggregator.GetEvent<TradItemUpdatedEvent>().Subscribe(this.TradItemUpdated, ThreadOption.UIThread);
+            this.eventAggregator.GetEvent<ConnectionParameterCreatedEvent>().Subscribe(this.OnConnectionParameterCreated, ThreadOption.UIThread);
+        }
+
+        private void OnConnectionParameterCreated(ConnectionParameter newConnectionParameter)
+        {
+            if(this.TradeItems.Any(i => i.ConnectionParameter.Equals(newConnectionParameter)))
+            {
+                return;
+            }
+            this.TradeItems .Add(new TradeItemViewModel(newConnectionParameter, this.marketFeedService, this.exportService));
+        }
+
+        private void TradItemUpdated(IDictionary<string, ConnectionParameter> dict)
+        {
+             
+        }
+
+        private async void PopulateTradeItems()
+        {
+           var cpList= await this.connectionParameterService.GetConnectionParametersAsync();
+            var myTradeItems= new List<TradeItemViewModel>();
+            foreach (var item in cpList)
+            {
+                myTradeItems.Add(new TradeItemViewModel(item, this.marketFeedService, this.exportService));
+            }
+            this.TradeItems = new ObservableCollection<TradeItemViewModel>(myTradeItems);
         }
 
         /// <summary>
@@ -59,7 +84,12 @@ namespace Metatrader4ClientApp.Modules.Trade
         /// </summary>
         private async void TradeCopy()
         {
-            var items = await this.applicationUserService.GetConnectionParametersAsync();
+            var items = await this.connectionParameterService.GetConnectionParametersAsync();
+            if(items is null)
+            {
+                return;
+            }
+           // this.TradeItems = new ObservableCollection<TradeItemViewModel>(items.Select(item =>   new TradeItemViewModel(item, this.marketFeedService)));
             await Task.Run(() =>
             {
                 foreach (var cp in items)
@@ -92,79 +122,18 @@ namespace Metatrader4ClientApp.Modules.Trade
                 }
             });
 
-            this.OrderItems = new ObservableCollection<OrderViewModel>(this.orderDic.Values.Select(i => new OrderViewModel(i)));
+           // this.OrderItems = new ObservableCollection<OrderViewModel>(this.orderDic.Values.Select(i => new OrderViewModel(i)));
         }
 
+ 
+ 
+        
+        
 
-        private void Qc_OnOrderUpdate(object sender, OrderUpdateEventArgs update)
+        public ObservableCollection<TradeItemViewModel> TradeItems
         {
-            var qc1 = (QuoteClient)sender;
-            var order = update.Order;
-            if (update.Action == UpdateAction.PositionOpen)
-            {
-                // DestQC.Subscribe(order.Symbol);
-                // var destOrder = DestOC.OrderSend(order.Symbol, order.Type, order.Lots, 0, 0, 0, 0, order.Ticket.ToString());
-                // Tickets.Add(order.Ticket, destOrder.Ticket);
-                Console.WriteLine("Open copied");
-            }
-            if (update.Action == UpdateAction.PositionClose)
-            {
-                //DestOC.OrderClose(order.Symbol, Tickets[order.Ticket], order.Lots, 0, 0);
-                // Console.WriteLine("Close copied");
-            }
-
-        }
-
-        private void Qc_OnQuote(object sender, QuoteEventArgs args)
-        {
-
-        }
-
-        //Listen STOCK from Internet
-        // eventAggregator.GetEvent<MarketPricesUpdatedEvent>().Subscribe(this.MarketPricesUpdated, ThreadOption.UIThread);
-
-
-        public DelegateCommand ExportCommand { get; }
-        private async void ExecuteExportAll()
-        {
-
-            try
-            {
-                var saveFileDialog = new SaveFileDialog
-                {
-                    Title = "Exporting...",
-                    FileName = $"Postion_{DateTime.Now.ToFileTime()}{AppConstants.TXT_EXT}",
-                    FilterIndex = 1,
-                    Filter = $"Txt Files (*{AppConstants.TXT_EXT})|*{AppConstants.TXT_EXT}",
-                    InitialDirectory = KnownFolders.ExportedFolderUri.LocalPath
-
-                };
-
-                if (saveFileDialog.ShowDialog() is not true)
-                {
-                    return;
-
-                }
-
-                // this.TradeCopy();
-                await this.accountPositionService.ExportToTextFileAsync(this.OrderItems, saveFileDialog.FileName);
-                //  this.exportService.Export(this.PositionSummaryItemCollection.Select(i => i.AccountPosition), saveFileDialog.FileName, ExportFileType.CSV); ;
-            }
-
-            catch (Exception exception)
-
-            {
-                // TODO
-                // Logger.Instance.Log(exception);
-
-            }
-
-        }
-
-        public ObservableCollection<OrderViewModel> OrderItems
-        {
-            get => this.orderItems;
-            set => this.SetProperty(ref this.orderItems, value);
+            get => this.tradeItems;
+            set => this.SetProperty(ref this.tradeItems, value);
         }
 
     }

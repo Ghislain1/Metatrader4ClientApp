@@ -20,13 +20,15 @@ namespace Metatrader4ClientApp.Modules.Login
     {
         private readonly IEventAggregator eventAggregator;
         private readonly IConnectionParameterService connectionParameterService;
+        private readonly IMarketFeedService marketFeedService;
         private string? loginMessage;
         private string? accountNumberString;
         private string? host;
         private int port  ;
-        public LoginViewModel(IEventAggregator eventAggregator, IConnectionParameterService connectionParameterService)
+        public LoginViewModel(IEventAggregator eventAggregator, IMarketFeedService marketFeedService, IConnectionParameterService connectionParameterService)
         {
             this.eventAggregator = eventAggregator;
+            this.marketFeedService = marketFeedService;
             this.connectionParameterService = connectionParameterService;
             this.PackIcon = PackIconNames.Login;
             this.Label = "LOGIN";
@@ -99,10 +101,16 @@ namespace Metatrader4ClientApp.Modules.Login
 
             this.eventAggregator.GetEvent<ApplicationBusyEvent>().Publish(true);
             var cp = new ConnectionParameter() { Host = this.Host, AccountNumber= this.AccountNumber, Password=passwordBox.Password, Port = this.Port };   
-            var isOkay = await this.connectionParameterService.CheckConnectionParameterAsync(cp);
+            var isOkay = await this.marketFeedService.CheckConnectionParameterAsync(cp);
             if (!isOkay)
             {
-                this.LoginMessage = this.connectionParameterService.ErrorMessage;
+                this.LoginMessage = this.marketFeedService.ErrorMessage;
+            }
+            else
+            {
+                this.LoginMessage = string.Empty;
+                // Store it for later
+                this.connectionParameterService.StoreConnectionParameter(cp);
             }
             this.eventAggregator.GetEvent<ApplicationBusyEvent>().Publish(false);
         }
