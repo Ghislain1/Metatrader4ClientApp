@@ -64,7 +64,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
                 QuoteClient qc = new QuoteClient(connectionParameter.AccountNumber, connectionParameter.Password, connectionParameter.Host, connectionParameter.Port);
                 qc.Connect();
                 isConnectionSuccess = true;
-                // qc.Disconnect();
+                
                 this.QuoteClientDic.Add(qc,connectionParameter );
                 this.eventAggregator.GetEvent<ConnectionParameterCreatedEvent>().Publish(connectionParameter);
 
@@ -140,10 +140,16 @@ namespace Metatrader4ClientApp.Infrastructure.Services
                 foreach (var itemQc in clonedQuoteClientDic.Keys)
                 {
                     var orders =  itemQc.GetOpenedOrders();
-                    payLoad.Add(clonedQuoteClientDic[itemQc], orders);
+                    var tradeIdem = this.CreateTradeItem(itemQc, orders, clonedQuoteClientDic[itemQc]);
+                    this.eventAggregator.GetEvent<TradeItemUpdatedEvent>().Publish(tradeIdem);
+                    
                 }
             }
-            this.eventAggregator.GetEvent<TradeListUpdatedEvent>().Publish(payLoad);
+            
+        }
+        private TradeItem CreateTradeItem(QuoteClient quoteClient, Order[] orders, ConnectionParameter connectionParameter)
+        {
+            return new TradeItem(quoteClient.AccountName, quoteClient.AccountProfit, quoteClient.AccountBalance, quoteClient.AccountCredit, quoteClient.AccountEquity, quoteClient.AccountType, orders, connectionParameter);
         }
 
 

@@ -39,8 +39,17 @@ namespace Metatrader4ClientApp.Modules.Trade
             this.exportService = exportService;
             this.ExportCommand = new DelegateCommand(() => this.ExecuteExportAll(), () => this.OrderItems.Any());
             this.FetchDataCommand = new DelegateCommand(() => this.ExecuteFetchData(), () => true);
-            this.eventAggregator.GetEvent<TradeListUpdatedEvent>().Subscribe(this.OnTradeListUpdated, ThreadOption.UIThread);
+            this.eventAggregator.GetEvent<TradeItemUpdatedEvent>().Subscribe(this.OnTradeItemListUpdated);
 
+        }
+
+        private void OnTradeItemListUpdated(TradeItem obj)
+        {
+            if (!obj.ConnectionParameter.Equals(this.ConnectionParameter))
+            {
+                return;
+            }
+            this.OrderItems = new ObservableCollection<OrderViewModel>( obj.Orders.Select(i =>  new OrderViewModel(i)));
         }
 
         private void OnTradeListUpdated(IDictionary<ConnectionParameter, Order[]> connectionParameterOrderDic)

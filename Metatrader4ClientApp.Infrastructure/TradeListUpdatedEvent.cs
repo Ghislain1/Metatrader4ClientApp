@@ -20,6 +20,10 @@ namespace Metatrader4ClientApp.Infrastructure
     {
     }
 
-    
+    public class TradeItemUpdatedEvent : PubSubEvent<TradeItem>
+    {
+    }
+
+
 
 }

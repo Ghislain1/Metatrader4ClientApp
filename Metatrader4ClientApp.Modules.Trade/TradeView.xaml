@@ -13,6 +13,7 @@
             xmlns:converters="clr-namespace:Metatrader4ClientApp.Infrastructure.Converters;assembly=Metatrader4ClientApp.Infrastructure">
 
   <DockPanel>
+    <ScrollViewer  VerticalScrollBarVisibility="Auto">
     <ItemsControl ItemsSource="{Binding TradeItems}">
       <ItemsControl.ItemTemplate>
         <DataTemplate DataType="{x:Type local:TradeItemViewModel}">
@@ -34,41 +35,8 @@
           <UniformGrid Columns="1"/>
         </ItemsPanelTemplate>
       </ItemsControl.ItemsPanel>
-    </ItemsControl>
+    </ItemsControl>     
 
-    
-    
- 
-    <!--<Grid DockPanel.Dock="Bottom">
-      <Rectangle Height="500" VerticalAlignment="Center" >
-        <Rectangle.Fill>
-          <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="#ffffff" />
-            <GradientStop Color="#333399" Offset="1" />
-          </LinearGradientBrush>
-
-        </Rectangle.Fill>
-
-      </Rectangle>
-
-      <Rectangle Width="280" Height="300" Fill="White" Effect="{DynamicResource MaterialDesignShadowDepth5}" RadiusX="13.667" RadiusY="13.667" >
-
-      </Rectangle>
-      <Image Source="Assets/login.png" Width="90" Height="90" Margin="0,0,0,300" Effect="{DynamicResource MaterialDesignShadowDepth3}"/>
-      <Grid Width="280" Height="288" VerticalAlignment="Top" Margin="35,104,35,0">
-        <TextBlock Text="LOGIN" VerticalAlignment="top" HorizontalAlignment="Center" Margin="50" FontWeight="Bold" FontSize="20" Foreground="#333399" />
-        <StackPanel VerticalAlignment="Center" Margin="15,0,15,0" Height="100">
-          <TextBox materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Height="37" />
-          <PasswordBox materialDesign:HintAssist.Hint="Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
-
-        </StackPanel>
-        <Button VerticalAlignment="Top" Content="Login"  Margin="40,229,40,0" Height="37" Effect="{DynamicResource MaterialDesignShadowDepth2}" Background="#FF7C38F5" />
-      </Grid>
-
-      <Button  Background="White" Foreground="#FF391678" Content="Signup" Margin="76,437,76,15" Effect="{DynamicResource MaterialDesignShadowDepth2}" BorderBrush="#FF391678" />
-    </Grid>-->
-
-    
-
+    </ScrollViewer>
   </DockPanel>
 </UserControl>

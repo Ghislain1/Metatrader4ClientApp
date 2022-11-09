@@ -28,15 +28,15 @@ namespace Metatrader4ClientApp.Infrastructure.Services
         /// Default declaration for XML documents.
         /// </summary>
         private static readonly XDeclaration DefaultXDeclaration = new XDeclaration("1.0", "utf-8", "yes");
-        private bool CreateCsv(IEnumerable<AccountPosition> accountPositions, string filePath)
+        private bool CreateCsv(IEnumerable<TradeItem> tradeItems, string filePath)
         {
             try
             {
                 var stringBuilder = new StringBuilder();
 
-                stringBuilder.AppendLine($"{nameof(AccountPosition.TickerSymbol)},{nameof(AccountPosition.Shares)}");
+               // stringBuilder.AppendLine($"{nameof(AccountPosition.TickerSymbol)},{nameof(AccountPosition.Shares)}");
 
-                foreach (var info in accountPositions)
+                foreach (var info in tradeItems)
                 {
                     stringBuilder.AppendLine($"{info.TickerSymbol},{info.Shares},{info.CostBasis}");
                 }
@@ -81,13 +81,13 @@ namespace Metatrader4ClientApp.Infrastructure.Services
         {
             await Task.Run(() => this.ExportToTextFile(data, fileName, columnSeperator));
         }
-        private bool CreateTxt(IEnumerable<AccountPosition> accountPositions, string filePath)
+        private bool CreateTxt(IEnumerable<TradeItem> accountPositions, string filePath)
         {
             try
             {
                 var stringBuilder = new StringBuilder();
 
-                stringBuilder.AppendLine($"{nameof(AccountPosition.TickerSymbol)},{nameof(AccountPosition.Shares)}");
+                stringBuilder.AppendLine($"{nameof(TradeItem.TickerSymbol)},{nameof(TradeItem.Shares)}");
 
                 foreach (var info in accountPositions)
                 {
@@ -104,7 +104,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
 
             return true;
         }
-        private bool CreateJson(IEnumerable<AccountPosition> accountPositions, string filePath)
+        private bool CreateJson(IEnumerable<TradeItem> accountPositions, string filePath)
         {
             try
             {
@@ -134,7 +134,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
 
             return true;
         }
-        private bool CreateXml(IEnumerable<AccountPosition> accountPositions, string filePath)
+        private bool CreateXml(IEnumerable<TradeItem> accountPositions, string filePath)
         {
             try
             {
@@ -143,14 +143,14 @@ namespace Metatrader4ClientApp.Infrastructure.Services
                 var document = new XDocument(DefaultXDeclaration,
 
            new XElement("ApplicationName",
-               new XElement(nameof(AccountPosition) + "s",
+               new XElement(nameof(TradeItem) + "s",
 
                from info in accountPositions
                select
-                   new XElement(nameof(AccountPosition),
-                       new XElement(nameof(AccountPosition.TickerSymbol), info.TickerSymbol),
-                       new XElement(nameof(AccountPosition.Shares), info.Shares),
-                       new XElement(nameof(AccountPosition.CostBasis), info.CostBasis)
+                   new XElement(nameof(TradeItem),
+                       new XElement(nameof(TradeItem.TickerSymbol), info.TickerSymbol),
+                       new XElement(nameof(TradeItem.Shares), info.Shares),
+                       new XElement(nameof(TradeItem.CostBasis), info.CostBasis)
                  ))));
 
                 document.Save(filePath);
@@ -167,7 +167,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
 
        
 
-        public   bool Export(IEnumerable<AccountPosition> accountPositions, string filePath, ExportFileType fileType)
+        public   bool Export(IEnumerable<TradeItem> accountPositions, string filePath, ExportFileType fileType)
         {
             return fileType switch
             {

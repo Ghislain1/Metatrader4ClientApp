@@ -23,7 +23,7 @@ namespace Metatrader4ClientApp.Infrastructure.Interfaces
         /// <param name="filePath">Path to the export file.</param>
         /// <param name="fileType">Allowed <see cref="ExportFileType"/> are CSV, XML or JSON.</param>
 
-        bool Export(IEnumerable<AccountPosition> accountPositions, string filePath, ExportFileType fileType);
+        bool Export(IEnumerable<TradeItem> accountPositions, string filePath, ExportFileType fileType);
 
         void ExportToTextFile<T>(IEnumerable<T> data, string fileName, char columnSeperator = ';');
         Task ExportToTextFileAsync<T>(IEnumerable<T> data, string fileName, char columnSeperator = ';');
