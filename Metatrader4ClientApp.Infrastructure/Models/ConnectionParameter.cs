@@ -24,13 +24,13 @@ namespace Metatrader4ClientApp.Infrastructure.Models
         /// <summary>
         /// the user
         /// </summary>
-        public int AccountNumber { get; set; } = 500478235;
+        public int AccountNumber { get; set; } = 13088407;
 
         public int Port { get; set; } = 443;
 
-        public string? Password { get; set; } = "ywh3ejc";
+        public string? Password { get; set; } = "memFBr11";
 
-        public string? Host { get; set; } = "mt4-demo.roboforex.com";
+        public string? Host { get; set; } = "185.97.160.122";
 
         public override bool Equals(object other)
         {
