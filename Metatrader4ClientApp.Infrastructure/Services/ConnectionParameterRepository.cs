@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Metatrader4ClientApp.Infrastructure.Models;
-
-using Newtonsoft.Json;
+﻿
 
 namespace Metatrader4ClientApp.Infrastructure.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Metatrader4ClientApp.Infrastructure.Models;
+    using Newtonsoft.Json;
     internal static class ConnectionParameterRepository
     {
-        private static readonly string ConnectionParameterFilePath = Path.Combine(KnownFolders.ConnectionParameterPath, "ConnectionParameters.json");
+        private static readonly string ConnectionParameterFilePath = Path.Combine(KnownFolders.Mt4Path, "ConnectionParameters.json");
         static ConnectionParameterRepository()
         {
 
@@ -22,7 +21,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
                 try
                 {
 
-                    Directory.CreateDirectory(ConnectionParameterFilePath);
+                    Directory.CreateDirectory(KnownFolders.Mt4Path);
                     using (File.Create(ConnectionParameterFilePath)) ;
                 }
                 catch (Exception s)
