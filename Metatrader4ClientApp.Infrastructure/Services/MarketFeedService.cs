@@ -170,6 +170,11 @@ namespace Metatrader4ClientApp.Infrastructure.Services
             if (this.timer != null)
             {
                 this.timer.Dispose();
+                foreach (var quoteClient in this.QuoteClientDic.Keys)
+                {
+                    quoteClient?.Disconnect();
+
+                }
             }
 
             // this.timer = null;

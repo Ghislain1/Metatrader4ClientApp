@@ -44,13 +44,16 @@ namespace Metatrader4ClientApp.Modules.Trade
 
         }
 
-        private void OnTradeItemListUpdated(TradeItem obj)
+        private async void OnTradeItemListUpdated(TradeItem obj)
         {
             if (!obj.ConnectionParameter.Equals(this.ConnectionParameter))
             {
                 return;
             }
-            this.OrderItems = new ObservableCollection<OrderViewModel>( obj.Orders.Select(i =>  new OrderViewModel(i)));
+
+           var newListOfOrders= await Task.Run(() => obj.Orders.Select(i => new OrderViewModel(i)));
+            this.OrderItems = new ObservableCollection<OrderViewModel>(newListOfOrders);
+        
         }
 
         private void OnTradeListUpdated(IDictionary<ConnectionParameter, Order[]> connectionParameterOrderDic)

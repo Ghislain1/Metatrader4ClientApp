@@ -21,7 +21,7 @@
               
               <Expander Style="{StaticResource MaterialDesignExpander}" Header="{Binding Header}" >
              
-                <DataGrid ItemsSource="{Binding OrderItems}"/>
+                <DataGrid ItemsSource="{Binding OrderItems}"  IsReadOnly="True"/>
             
               <Expander.HeaderTemplate>
               <DataTemplate>

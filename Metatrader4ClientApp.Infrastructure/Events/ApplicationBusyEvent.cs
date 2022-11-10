@@ -15,7 +15,7 @@ namespace Metatrader4ClientApp.Infrastructure.Events
     using System.Text;
     using System.Threading.Tasks;
 
-    public class ApplicationBusyEvent : PubSubEvent<bool>
+    public class ApplicationBusyEvent : PubSubEvent<(bool, string?)>
     {
     }
 }

@@ -39,7 +39,7 @@ namespace Metatrader4ClientApp.Modules.Login
              });
             this.Port = 443;
             this.AccountNumberString = "500476959";
-           // this.Password = "ywh3ejc";
+            // this.Password = "ehj4bod";
             this.Host = "mt4-demo.roboforex.com";
  
         }
@@ -100,7 +100,7 @@ namespace Metatrader4ClientApp.Modules.Login
             }
             this.AccountNumber = accontNumber;
 
-            this.eventAggregator.GetEvent<ApplicationBusyEvent>().Publish(true);
+            this.eventAggregator.GetEvent<ApplicationBusyEvent>().Publish((true, "Connecting..."));
             var cp = new ConnectionParameter() { Host = this.Host, AccountNumber= this.AccountNumber, Password=passwordBox.Password, Port = this.Port };   
             var isOkay = await this.marketFeedService.CheckConnectionParameterAsync(cp);
             if (!isOkay)
@@ -109,11 +109,18 @@ namespace Metatrader4ClientApp.Modules.Login
             }
             else
             {
-                this.LoginMessage = string.Empty;
+                
+              
                 // Store it for later
                 this.connectionParameterService.StoreConnectionParameter(cp);
             }
-            this.eventAggregator.GetEvent<ApplicationBusyEvent>().Publish(false);
+            this.eventAggregator.GetEvent<ApplicationBusyEvent>().Publish((false, null));
+            if (isOkay)
+            {
+                this.LoginMessage = "Login successful!";
+                await Task.Delay(5000);
+                this.LoginMessage = string.Empty;
+            }
         }
     }
 }

@@ -147,13 +147,15 @@
   </metro:MetroContentControl>
 
     <Grid Visibility="{Binding IsBusy ,Converter={x:Static converters:BoolToVisibilityConverter.Instance}}">
-      <Rectangle  Fill="Green" Opacity="0.1"/>
-      <TextBlock Text="Busy..."   />
+      <Rectangle  Fill="Green" Opacity="0.1"/>   
       <ProgressBar IsIndeterminate="True" Height="100"
                    Width="100"
                    Margin="250,11,0,0"
                    Style="{StaticResource MaterialDesignCircularProgressBar}"             
                        />
+      <TextBlock  Margin="601,601,0,0"
+                  FontSize="50"
+                  Text="{Binding BusyMessage}" />
     </Grid>
     
   </Grid>

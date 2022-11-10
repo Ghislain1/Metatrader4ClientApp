@@ -32,8 +32,17 @@
             this.eventAggregator = eventAggregator;
             this.dialogService = dialogService;
             this.IsPaneOpen = true;
-            this.eventAggregator.GetEvent<ApplicationBusyEvent>().Subscribe(value => this.IsBusy = value);
+            this.eventAggregator.GetEvent<ApplicationBusyEvent>().Subscribe(OnApplicationBusy);
+              
         }
+
+        private void OnApplicationBusy((bool, string?) obj)
+        {
+            this.BusyMessage = obj.Item2;
+            this.IsBusy = obj.Item1;
+
+        }
+
         public bool IsPaneOpen
         {
             get => this.isPaneOpen;
@@ -46,7 +55,15 @@
             set => SetProperty(ref this.isBusy, value);
         }
 
+        private string? busyMessage;
+        public string? BusyMessage
+        {
+            get => this.busyMessage;
+            set => SetProperty(ref this.busyMessage, value);
+        }
         
+
+
         public object ActivatedItem
         {
             get { return activatedItem; }
