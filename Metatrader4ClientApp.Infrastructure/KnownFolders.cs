@@ -15,7 +15,7 @@ namespace Metatrader4ClientApp.Infrastructure
     {
 
         public const string ParentFolderName = "Metatrader4ClientApp";
-        public const string ProductVersion = "1.0.0";
+        public const string ProductVersion = "2202.02.22";
         public static string ApplicationNameForPython { get; set; } = null;
 
         // C:\ProgramData\

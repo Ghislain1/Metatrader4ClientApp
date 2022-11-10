@@ -1,7 +1,11 @@
 ﻿
 
-namespace Metatrader4ClientApp.Infrastructure
+
+namespace Metatrader4ClientApp.Infrastructure.Events
 {
+    using Metatrader4ClientApp;
+    using Metatrader4ClientApp.Infrastructure;
+    using Metatrader4ClientApp.Infrastructure.Events;
     using Metatrader4ClientApp.Infrastructure.Models;
     using Prism.Events;
     using System;
@@ -11,7 +15,7 @@ namespace Metatrader4ClientApp.Infrastructure
     using System.Threading.Tasks;
     using TradingAPI.MT4Server;
 
-   
+
     public class ConnectionParameterCreatedEvent : PubSubEvent<ConnectionParameter>
     {
     }

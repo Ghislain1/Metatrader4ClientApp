@@ -2,6 +2,7 @@
 
 namespace Metatrader4ClientApp.Infrastructure.Services
 {
+    using Metatrader4ClientApp.Infrastructure.Events;
     using Metatrader4ClientApp.Infrastructure.Interfaces;
     using Metatrader4ClientApp.Infrastructure.Models;
     using Prism.Events;

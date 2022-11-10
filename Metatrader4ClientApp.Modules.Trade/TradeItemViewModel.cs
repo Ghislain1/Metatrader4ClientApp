@@ -9,6 +9,7 @@
 namespace Metatrader4ClientApp.Modules.Trade
 {
     using Metatrader4ClientApp.Infrastructure;
+    using Metatrader4ClientApp.Infrastructure.Events;
     using Metatrader4ClientApp.Infrastructure.Interfaces;
     using Metatrader4ClientApp.Infrastructure.Models;
     using Metatrader4ClientApp.Infrastructure.Services;

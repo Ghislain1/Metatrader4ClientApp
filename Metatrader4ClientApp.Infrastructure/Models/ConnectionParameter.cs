@@ -32,7 +32,7 @@ namespace Metatrader4ClientApp.Infrastructure.Models
 
         public string? Host { get; set; } = "185.97.160.122";
 
-        public override bool Equals(object other)
+        public override bool  Equals(object other)
         {
             ConnectionParameter otherItem = other as ConnectionParameter;
             if (otherItem == null)

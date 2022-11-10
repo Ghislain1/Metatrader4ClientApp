@@ -22,6 +22,7 @@ namespace Metatrader4ClientApp.Modules.Trade
     using Microsoft.Win32;
     using TradingAPI.MT4Server;
     using System.Windows.Threading;
+    using Metatrader4ClientApp.Infrastructure.Events;
 
     public class TradeViewModel : PluginBindableBase
     {
