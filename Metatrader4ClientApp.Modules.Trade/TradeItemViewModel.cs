@@ -31,7 +31,9 @@ namespace Metatrader4ClientApp.Modules.Trade
         private readonly IMarketFeedService marketFeedService;
         private readonly IExportService exportService;
         private ObservableCollection<OrderViewModel> orderItems = new();
-       
+        private bool  isDataProcessing;
+
+
         public TradeItemViewModel(ConnectionParameter model, IEventAggregator eventAggregator, IMarketFeedService marketFeedService, IExportService exportService)
         {
             this.ConnectionParameter = model;
@@ -46,14 +48,15 @@ namespace Metatrader4ClientApp.Modules.Trade
 
         private async void OnTradeItemListUpdated(TradeItem obj)
         {
-            if (!obj.ConnectionParameter.Equals(this.ConnectionParameter))
+            if (!obj.ConnectionParameter.Equals(this.ConnectionParameter) || this.isDataProcessing)
             {
                 return;
             }
-
+            
+            this.isDataProcessing = true;
            var newListOfOrders= await Task.Run(() => obj.Orders.Select(i => new OrderViewModel(i)));
             this.OrderItems = new ObservableCollection<OrderViewModel>(newListOfOrders);
-        
+            this.isDataProcessing = false;
         }
 
         private void OnTradeListUpdated(IDictionary<ConnectionParameter, Order[]> connectionParameterOrderDic)
