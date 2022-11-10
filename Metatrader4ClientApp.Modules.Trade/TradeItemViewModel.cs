@@ -33,7 +33,11 @@ namespace Metatrader4ClientApp.Modules.Trade
         private ObservableCollection<OrderViewModel> orderItems = new();
         private bool  isDataProcessing;
 
-
+        internal TradeItemViewModel(string title, IEnumerable<OrderViewModel> ord)
+        {
+            this.Title = title;
+            this.OrderItems = new ObservableCollection<OrderViewModel>(ord);
+        }
         public TradeItemViewModel(ConnectionParameter model, IEventAggregator eventAggregator, IMarketFeedService marketFeedService, IExportService exportService)
         {
             this.ConnectionParameter = model;
@@ -52,29 +56,14 @@ namespace Metatrader4ClientApp.Modules.Trade
             {
                 return;
             }
-            
+
+
             this.isDataProcessing = true;
-           var newListOfOrders= await Task.Run(() => obj.Orders.Select(i => new OrderViewModel(i)));
-            this.OrderItems = new ObservableCollection<OrderViewModel>(newListOfOrders);
+            var newListOfOrders= await Task.Run(() => obj.Orders.Select(i => new OrderViewModel(i)));
+          //  this.OrderItems = new ObservableCollection<OrderViewModel>(newListOfOrders);
             this.isDataProcessing = false;
         }
 
-        private void OnTradeListUpdated(IDictionary<ConnectionParameter, Order[]> connectionParameterOrderDic)
-        {
-           
-            if (connectionParameterOrderDic is null || !connectionParameterOrderDic.Keys.Any())
-            {
-                return;
-            }
-            var currentKey =  connectionParameterOrderDic.Keys.FirstOrDefault(i => this.ConnectionParameter.Equals(i));
-            var collectionOrders = connectionParameterOrderDic[currentKey];
-            var vms= new List<OrderViewModel>();    
-            foreach (var item in collectionOrders)
-            {
-                vms.Add( new OrderViewModel(item));
-            }
-            this.OrderItems = new ObservableCollection<OrderViewModel>(vms);
-        }
 
         public DelegateCommand ExportCommand { get; }
         public DelegateCommand FetchDataCommand { get; }
@@ -85,7 +74,8 @@ namespace Metatrader4ClientApp.Modules.Trade
             set => this.SetProperty(ref this.orderItems, value);
         }
         public string Header => $"({this.ConnectionParameter.AccountNumber},{this.ConnectionParameter.Host}, {this.ConnectionParameter.Port})";
-             
+        
+        public string Title { get; set; }
         private async void ExecuteFetchData()
         {
           // var sd= await this.marketFeedService.GetOrderListBy(ConnectionParameter);

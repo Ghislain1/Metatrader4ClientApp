@@ -71,5 +71,11 @@ namespace Metatrader4ClientApp.Modules.Trade
             this.MagicNumber = order.MagicNumber;
             this.OpenPrice = order.OpenPrice;
         }
+        internal OrderViewModel(int magicNumber, double openPrice, double stopLoss)
+        {
+            this.OpenPrice = openPrice;
+            this.MagicNumber = magicNumber;
+            this.StopLoss = stopLoss;
+        }
     }
 }

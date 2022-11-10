@@ -30,7 +30,7 @@ namespace Metatrader4ClientApp.Modules.Trade
         private readonly IExportService exportService;
         private readonly IConnectionParameterService connectionParameterService;
         private readonly IMarketFeedService marketFeedService;
-        private ObservableCollection<TradeItemViewModel> tradeItems = new ObservableCollection<TradeItemViewModel>();       
+        private ObservableCollection<TradeItemViewModel> tradeItems = new ObservableCollection<TradeItemViewModel>();
         private readonly Dictionary<string, Order> orderDic = new Dictionary<string, Order>();
         public TradeViewModel(IEventAggregator eventAggregator, IMarketFeedService marketFeedService, IConnectionParameterService connectionParameterService, IExportService exportService)
         {
@@ -40,99 +40,82 @@ namespace Metatrader4ClientApp.Modules.Trade
             this.exportService = exportService;
 
             this.PackIcon = PackIconNames.Trade;
-            this.Label = "TRADE";          
-          
+            this.Label = "TRADE";
+
             this.Command = new DelegateCommand(() =>
             {
-                this.PopulateTradeItems();
+                // this.PopulateTradeItems();
+#if DEBUG
+                this.MockDataTradeCopy();
+#endif
 
-                this.TradeCopy();
                 //this.ExportCommand.RaiseCanExecuteChanged();
             });
 
-           // this. eventAggregator.GetEvent<MarketPricesUpdatedEvent>().Subscribe(this.MarketPricesUpdated, ThreadOption.UIThread);
-           // this.eventAggregator.GetEvent<TradItemUpdatedEvent>().Subscribe(this.TradItemUpdated, ThreadOption.UIThread);
+
             this.eventAggregator.GetEvent<ConnectionParameterCreatedEvent>().Subscribe(this.OnConnectionParameterCreated, ThreadOption.UIThread);
         }
 
         private void OnConnectionParameterCreated(ConnectionParameter newConnectionParameter)
         {
-            if(this.TradeItems.Any(i => i.ConnectionParameter.Equals(newConnectionParameter)))
+            if (this.TradeItems.Any(i => i.ConnectionParameter.Equals(newConnectionParameter)))
             {
                 return;
             }
-            this.TradeItems .Add(new TradeItemViewModel(newConnectionParameter,this.eventAggregator, this.marketFeedService, this.exportService));
+            this.TradeItems.Add(new TradeItemViewModel(newConnectionParameter, this.eventAggregator, this.marketFeedService, this.exportService));
         }
 
         private void TradItemUpdated(IDictionary<string, ConnectionParameter> dict)
         {
-             
+
         }
-         private TradeItemViewModel CreateTradeItemViewModel(ConnectionParameter connectionParameter)
+        private TradeItemViewModel CreateTradeItemViewModel(ConnectionParameter connectionParameter)
         {
             return new TradeItemViewModel(connectionParameter, this.eventAggregator, this.marketFeedService, this.exportService);
         }
         private async void PopulateTradeItems()
         {
-           var cpList= await this.connectionParameterService.GetConnectionParametersAsync();
-            var myTradeItems= new List<TradeItemViewModel>();
+            var cpList = await this.connectionParameterService.GetConnectionParametersAsync();
+            var myTradeItems = new List<TradeItemViewModel>();
             foreach (var item in cpList)
             {
                 myTradeItems.Add(this.CreateTradeItemViewModel(item));
             }
             this.TradeItems = new ObservableCollection<TradeItemViewModel>(myTradeItems);
         }
-
+        private bool processing = false;
         /// <summary>
         /// http://mtapi.online/2017/12/21/list-of-opened-orders/
         /// </summary>
-        private async void TradeCopy()
+        private async void MockDataTradeCopy()
         {
-            var items = await this.connectionParameterService.GetConnectionParametersAsync();
-            if(items is null)
+
+            int count = 111;
+            while (count > 0)
             {
-                return;
-            }
-           // this.TradeItems = new ObservableCollection<TradeItemViewModel>(items.Select(item =>   new TradeItemViewModel(item, this.marketFeedService)));
-            await Task.Run(() =>
-            {
-                foreach (var cp in items)
+                await Task.Delay(1000);
+                count--;
+                if (!this.processing) { 
+                    this.processing = true;    
+               
+                await Task.Run(() =>
                 {
-                    try
-                    {
-                        QuoteClient qc = new QuoteClient(cp.AccountNumber, cp.Password, cp.Host, cp.Port);
-                        Console.WriteLine("Connecting...");
-                        qc.Connect();
+                    var orders = Enumerable.Range(1, 1110).Select(item => new OrderViewModel(item, 10, 77));
+                    var items = Enumerable.Range(1, 10).Select(ite => new TradeItemViewModel(" Title " + ite, orders));
+                    this.TradeItems = new ObservableCollection<TradeItemViewModel>(items);
 
-
-                        foreach (Order order in qc.GetOpenedOrders())
-                        {
-                            this.orderDic.Add(Guid.NewGuid().ToString(), order);
-                            //Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
-                            //{
-                            //    this.OrderItems.Add(order!);
-                            //}));
-                        }
-
-                        qc.Disconnect();
-
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                        Console.WriteLine("Press any key...");
-
-                    }
+                });
+                    this.processing = false;
                 }
-            });
-
-           // this.OrderItems = new ObservableCollection<OrderViewModel>(this.orderDic.Values.Select(i => new OrderViewModel(i)));
+            }
         }
 
- 
- 
-        
-        
+
+
+
+
+
+
 
         public ObservableCollection<TradeItemViewModel> TradeItems
         {
