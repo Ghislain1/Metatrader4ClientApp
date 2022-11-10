@@ -5,16 +5,28 @@
     <Nullable>enable</Nullable>
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <Version>1.0.0</Version>
+    <Version>2202.2.22</Version>
     <Nullable>enable</Nullable>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <!--  <RuntimeIdentifier>win-x64</RuntimeIdentifier> -->
+    <FileVersion>2202.2.22</FileVersion>
+     <!-- <Platform>x64</Platform> -->
 
    <!-- <WarningsAsErrors>nullable</WarningsAsErrors> -->
     <Company>GhislainOne</Company>
     <Copyright>Copyright (C) Ghislain Zeus</Copyright>
     <StartupObject>Metatrader4ClientApp.App</StartupObject>
     <ApplicationIcon>Akku.ico</ApplicationIcon>
-    <SignAssembly>False</SignAssembly>
+    <SignAssembly>True</SignAssembly>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      <Optimize>True</Optimize>
+
+    <DebugType>None</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+
   </PropertyGroup>
 
   <ItemGroup>
