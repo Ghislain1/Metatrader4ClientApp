@@ -23,6 +23,9 @@ namespace Metatrader4ClientApp.Modules.Trade
     using TradingAPI.MT4Server;
     using System.Windows.Threading;
     using Metatrader4ClientApp.Infrastructure.Events;
+    using Metatrader4ClientApp.Infrastructure.Services;
+    using System.Windows.Data;
+    using System.Diagnostics;
 
     public class TradeViewModel : PluginBindableBase
     {
@@ -30,6 +33,7 @@ namespace Metatrader4ClientApp.Modules.Trade
         private readonly IExportService exportService;
         private readonly IConnectionParameterService connectionParameterService;
         private readonly IMarketFeedService marketFeedService;
+        private readonly object lockObject = new object();
         private ObservableCollection<TradeItemViewModel> tradeItems = new ObservableCollection<TradeItemViewModel>();
         private readonly Dictionary<string, Order> orderDic = new Dictionary<string, Order>();
         public TradeViewModel(IEventAggregator eventAggregator, IMarketFeedService marketFeedService, IConnectionParameterService connectionParameterService, IExportService exportService)
@@ -38,48 +42,73 @@ namespace Metatrader4ClientApp.Modules.Trade
             this.connectionParameterService = connectionParameterService;
             this.marketFeedService = marketFeedService;
             this.exportService = exportService;
-
             this.PackIcon = PackIconNames.Trade;
             this.Label = "TRADE";
+            BindingOperations.EnableCollectionSynchronization(this.TradeItems, this.lockObject);
 
             this.Command = new DelegateCommand(() =>
             {
                 // this.PopulateTradeItems();
 #if DEBUG
-                this.MockDataTradeCopy();
+               // this.DoMockDataTrade();
+              //  this.MockDataOrders();
 #endif
 
                 //this.ExportCommand.RaiseCanExecuteChanged();
             });
 
 
-            this.eventAggregator.GetEvent<ConnectionParameterCreatedEvent>().Subscribe(this.OnConnectionParameterCreated, ThreadOption.UIThread);
+            this.eventAggregator.GetEvent<TradeItemCreatedEvent>().Subscribe(this.OnTradeItemCreatedEvent);
         }
 
-        private void OnConnectionParameterCreated(ConnectionParameter newConnectionParameter)
+        private void OnTradeItemCreatedEvent(TradeItem newTradeItem)
         {
-            if (this.TradeItems.Any(i => i.ConnectionParameter.Equals(newConnectionParameter)))
+            if (this.TradeItems.Any(i => i.Equals(newTradeItem)))
             {
                 return;
             }
-            this.TradeItems.Add(new TradeItemViewModel(newConnectionParameter, this.eventAggregator, this.marketFeedService, this.exportService));
+            var newTradeItemViewModel = new TradeItemViewModel(newTradeItem, this.eventAggregator, this.marketFeedService, this.exportService);
+            newTradeItem.Orders.ToList().ForEach(el=> newTradeItemViewModel.OrderItems.Add(new OrderItemViewModel(el)));
+            this.TradeItems.Add(newTradeItemViewModel);
         }
 
         private void TradItemUpdated(IDictionary<string, ConnectionParameter> dict)
         {
 
         }
-        private TradeItemViewModel CreateTradeItemViewModel(ConnectionParameter connectionParameter)
-        {
-            return new TradeItemViewModel(connectionParameter, this.eventAggregator, this.marketFeedService, this.exportService);
-        }
+       
+
+        //private async void DoMockDataTrade()
+        //{
+
+        //    int count = 111;
+        //    this.TradeItems.Clear();
+        //    while (count > 0)
+        //    {
+        //        if (this.processing)
+        //        {
+        //            continue;
+        //        }
+        //        this.processing = true;
+        //        Debug.WriteLine("  =================================> " + this.processing);
+        //        var newTradeItem = await this.MockDataTrade(count);
+        //        this.TradeItems.Add(newTradeItem.Item1);
+        //        if (this.SelectedTradeItem is null)
+        //        {
+        //            this.SelectedTradeItem = newTradeItem.Item1;
+        //        }
+        //        newTradeItem.Item1.OrderItems = new ObservableCollection<OrderItemViewModel>(newTradeItem.Item2);
+        //        this.processing = false;
+        //        count--;
+        //    }
+        //}
         private async void PopulateTradeItems()
         {
             var cpList = await this.connectionParameterService.GetConnectionParametersAsync();
             var myTradeItems = new List<TradeItemViewModel>();
             foreach (var item in cpList)
             {
-                myTradeItems.Add(this.CreateTradeItemViewModel(item));
+               // myTradeItems.Add(this.CreateTradeItemViewModel(item));
             }
             this.TradeItems = new ObservableCollection<TradeItemViewModel>(myTradeItems);
         }
@@ -87,41 +116,45 @@ namespace Metatrader4ClientApp.Modules.Trade
         /// <summary>
         /// http://mtapi.online/2017/12/21/list-of-opened-orders/
         /// </summary>
-        private async void MockDataTradeCopy()
+     
+        private async void MockDataOrders()
         {
+            if (this.SelectedTradeItem is null)
+            {
+                return;
+            }
 
             int count = 111;
+            this.TradeItems.Clear();
             while (count > 0)
             {
                 await Task.Delay(1000);
-                count--;
-                if (!this.processing) { 
-                    this.processing = true;    
-               
-                await Task.Run(() =>
+                if (this.processing)
                 {
-                    var orders = Enumerable.Range(1, 1110).Select(item => new OrderViewModel(item, 10, 77));
-                    var items = Enumerable.Range(1, 10).Select(ite => new TradeItemViewModel(" Title " + ite, orders));
-                    this.TradeItems = new ObservableCollection<TradeItemViewModel>(items);
-
-                });
-                    this.processing = false;
+                    continue;
                 }
+                count--;
+                this.processing = true;
+
+
+                this.processing = false;
             }
+
         }
-
-
-
-
-
-
-
 
         public ObservableCollection<TradeItemViewModel> TradeItems
         {
             get => this.tradeItems;
             set => this.SetProperty(ref this.tradeItems, value);
         }
+        private TradeItemViewModel selectedTradeItem;
+        public TradeItemViewModel SelectedTradeItem
+        {
+            get => this.selectedTradeItem;
+            set => this.SetProperty(ref this.selectedTradeItem, value);
+        }
+
+
 
     }
 

@@ -23,6 +23,7 @@ namespace Metatrader4ClientApp.Modules.Trade
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Windows.Data;
     using TradingAPI.MT4Server;
 
     public class TradeItemViewModel : BindableBase
@@ -30,55 +31,71 @@ namespace Metatrader4ClientApp.Modules.Trade
         private readonly IEventAggregator eventAggregator;
         private readonly IMarketFeedService marketFeedService;
         private readonly IExportService exportService;
-        private ObservableCollection<OrderViewModel> orderItems = new();
-        private bool  isDataProcessing;
+        private ObservableCollection<OrderItemViewModel> orderItems = new();
+        private bool isDataProcessing;
+        private readonly object lockObject = new object();
 
-        internal TradeItemViewModel(string title, IEnumerable<OrderViewModel> ord)
+     
+        public TradeItemViewModel(TradeItem model, IEventAggregator eventAggregator, IMarketFeedService marketFeedService, IExportService exportService)
         {
-            this.Title = title;
-            this.OrderItems = new ObservableCollection<OrderViewModel>(ord);
-        }
-        public TradeItemViewModel(ConnectionParameter model, IEventAggregator eventAggregator, IMarketFeedService marketFeedService, IExportService exportService)
-        {
-            this.ConnectionParameter = model;
+            this.TradeItem = model;
+            this.Title = model.AccountName;
+            this.Id = model.Id;
             this.eventAggregator = eventAggregator;
             this.marketFeedService = marketFeedService;
             this.exportService = exportService;
             this.ExportCommand = new DelegateCommand(() => this.ExecuteExportAll(), () => this.OrderItems.Any());
             this.FetchDataCommand = new DelegateCommand(() => this.ExecuteFetchData(), () => true);
             this.eventAggregator.GetEvent<TradeItemUpdatedEvent>().Subscribe(this.OnTradeItemListUpdated);
+            BindingOperations.EnableCollectionSynchronization(this.OrderItems, this.lockObject);
+            eventAggregator.GetEvent<MarketPricesUpdatedEvent>().Subscribe(this.MarketPricesUpdated, ThreadOption.UIThread);
 
         }
+        public void MarketPricesUpdated(IDictionary<string, double> tickerSymbolsPrice)
+        {
+            if (tickerSymbolsPrice == null)
+            {
+                throw new ArgumentNullException("tickerSymbolsPrice");
+            }
 
+            foreach (var position in this.OrderItems)
+            {
+                if (tickerSymbolsPrice.ContainsKey(position.Symbol))
+                {
+                    position.OpenPrice = tickerSymbolsPrice[position.Symbol];
+                }
+            }
+        }
         private async void OnTradeItemListUpdated(TradeItem obj)
         {
-            if (!obj.ConnectionParameter.Equals(this.ConnectionParameter) || this.isDataProcessing)
-            {
-                return;
-            }
+            //if (!obj.ConnectionParameter.Equals(this.ConnectionParameter) || this.isDataProcessing)
+            //{
+            //    return;
+            //}
 
 
             this.isDataProcessing = true;
-            var newListOfOrders= await Task.Run(() => obj.Orders.Select(i => new OrderViewModel(i)));
-          //  this.OrderItems = new ObservableCollection<OrderViewModel>(newListOfOrders);
+            //  var newListOfOrders= await Task.Run(() => obj.Orders.Select(i => new OrderItemViewModel(i)));
+            //  this.OrderItems = new ObservableCollection<OrderViewModel>(newListOfOrders);
             this.isDataProcessing = false;
         }
 
 
         public DelegateCommand ExportCommand { get; }
         public DelegateCommand FetchDataCommand { get; }
-        public ConnectionParameter ConnectionParameter { get; }
-        public ObservableCollection<OrderViewModel> OrderItems
+        public TradeItem TradeItem { get; }
+        public ObservableCollection<OrderItemViewModel> OrderItems
         {
             get => this.orderItems;
             set => this.SetProperty(ref this.orderItems, value);
         }
-        public string Header => $"({this.ConnectionParameter.AccountNumber},{this.ConnectionParameter.Host}, {this.ConnectionParameter.Port})";
-        
+        public string Header => $"({this.TradeItem.AccountName},{this.TradeItem.AccountProfit}, {this.TradeItem.AccountBalance})";
+
         public string Title { get; set; }
+        public string Id { get; }
         private async void ExecuteFetchData()
         {
-          // var sd= await this.marketFeedService.GetOrderListBy(ConnectionParameter);
+            // var sd= await this.marketFeedService.GetOrderListBy(ConnectionParameter);
 
         }
         private async void ExecuteExportAll()

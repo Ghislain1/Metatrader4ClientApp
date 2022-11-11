@@ -14,12 +14,11 @@
                     >
 
   <DockPanel>
-    <TabControl ItemsSource="{Binding TradeItems}" x:Name="m_tabControl" Style="{StaticResource MaterialDesignTabControl}">
+    <TabControl SelectedItem="{Binding SelectedTradeItem}" ItemsSource="{Binding TradeItems}" x:Name="m_tabControl" Style="{StaticResource MaterialDesignTabControl}">
       <!-- Change ItemTemplate to control content on tabs -->
       <TabControl.ItemTemplate>
         <DataTemplate>
-          <StackPanel>
-             
+          <StackPanel>            
             <TextBlock Text="{Binding Title}" HorizontalAlignment="Center"/>
           </StackPanel>
         </DataTemplate>
@@ -27,12 +26,12 @@
       <!-- Change ContentTemplate to control main content -->
       <TabControl.ContentTemplate>
         <DataTemplate>
-          <UniformGrid Columns="2">
+          <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             
      
-          <DataGrid ItemsSource="{Binding OrderItems}"    />
-            <TextBlock Text="{Binding OrderItems.Count}"/>
-          </UniformGrid>
+          <DataGrid ItemsSource="{Binding OrderItems}"    IsReadOnly="True" />
+
+          </ScrollViewer>
         </DataTemplate>
       </TabControl.ContentTemplate>
     </TabControl>

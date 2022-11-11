@@ -13,8 +13,9 @@ namespace Metatrader4ClientApp.Infrastructure.Models
         public event EventHandler<AccountPositionEventArgs> Updated = delegate { };
         public TradeItem(string accountName,
             double accountProfit, double countBalance,
-           double accountCredit, double accountEquity, AccountType accountType, Order[] orders, ConnectionParameter connectionParameter)
+           double accountCredit, double accountEquity, AccountType accountType, OrderItem[] orders)
         {
+            this.Id = Guid.NewGuid().ToString();
             this.AccountName = accountName;
             this.AccountProfit = accountProfit;
             this.CountBalance = countBalance;
@@ -22,14 +23,25 @@ namespace Metatrader4ClientApp.Infrastructure.Models
             this.AccountEquity = accountEquity;
             this.AccountType = accountType;
             this.Orders = orders;
-            this.ConnectionParameter = connectionParameter;
-        }
 
+        }
+        public TradeItem(string accountName, double accountProfit = 0, double countBalance = 0,
+       double accountCredit = 0, double accountEquity = 0)
+        {
+           
+            this.AccountName = accountName;
+            this.AccountProfit = accountProfit;
+            this.CountBalance = countBalance;
+            this.AccountCredit = accountCredit;
+            this.AccountEquity = accountEquity;
+
+        }
+        public string Id { get; }
         public ConnectionParameter ConnectionParameter { get; }
         public string AccountName { get; }
         public AccountType AccountType { get; }
         public double AccountFreeMargin { get; }
-        public Order[] Orders { get; }
+        public OrderItem[] Orders { get; set; }
 
         //
         // Summary:

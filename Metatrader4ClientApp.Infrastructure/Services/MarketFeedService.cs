@@ -15,6 +15,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Xml.Linq;
     using TradingAPI.MT4Server;
 
     public class MarketFeedService : IMarketFeedService, IDisposable
@@ -22,9 +23,9 @@ namespace Metatrader4ClientApp.Infrastructure.Services
         private readonly IConnectionParameterService connectionParameterService;
         private readonly IEventAggregator eventAggregator;
         private readonly ISettingsService settingsService;
-        private readonly Dictionary<string, decimal> _priceList = new Dictionary<string, decimal>();
-        private readonly Dictionary<string, long> _volumeList = new Dictionary<string, long>();
-        private readonly Dictionary<QuoteClient, ConnectionParameter> QuoteClientDic = new Dictionary<QuoteClient, ConnectionParameter>();
+        private readonly Dictionary<int, double> priceList = new Dictionary<int, double>();
+        private readonly Dictionary<int, long> _volumeList = new Dictionary<int, long>();
+        private readonly Dictionary<QuoteClient, TradeItem> QuoteClientDic = new Dictionary<QuoteClient, TradeItem>();
         static readonly Random randomGenerator = new Random(unchecked((int)DateTime.Now.Ticks));
         private readonly Timer timer;
         private int _refreshInterval = 1000;
@@ -36,7 +37,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
             this.settingsService = settingsService;
             this.timer = new Timer(this.TimerTick);
             this.RefreshInterval = this.settingsService.Get().RefreshIntervalInMilliSeconde;
-            this.LoadconnectionParameterAsync();
+            // this.LoadconnectionParameterAsync();
 
 
         }
@@ -58,16 +59,31 @@ namespace Metatrader4ClientApp.Infrastructure.Services
         public string ErrorMessage { get; set; }
         public bool CheckConnectionParameter(ConnectionParameter connectionParameter)
         {
+#if DEBUG
+            //var ds = this.connectionParameterService.GetConnectionParametersAsync().Result.Count;
+            //var i1= MockDataDebugProvider.GetTradeItem("TradeItem Nr "+ ds);
+            //i1.Orders= MockDataDebugProvider.GetOrderListAsync(i1.Id).Result.ToArray();
+            //this.eventAggregator.GetEvent<TradeItemCreatedEvent>().Publish(i1);
+            //return true;
+#endif
             // Try to connect first
             bool isConnectionSuccess = false;
             try
             {
-                QuoteClient qc = new QuoteClient(connectionParameter.AccountNumber, connectionParameter.Password, connectionParameter.Host, connectionParameter.Port);
-                qc.Connect();
+                QuoteClient quoteClient = new QuoteClient(connectionParameter.AccountNumber, connectionParameter.Password, connectionParameter.Host, connectionParameter.Port);
+                quoteClient.Connect();
                 isConnectionSuccess = true;
-                
-                this.QuoteClientDic.Add(qc,connectionParameter );
-                this.eventAggregator.GetEvent<ConnectionParameterCreatedEvent>().Publish(connectionParameter);
+                var orders = quoteClient.GetOpenedOrders();
+                var tradeItem = this.CreateTradeItem(quoteClient, orders);                
+                this.QuoteClientDic.Add(quoteClient, tradeItem);
+                foreach (var item in orders)
+                {
+                    
+                    long volume = 1;
+                    this.priceList.Add(item.Ticket, item.OpenPrice);
+                    //_volumeList.Add(tickerSymbol, volume);
+                }
+                this.eventAggregator.GetEvent<TradeItemCreatedEvent>().Publish(tradeItem);
 
             }
             catch (Exception ex)
@@ -104,18 +120,44 @@ namespace Metatrader4ClientApp.Infrastructure.Services
         /// <param name="state"></param>
         private void TimerTick(object? state)
         {
-            // UpdatePrices();
-            this.UpdateTradeList();
+            this. UpdatePrices();
+            
+        }
+        protected void UpdatePrices()
+        {
+            lock (this.lockObject)
+            {
+               // var qc = QuoteClientDic.Keys.ToArray()[0];
+               // var de= QuoteClientDic[qc];
+               //var order= qc.GetOpenedOrder(de.Orders[0].Ticket);
+                foreach (string symbol in this.priceList.Keys.ToArray())
+                {
+
+                    var newValue = this.priceList[symbol];
+                  //  newValue += Convert.ToDecimal(randomGenerator.NextDouble() * 10f) - 5m;
+                    this.priceList[symbol] = newValue > 0 ? newValue : 0.1D;
+                }
+            }
+            this.OnMarketPricesUpdated();
         }
 
-        public decimal GetPrice(string tickerSymbol)
+        private void OnMarketPricesUpdated()
+        {
+            Dictionary<string, double> clonedPriceList = null;
+            lock (this.lockObject)
+            {
+                 clonedPriceList = new Dictionary<string, double>(this.priceList);
+            }
+            this.eventAggregator.GetEvent<MarketPricesUpdatedEvent>().Publish(clonedPriceList);
+        }
+        public double GetPrice(string tickerSymbol)
         {
             if (!SymbolExists(tickerSymbol))
             {
                 throw new ArgumentException(nameof(tickerSymbol));
             }
 
-            return _priceList[tickerSymbol];
+            return this.priceList[tickerSymbol];
         }
 
         public long GetVolume(string tickerSymbol)
@@ -125,33 +167,33 @@ namespace Metatrader4ClientApp.Infrastructure.Services
 
         public bool SymbolExists(string tickerSymbol)
         {
-            return _priceList.ContainsKey(tickerSymbol);
+            return this.priceList.ContainsKey(tickerSymbol);
         }
 
         private void UpdateTradeList() => this.OnTradeListUpdated();
 
         private void OnTradeListUpdated()
         {
-            Dictionary<QuoteClient,ConnectionParameter> clonedQuoteClientDic;
+            Dictionary<QuoteClient, TradeItem> clonedQuoteClientDic;
             Dictionary<ConnectionParameter, Order[]> payLoad; 
             lock (this.lockObject)
             {
-                clonedQuoteClientDic = new Dictionary<QuoteClient ,ConnectionParameter>(this.QuoteClientDic);
-                payLoad= new Dictionary<ConnectionParameter, Order[]>();    
-                foreach (var itemQc in clonedQuoteClientDic.Keys)
-                {
-                    var orders =  itemQc.GetOpenedOrders();
-                    var tradeIdem = this.CreateTradeItem(itemQc, orders, clonedQuoteClientDic[itemQc]);
-                    this.eventAggregator.GetEvent<TradeItemUpdatedEvent>().Publish(tradeIdem);
-                    
-                }
+                clonedQuoteClientDic = new Dictionary<QuoteClient ,TradeItem>(this.QuoteClientDic);              
+              
             }
             
         }
-        private TradeItem CreateTradeItem(QuoteClient quoteClient, Order[] orders, ConnectionParameter connectionParameter)
+        private TradeItem CreateTradeItem(QuoteClient quoteClient, Order[] orders)
         {
-            return new TradeItem(quoteClient.AccountName, quoteClient.AccountProfit, quoteClient.AccountBalance, quoteClient.AccountCredit, quoteClient.AccountEquity, quoteClient.AccountType, orders, connectionParameter);
-        }
+            var orderItems = new List<OrderItem>();
+            foreach (var item in orders)
+            {
+                orderItems.Add( new OrderItem(item.Ticket, item.Profit, item.OpenPrice, item.Symbol));
+            }
+            var result= new TradeItem(quoteClient.AccountName, quoteClient.AccountProfit, quoteClient.AccountBalance, quoteClient.AccountCredit, quoteClient.AccountEquity, quoteClient.AccountType, orderItems.ToArray());
+            orderItems.ForEach(item => item.ParentId = result.Id);
+            return result;
+        }     
 
 
 

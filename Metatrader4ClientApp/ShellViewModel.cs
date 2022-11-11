@@ -75,7 +75,7 @@
                     {
                         return;
                     }
-                    hamburgerMenuGlyphItem.RaiseCommand();
+                   // hamburgerMenuGlyphItem.RaiseCommand();
                    
                 }
             }

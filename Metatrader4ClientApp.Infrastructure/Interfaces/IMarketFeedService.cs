@@ -10,7 +10,7 @@ namespace Metatrader4ClientApp.Infrastructure.Interfaces
     using System.Threading.Tasks;
     public interface IMarketFeedService
     {
-        decimal GetPrice(string tickerSymbol);
+        double GetPrice(string tickerSymbol);
         long GetVolume(string tickerSymbol);
         bool SymbolExists(string tickerSymbol);
         string ErrorMessage { get; set; }

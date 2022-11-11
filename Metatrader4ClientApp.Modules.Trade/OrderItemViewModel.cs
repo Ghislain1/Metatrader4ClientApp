@@ -8,6 +8,7 @@
 
 namespace Metatrader4ClientApp.Modules.Trade
 {
+    using Metatrader4ClientApp.Infrastructure.Models;
     using Prism.Mvvm;
     using System;
     using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Metatrader4ClientApp.Modules.Trade
     using System.Text;
     using System.Threading.Tasks;
 
-    public class OrderViewModel: BindableBase
+    public class OrderItemViewModel: BindableBase
     {
     
         // Summary:
@@ -65,13 +66,13 @@ namespace Metatrader4ClientApp.Modules.Trade
         // Summary:
         //     Amount of lots. Be carefull some brokers use non standart lots.
         public double Lots { get; set; }
-        public OrderViewModel(TradingAPI.MT4Server.Order order)
+        public OrderItemViewModel( OrderItem model)
         {
-            this.StopLoss = order.StopLoss;
-            this.MagicNumber = order.MagicNumber;
-            this.OpenPrice = order.OpenPrice;
+            this.StopLoss = model.StopLoss;
+            this.MagicNumber = model.MagicNumber;
+            this.OpenPrice = model.OpenPrice;
         }
-        internal OrderViewModel(int magicNumber, double openPrice, double stopLoss)
+        internal OrderItemViewModel(int magicNumber, double openPrice, double stopLoss)
         {
             this.OpenPrice = openPrice;
             this.MagicNumber = magicNumber;

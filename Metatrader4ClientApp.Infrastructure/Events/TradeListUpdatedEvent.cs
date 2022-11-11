@@ -16,7 +16,7 @@ namespace Metatrader4ClientApp.Infrastructure.Events
     using TradingAPI.MT4Server;
 
 
-    public class ConnectionParameterCreatedEvent : PubSubEvent<ConnectionParameter>
+    public class TradeItemCreatedEvent : PubSubEvent<TradeItem>
     {
     }
 
@@ -24,6 +24,9 @@ namespace Metatrader4ClientApp.Infrastructure.Events
     {
     }
 
+    public class MarketPricesUpdatedEvent : PubSubEvent<IDictionary<string, double>>
+    {
+    }
     public class TradeItemUpdatedEvent : PubSubEvent<TradeItem>
     {
     }
