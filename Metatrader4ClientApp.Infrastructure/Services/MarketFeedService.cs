@@ -12,6 +12,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
     using System.Globalization;
     using System.Linq;
     using System.Net.Http;
+    using System.Net.Sockets;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -78,7 +79,8 @@ namespace Metatrader4ClientApp.Infrastructure.Services
                 this.QuoteClientDic.Add(quoteClient, tradeItem);
                 foreach (var item in orders)
                 {
-                    
+                  
+
                     long volume = 1;
                     this.priceList.Add(item.Ticket, item.OpenPrice);
                     //_volumeList.Add(tickerSymbol, volume);
@@ -127,15 +129,13 @@ namespace Metatrader4ClientApp.Infrastructure.Services
         {
             lock (this.lockObject)
             {
-               // var qc = QuoteClientDic.Keys.ToArray()[0];
-               // var de= QuoteClientDic[qc];
-               //var order= qc.GetOpenedOrder(de.Orders[0].Ticket);
-                foreach (string symbol in this.priceList.Keys.ToArray())
+              
+                foreach (int ticket in this.priceList.Keys.ToArray())
                 {
 
-                    var newValue = this.priceList[symbol];
-                  //  newValue += Convert.ToDecimal(randomGenerator.NextDouble() * 10f) - 5m;
-                    this.priceList[symbol] = newValue > 0 ? newValue : 0.1D;
+                    var newValue = this.priceList[ticket];
+              
+                    this.priceList[ticket] = newValue > 0 ? newValue : 0.1D;
                 }
             }
             this.OnMarketPricesUpdated();
@@ -143,14 +143,14 @@ namespace Metatrader4ClientApp.Infrastructure.Services
 
         private void OnMarketPricesUpdated()
         {
-            Dictionary<string, double> clonedPriceList = null;
+            Dictionary<int, double> clonedPriceList = null;
             lock (this.lockObject)
             {
-                 clonedPriceList = new Dictionary<string, double>(this.priceList);
+                 clonedPriceList = new Dictionary<int, double>(this.priceList);
             }
             this.eventAggregator.GetEvent<MarketPricesUpdatedEvent>().Publish(clonedPriceList);
         }
-        public double GetPrice(string tickerSymbol)
+        public double GetPrice(int tickerSymbol)
         {
             if (!SymbolExists(tickerSymbol))
             {
@@ -160,12 +160,12 @@ namespace Metatrader4ClientApp.Infrastructure.Services
             return this.priceList[tickerSymbol];
         }
 
-        public long GetVolume(string tickerSymbol)
+        public long GetVolume(int tickerSymbol)
         {
             return _volumeList[tickerSymbol];
         }
 
-        public bool SymbolExists(string tickerSymbol)
+        public bool SymbolExists(int tickerSymbol)
         {
             return this.priceList.ContainsKey(tickerSymbol);
         }
@@ -188,7 +188,7 @@ namespace Metatrader4ClientApp.Infrastructure.Services
             var orderItems = new List<OrderItem>();
             foreach (var item in orders)
             {
-                orderItems.Add( new OrderItem(item.Ticket, item.Profit, item.OpenPrice, item.Symbol));
+                orderItems.Add( new OrderItem(item.Ticket, item.Profit, item.OpenPrice, item.Symbol, item.Type));
             }
             var result= new TradeItem(quoteClient.AccountName, quoteClient.AccountProfit, quoteClient.AccountBalance, quoteClient.AccountCredit, quoteClient.AccountEquity, quoteClient.AccountType, orderItems.ToArray());
             orderItems.ForEach(item => item.ParentId = result.Id);

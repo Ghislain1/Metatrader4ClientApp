@@ -24,7 +24,7 @@ namespace Metatrader4ClientApp.Infrastructure.Events
     {
     }
 
-    public class MarketPricesUpdatedEvent : PubSubEvent<IDictionary<string, double>>
+    public class MarketPricesUpdatedEvent : PubSubEvent<IDictionary<int, double>>
     {
     }
     public class TradeItemUpdatedEvent : PubSubEvent<TradeItem>

@@ -18,14 +18,17 @@ namespace Metatrader4ClientApp.Infrastructure.Models
     public class OrderItem
     {
         public string Id { get; }
-        public string ?ParentId { get; set; }
-        public OrderItem(int ticket=1, double profit=0, double openPrice=0, string symbol="")
+        public string? ParentId { get; set; }
+        public OrderItem(int ticket = 1, double profit = 0, double openPrice = 0, string symbol = "", Op type = Op.Sell)
         {
-            this.Id =Guid.NewGuid().ToString();
-            this.Profit = profit;
+            this.Id = Guid.NewGuid().ToString();
+
             this.Ticket = ticket;
+            this.Profit = profit;
             this.OpenPrice = openPrice;
             this.Symbol = symbol;
+            this.Type = type;
+            // this.Profit= profit;
         }
 
         public int Ticket { get; }
@@ -33,38 +36,36 @@ namespace Metatrader4ClientApp.Infrastructure.Models
         // Summary:
         //     Extended order information.
         public TradeRecord Ex { get; }
-    //
-    // Summary:
-    //     Rate of convertation from margin currency to deposit one.
-    public double RateMargin { get; }
-    //
-    // Summary:
-    //     Convertation rate from profit currency to group deposit currency for close time.
-    public double RateClose;
+        //
+        // Summary:
+        //     Rate of convertation from margin currency to deposit one.
+        public double RateMargin { get; }
+        //
+        // Summary:
+        //     Convertation rate from profit currency to group deposit currency for close time.
+        public double RateClose;
         //
         // Summary:
         //     Convertation rate from profit currency to group deposit currency for open time.
-        public double RateOpen;
-        //
-        // Summary:
-        //     Net profit value (without swaps or commissions) in base currency.
-        public double Profit;
+        public double RateOpen { get; }
+
+        public double Profit { get; }
         //
         // Summary:
         //     Order comment.
-        public string Comment;
+        public string Comment { get; }
         //
         // Summary:
         //     Commission value.
-        public double Commission;
+        public double Commission { get; }
         //
         // Summary:
         //     Swap value.
-        public double Swap;
+        public double Swap { get; }
         //
         // Summary:
         //     Close price. Just for history orders.
-        public double ClosePrice;
+        public double ClosePrice { get; }
         //
         // Summary:
         //     Identifying (magic) number.
@@ -84,19 +85,19 @@ namespace Metatrader4ClientApp.Infrastructure.Models
         //
         // Summary:
         //     Amount of lots. Be carefull some brokers use non standart lots.
-        public double Lots;
+        public double Lots { get; }
         //
         // Summary:
         //     Order type.
-        public Op Type;
+        public Op Type { get; }
         //
         // Summary:
         //     Expiration time of pending order.
-        public DateTime Expiration;
+        public DateTime Expiration { get; }
         //
         // Summary:
         //     Close time. Just for history orders.
-        public DateTime CloseTime;
+        public DateTime CloseTime { get; }
         //
         // Summary:
         //     Open time.

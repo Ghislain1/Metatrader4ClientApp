@@ -77,70 +77,7 @@ namespace Metatrader4ClientApp.Modules.Trade
 
         }
        
-
-        //private async void DoMockDataTrade()
-        //{
-
-        //    int count = 111;
-        //    this.TradeItems.Clear();
-        //    while (count > 0)
-        //    {
-        //        if (this.processing)
-        //        {
-        //            continue;
-        //        }
-        //        this.processing = true;
-        //        Debug.WriteLine("  =================================> " + this.processing);
-        //        var newTradeItem = await this.MockDataTrade(count);
-        //        this.TradeItems.Add(newTradeItem.Item1);
-        //        if (this.SelectedTradeItem is null)
-        //        {
-        //            this.SelectedTradeItem = newTradeItem.Item1;
-        //        }
-        //        newTradeItem.Item1.OrderItems = new ObservableCollection<OrderItemViewModel>(newTradeItem.Item2);
-        //        this.processing = false;
-        //        count--;
-        //    }
-        //}
-        private async void PopulateTradeItems()
-        {
-            var cpList = await this.connectionParameterService.GetConnectionParametersAsync();
-            var myTradeItems = new List<TradeItemViewModel>();
-            foreach (var item in cpList)
-            {
-               // myTradeItems.Add(this.CreateTradeItemViewModel(item));
-            }
-            this.TradeItems = new ObservableCollection<TradeItemViewModel>(myTradeItems);
-        }
-        private bool processing = false;
-        /// <summary>
-        /// http://mtapi.online/2017/12/21/list-of-opened-orders/
-        /// </summary>
-     
-        private async void MockDataOrders()
-        {
-            if (this.SelectedTradeItem is null)
-            {
-                return;
-            }
-
-            int count = 111;
-            this.TradeItems.Clear();
-            while (count > 0)
-            {
-                await Task.Delay(1000);
-                if (this.processing)
-                {
-                    continue;
-                }
-                count--;
-                this.processing = true;
-
-
-                this.processing = false;
-            }
-
-        }
+ 
 
         public ObservableCollection<TradeItemViewModel> TradeItems
         {

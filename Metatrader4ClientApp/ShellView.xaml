@@ -153,7 +153,7 @@
                    Margin="250,11,0,0"
                    Style="{StaticResource MaterialDesignCircularProgressBar}"             
                        />
-      <TextBlock  Margin="601,601,0,0"
+      <TextBlock  Margin="901,601,0,0"
                   FontSize="50"
                   Text="{Binding BusyMessage}" />
     </Grid>

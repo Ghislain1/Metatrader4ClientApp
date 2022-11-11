@@ -9,6 +9,7 @@
 namespace Metatrader4ClientApp.Modules.Trade
 {
     using Metatrader4ClientApp.Infrastructure.Models;
+    using Newtonsoft.Json.Linq;
     using Prism.Mvvm;
     using System;
     using System.Collections.Generic;
@@ -54,23 +55,30 @@ namespace Metatrader4ClientApp.Modules.Trade
         // Summary:
         //     Stop loss.
         public double StopLoss { get; set; }
-        //
-        // Summary:
-        //     Open price.
-        public double OpenPrice { get; set; }
-        //
-        // Summary:
-        //     Trading instrument.
-        public string Symbol { get; set; }
+        private double openPrice;
+        public double OpenPrice
+        {
+            get => this.openPrice;
+            set => this.SetProperty(ref this.openPrice, value);
+         }
+    //
+    // Summary:
+    //     Trading instrument.
+    public string Symbol { get; set; }
         //
         // Summary:
         //     Amount of lots. Be carefull some brokers use non standart lots.
         public double Lots { get; set; }
+
+        public OrderItem Model { get; set; }
         public OrderItemViewModel( OrderItem model)
         {
+            this.Model = model;
             this.StopLoss = model.StopLoss;
             this.MagicNumber = model.MagicNumber;
             this.OpenPrice = model.OpenPrice;
+            
+            
         }
         internal OrderItemViewModel(int magicNumber, double openPrice, double stopLoss)
         {

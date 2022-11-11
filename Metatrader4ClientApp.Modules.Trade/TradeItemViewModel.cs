@@ -51,7 +51,7 @@ namespace Metatrader4ClientApp.Modules.Trade
             eventAggregator.GetEvent<MarketPricesUpdatedEvent>().Subscribe(this.MarketPricesUpdated, ThreadOption.UIThread);
 
         }
-        public void MarketPricesUpdated(IDictionary<string, double> tickerSymbolsPrice)
+        public void MarketPricesUpdated(IDictionary<int, double> tickerSymbolsPrice)
         {
             if (tickerSymbolsPrice == null)
             {
@@ -60,9 +60,9 @@ namespace Metatrader4ClientApp.Modules.Trade
 
             foreach (var position in this.OrderItems)
             {
-                if (tickerSymbolsPrice.ContainsKey(position.Symbol))
+                if (tickerSymbolsPrice.ContainsKey(position.Model.Ticket))
                 {
-                    position.OpenPrice = tickerSymbolsPrice[position.Symbol];
+                    position.OpenPrice = tickerSymbolsPrice[position.Model.Ticket];
                 }
             }
         }
