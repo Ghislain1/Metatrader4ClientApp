@@ -37,10 +37,10 @@ namespace Metatrader4ClientApp.Modules.Login
              {
 
              });
-            this.Port = 443;
-            this.AccountNumberString = "500476959";
+           // this.Port = 443;
+           // this.AccountNumberString = "500476959";
             // this.Password = "ehj4bod";
-            this.Host = "mt4-demo.roboforex.com";
+           // this.Host = "mt4-demo.roboforex.com";
  
         }
         public int AccountNumber { get; set; }
@@ -87,6 +87,8 @@ namespace Metatrader4ClientApp.Modules.Login
             this.LoginMessage = string.Empty;
             if (argument is not PasswordBox passwordBox)
             {
+                this.LoginMessage = "Password cannot be empty!";
+                await Task.Delay(5000);
                 return;
             }
 
