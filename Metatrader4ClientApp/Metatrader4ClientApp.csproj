@@ -19,6 +19,7 @@
     <ApplicationIcon>Akku.ico</ApplicationIcon>
     <SignAssembly>True</SignAssembly>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

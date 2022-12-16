@@ -10,6 +10,7 @@ namespace Metatrader4ClientApp.Modules.Option
 {
     using Metatrader4ClientApp.Infrastructure;
     using Metatrader4ClientApp.Infrastructure.Interfaces;
+    using Metatrader4ClientApp.Infrastructure.Models;
     using Prism.Commands;
     using Prism.Events;
     using System;
@@ -24,6 +25,7 @@ namespace Metatrader4ClientApp.Modules.Option
         private readonly IEventAggregator eventAggregator;
         private readonly ISettingsService settingsService;
         private bool isInitialized = false;
+        public ApplicationSettingInfo ApplicationSettingInfo { get; }
 
         public OptionListViewModel(IEventAggregator eventAggregator, ISettingsService settingsService)
         {
@@ -33,6 +35,8 @@ namespace Metatrader4ClientApp.Modules.Option
             this.Label = "Settings";
             this.Command = new DelegateCommand(() => this.ExecuteSynchronize());
             this.isInitialized = true;
+            this.ApplicationSettingInfo = this.settingsService.Get();
+
         }
 
         private void ExecuteSynchronize()
@@ -42,5 +46,13 @@ namespace Metatrader4ClientApp.Modules.Option
                 return;
             }
         }
+        private bool? useOnlyDebugData;
+        public bool? UseOnlyDebugData
+        {
+            get => this.useOnlyDebugData;
+            set => SetProperty(ref this.useOnlyDebugData, value);
+        }
+
+        
     }
 }

@@ -13,7 +13,33 @@
              xmlns:utils="clr-namespace:Metatrader4ClientApp.Infrastructure.Utils;assembly=Metatrader4ClientApp.Infrastructure"
             xmlns:converters="clr-namespace:Metatrader4ClientApp.Infrastructure.Converters;assembly=Metatrader4ClientApp.Infrastructure">
   <Grid x:Name="GIRDGER">
-    <TextBlock Text="Comming..." HorizontalAlignment="Center"  VerticalAlignment="Center" Style="{StaticResource MaterialDesignHeadline1TextBlock}" FontSize="50"/>
-    
+ 
+    <TabControl x:Name="m_tabControl" Style="{StaticResource MaterialDesignTabControl}" HorizontalAlignment="Stretch"  Background="AntiqueWhite">
+      <TabItem Header="General">
+
+      </TabItem>
+      
+      <TabItem Header="Advanced">
+        <Grid>
+          <Grid.ColumnDefinitions>
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition />
+          </Grid.RowDefinitions>
+
+          <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="4">
+            <TextBlock Text="Use Debug Data" Style="{StaticResource  MaterialDesignHeadline6TextBlock}"  HorizontalAlignment="Center"/>
+            <ToggleButton IsChecked="{Binding ApplicationSettingInfo.UseOnlyDebugData}" Margin="8,0"/>
+          </StackPanel>
+
+          <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="4">
+            <TextBlock Text="Use Debug Data" Style="{StaticResource  MaterialDesignHeadline6TextBlock}"  HorizontalAlignment="Center"/>
+            <ToggleButton IsChecked="{Binding ApplicationSettingInfo.UseOnlyDebugData}" Margin="8,0"/>
+          </StackPanel>
+          
+        </Grid>
+      </TabItem>
+
+    </TabControl>
   </Grid>
 </UserControl>

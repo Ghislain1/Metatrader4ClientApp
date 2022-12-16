@@ -37,11 +37,11 @@ namespace Metatrader4ClientApp.Modules.Login
              {
 
              });
-           // this.Port = 443;
-           // this.AccountNumberString = "500476959";
+            this.Port = 443;
+            this.AccountNumberString = "500476959";
             // this.Password = "ehj4bod";
-           // this.Host = "mt4-demo.roboforex.com";
- 
+            this.Host = "mt4-demo.roboforex.com     ehj4bod";
+
         }
         public int AccountNumber { get; set; }
         public string? AccountNumberString
@@ -101,6 +101,7 @@ namespace Metatrader4ClientApp.Modules.Login
                 return;
             }
             this.AccountNumber = accontNumber;
+            this.Host = this.Host?.Trim();
 
             this.eventAggregator.GetEvent<ApplicationBusyEvent>().Publish((true, "Connecting..."));
             var cp = new ConnectionParameter() { Host = this.Host, AccountNumber= this.AccountNumber, Password=passwordBox.Password, Port = this.Port };   

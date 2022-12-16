@@ -43,7 +43,7 @@ namespace Metatrader4ClientApp.Modules.Trade
             this.marketFeedService = marketFeedService;
             this.exportService = exportService;
             this.PackIcon = PackIconNames.Trade;
-            this.Label = "TRADE";
+            this.Label = "TRADING";
             BindingOperations.EnableCollectionSynchronization(this.TradeItems, this.lockObject);
 
             this.Command = new DelegateCommand(() =>
@@ -71,12 +71,6 @@ namespace Metatrader4ClientApp.Modules.Trade
             newTradeItem.Orders.ToList().ForEach(el=> newTradeItemViewModel.OrderItems.Add(new OrderItemViewModel(el)));
             this.TradeItems.Add(newTradeItemViewModel);
         }
-
-        private void TradItemUpdated(IDictionary<string, ConnectionParameter> dict)
-        {
-
-        }
-       
  
 
         public ObservableCollection<TradeItemViewModel> TradeItems

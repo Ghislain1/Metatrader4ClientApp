@@ -10,11 +10,13 @@
 
     public class SettingsService : ISettingsService
     {
-        public SettingsService()
+        private readonly IExportService exportService;
+        public SettingsService(IExportService exportService)
         {
             //Configuration.StorageSpace = StorageSpace.Instance;
             //Configuration.SubDirectoryPath = "";
             //Configuration.FileName = "Settings.dat";
+            this.exportService = exportService;
         }
 
         public ApplicationSettingInfo Get()

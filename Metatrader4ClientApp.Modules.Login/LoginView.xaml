@@ -14,13 +14,13 @@
              d:DataContext="{d:DesignInstance local:LoginViewModel}"
             xmlns:converters="clr-namespace:Metatrader4ClientApp.Infrastructure.Converters;assembly=Metatrader4ClientApp.Infrastructure">
   <DockPanel>
-    <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="40">
-      <TextBlock Grid.Row="2" 
+    <WrapPanel DockPanel.Dock="Bottom" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="40">
+      <TextBlock TextWrapping="Wrap" Grid.Row="2" 
                     FontSize="50"
                     Text="{Binding LoginMessage}"
                    Foreground="Red" 
                    Effect="{DynamicResource MaterialDesignShadowDepth5}" />
-    </StackPanel>
+    </WrapPanel>
     <materialDesign:Card  Width="700"
                              Background="WhiteSmoke"
                               
@@ -44,12 +44,9 @@
               CommandParameter="{Binding ElementName=PasswordText}" 
               Command="{Binding LoginCommand}"
               Content="Login"  
-              Effect="{DynamicResource MaterialDesignShadowDepth2}" />
-     
+              Effect="{DynamicResource MaterialDesignShadowDepth2}" />    
 
       </Grid>
-
-
     </materialDesign:Card>
   </DockPanel>
      
