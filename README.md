@@ -1,6 +1,5 @@
 So how will the application connect to the mt4 server? One way is to do it by TCP (need to Reverse Engineer)
 
-
 Please have a look at this video for an example of the concept:
 https://www.youtube.com/watch?v=DjzprEpSR3g&t=303s&ab_channel=MikePapinskiLab
 
